@@ -1,0 +1,196 @@
+{% extends "store/base_store.html" %}
+{% load store_extras %}
+
+{% block title %}Gym wear{% endblock %}
+
+{% block meta_description %}Premium gym wear by Coach Hany Masoud. Heavyweight cotton, cut for training. Cash on delivery or secure card payment, delivered across Egypt.{% endblock %}
+
+{% block content %}
+
+<section class="shop-section shop-hero">
+    <div class="shop-container">
+
+        <p class="shop-eyebrow" data-lang="shopeyebrow">Hany Apparel</p>
+
+        <h1 class="shop-title" data-lang="shoptitle">Built for the work,<br>not the mirror.</h1>
+
+        <p class="shop-subtitle" data-lang="shopsub">
+            Heavyweight fabric, a cut that holds its shape through a full session,
+            and nothing on it that gets in your way. The same standard as the coaching.
+        </p>
+
+        <div class="shop-hero__meta">
+            <div>
+                <i class="ri-truck-line" aria-hidden="true"></i>
+                <span>Delivery across {{ store_country_label }}</span>
+            </div>
+            <div>
+                <i class="ri-hand-coin-line" aria-hidden="true"></i>
+                <span data-lang="shopcod">Cash on delivery</span>
+            </div>
+            <div>
+                <i class="ri-shield-check-line" aria-hidden="true"></i>
+                <span data-lang="shopsecure">Secure card payment</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="shop-section" id="products">
+    <div class="shop-container">
+
+        {% if products %}
+
+        <h2 class="shop-h2" data-lang="shopcollection">The collection</h2>
+
+        <div class="shop-grid">
+
+            {% for product in products %}
+            {% with variants=product.available_variants %}
+            <article class="shop-card">
+
+                <a href="{{ product.get_absolute_url }}" class="shop-card__media"
+                   aria-label="{{ product.name }}">
+
+                    <div class="shop-card__flags">
+                        {% if product.is_on_sale %}
+                        <span class="shop-badge shop-badge--sale">
+                            {{ product.discount_percent }}% off
+                        </span>
+                        {% endif %}
+                        {% if not variants %}
+                        <span class="shop-badge shop-badge--sold-out" data-lang="shopsoldout">
+                            Sold out
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <img class="shop-card__img shop-card__img--front"
+                         src="{{ product.front_image_url }}"
+                         alt="{{ product.name }}, front"
+                         loading="{% if forloop.counter <= 3 %}eager{% else %}lazy{% endif %}"
+                         decoding="async">
+
+                    {% if product.back_image_url %}
+                    <img class="shop-card__img shop-card__img--back"
+                         src="{{ product.back_image_url }}"
+                         alt="{{ product.name }}, back"
+                         loading="lazy"
+                         decoding="async">
+                    {% endif %}
+
+                </a>
+
+                {% if product.back_image_url %}
+                {# Hover shows the back on desktop; touch devices get a button. #}
+                <button type="button" class="shop-card__turn"
+                        aria-label="Show the other side of {{ product.name }}">
+                    <i class="ri-refresh-line" aria-hidden="true"></i>
+                    <span data-lang="shopturn">Turn</span>
+                </button>
+                {% endif %}
+
+                <div class="shop-card__body">
+
+                    <h3 class="shop-card__name">
+                        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                    </h3>
+
+                    <p class="shop-price">
+                        <span class="shop-price__now">{{ product.price|convert_currency:store_country|money:currency_label }}</span>
+                        {% if product.is_on_sale %}
+                        <span class="shop-price__was">{{ product.compare_at_price|convert_currency:store_country|money:currency_label }}</span>
+                        {% endif %}
+                    </p>
+
+                    {% if product.description %}
+                    <p class="shop-card__desc">{{ product.description }}</p>
+                    {% endif %}
+
+                    <div class="shop-card__sizes" aria-label="Available sizes">
+                        {% for variant in product.variants.all %}
+                        <span class="shop-size-chip {% if not variant.is_available %}shop-size-chip--out{% endif %}">
+                            {{ variant.get_size_display }}
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="shop-card__actions">
+                        {% if variants %}
+                        <a href="{{ product.get_absolute_url }}" class="shop-btn shop-btn--primary">
+                            <span data-lang="shopchoose">Choose size</span>
+                            <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                        </a>
+                        {% else %}
+                        <a href="{{ product.get_absolute_url }}" class="shop-btn shop-btn--ghost">
+                            <span data-lang="shopdetails">View details</span>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </article>
+            {% endwith %}
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="shop-empty">
+            <i class="ri-t-shirt-line" aria-hidden="true"></i>
+            <h2 data-lang="shopemptytitle">The next drop is on its way</h2>
+            <p data-lang="shopemptybody">
+                There is nothing in the shop right now. Follow along on Instagram
+                and you will know the moment it lands.
+            </p>
+            <a href="https://www.instagram.com/hany.masoud43" target="_blank" rel="noopener"
+               class="shop-btn shop-btn--primary">
+                <i class="ri-instagram-line" aria-hidden="true"></i>
+                <span data-lang="shopfollow">Follow for the drop</span>
+            </a>
+        </div>
+
+        {% endif %}
+
+        <div class="shop-assurance" id="shipping">
+
+            <div class="shop-assurance__item">
+                <i class="ri-truck-line" aria-hidden="true"></i>
+                <h3 data-lang="shipping1t">Delivery in 2 to 5 days</h3>
+                <p>
+                    {% if free_shipping_threshold %}
+                    Flat rate anywhere in {{ store_country_label }}, and free once your order passes
+                    {{ free_shipping_threshold|money:currency_label }}.
+                    {% else %}
+                    Flat rate anywhere in {{ store_country_label }}, tracked from our door to yours.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="shop-assurance__item">
+                <i class="ri-ruler-line" aria-hidden="true"></i>
+                <h3 data-lang="shipping2t">Not sure on size?</h3>
+                <p data-lang="shipping2b">
+                    Message us on WhatsApp with your height and weight and we will
+                    tell you which size to take.
+                </p>
+            </div>
+
+            <div class="shop-assurance__item">
+                <i class="ri-refresh-line" aria-hidden="true"></i>
+                <h3 data-lang="shipping3t">Exchanges within 14 days</h3>
+                <p data-lang="shipping3b">
+                    Wrong size is an easy fix. Keep it unworn with the tags on and
+                    we will swap it.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

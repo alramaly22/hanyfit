@@ -1,0 +1,202 @@
+{% extends "store/base_store.html" %}
+{% load static store_extras %}
+
+{% block title %}{{ plan_type|title }} Healthy Meal Subscription — Egypt{% endblock %}
+{% block meta_description %}{% if plan_type == "weekly" %}Weekly healthy meal subscription in Egypt -- pick your goal, meals per day and delivery days.{% else %}Monthly healthy meal subscription in Egypt -- daily delivery matched to your fitness goal.{% endif %}{% endblock %}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/meals.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container">
+
+        <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'meals:home' %}" data-lang="mealsnav">HanyFit Meals</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <span aria-current="page">{{ plan_type|title }} Subscription</span>
+        </nav>
+
+        <h1 class="shop-h2" data-lang="mealssubscribe{{ plan_type }}title">{{ plan_type|title }} Subscription</h1>
+        <p style="color:var(--text-color);max-width:600px;"
+           data-lang="mealssub{{ plan_type }}sub">
+            {% if plan_type == "weekly" %}
+            Pick your goal and how many meals you want delivered each day for
+            the next 7 days.
+            {% else %}
+            Pick your goal for a full month of daily delivery.
+            {% endif %}
+        </p>
+
+        {% if plan_prices %}
+        <div class="meals-panel">
+            <h2 class="shop-h3" style="font-size:1rem;" data-lang="mealspricingtitle">Subscription Plans & Pricing</h2>
+            <table class="meals-delivery-table">
+                <tbody>
+                {% for plan in plan_prices %}
+                    <tr>
+                        <td>{{ plan.get_goal_display }} &middot; {{ plan.meals_per_day }} <span data-lang="mealspricingperday">meal/day</span></td>
+                        <td style="text-align:right;font-weight:700;">
+                            {{ plan.price|money:"EGP" }}
+                            <span style="color:var(--text-color);font-weight:400;">
+                                {% if plan_type == "weekly" %}<span data-lang="mealspricingfor7">for 7 days</span>{% else %}<span data-lang="mealspricingfor30">for 30 days</span>{% endif %}
+                            </span>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        <div class="shop-errors-top" role="alert">
+            {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" style="margin-top:1.5rem;">
+            {% csrf_token %}
+
+            <div class="meals-panel">
+                <h2 class="shop-h3" style="margin-bottom:1rem;" data-lang="mealsyourplan">Your plan</h2>
+
+                <div class="shop-input-group meals-form-grid--full">
+                    <label data-lang="mealsgoallabel">Goal</label>
+                    <div class="meals-radio-row">
+                        {% for radio in form.goal %}
+                        <label>{{ radio.tag }} {{ radio.choice_label }}</label>
+                        {% endfor %}
+                    </div>
+                    {% for error in form.goal.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                </div>
+
+                {% if form.meals_per_day.field.widget.input_type == "hidden" %}
+                {{ form.meals_per_day }}
+                {% else %}
+                <div class="shop-input-group meals-form-grid--full" style="margin-top:1rem;">
+                    <label data-lang="mealsmealsperday">Meals per day</label>
+                    <div class="meals-radio-row">
+                        {% for radio in form.meals_per_day %}
+                        <label>{{ radio.tag }} {{ radio.choice_label }}</label>
+                        {% endfor %}
+                    </div>
+                    {% for error in form.meals_per_day.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="meals-form-grid" style="margin-top:1rem;">
+                    <div class="shop-input-group {% if form.start_date.errors %}has-error{% endif %}">
+                        <label for="{{ form.start_date.id_for_label }}">Start date</label>
+                        {{ form.start_date }}
+                        {% for error in form.start_date.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group {% if form.delivery_slot.errors %}has-error{% endif %}">
+                        <label for="{{ form.delivery_slot.id_for_label }}">{{ form.delivery_slot.label }}</label>
+                        {{ form.delivery_slot }}
+                        {% for error in form.delivery_slot.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                </div>
+
+                <div class="shop-input-group meals-form-grid--full" style="margin-top:1rem;">
+                    <label data-lang="mealsdeliverydays">{{ form.delivery_weekdays.label }}</label>
+                    <div class="meals-radio-row">
+                        {% for checkbox in form.delivery_weekdays %}
+                        <label>{{ checkbox.tag }} {{ checkbox.choice_label }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="meals-panel">
+                <h2 class="shop-h3" style="margin-bottom:1rem;" data-lang="mealspreferences">Preferences</h2>
+                <p style="color:var(--text-color);font-size:.9rem;margin-bottom:1rem;" data-lang="mealsprefshint">
+                    Optional, but it helps our kitchen avoid what you can't or won't eat.
+                </p>
+                <div class="meals-form-grid">
+                    <div class="shop-input-group">
+                        <label for="{{ form.allergies.id_for_label }}">{{ form.allergies.label }}</label>
+                        {{ form.allergies }}
+                    </div>
+                    <div class="shop-input-group">
+                        <label for="{{ form.disliked_foods.id_for_label }}">{{ form.disliked_foods.label }}</label>
+                        {{ form.disliked_foods }}
+                    </div>
+                    <div class="shop-input-group meals-form-grid--full">
+                        <label for="{{ form.dietary_notes.id_for_label }}">{{ form.dietary_notes.label }}</label>
+                        {{ form.dietary_notes }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="meals-panel">
+                <h2 class="shop-h3" style="margin-bottom:1rem;" data-lang="mealsdeliverydetails">Delivery details</h2>
+
+                <div class="meals-form-grid">
+                    <div class="shop-input-group {% if form.full_name.errors %}has-error{% endif %}">
+                        <label for="{{ form.full_name.id_for_label }}" data-lang="mealsfullname">Full name</label>
+                        {{ form.full_name }}
+                        {% for error in form.full_name.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group {% if form.phone.errors %}has-error{% endif %}">
+                        <label for="{{ form.phone.id_for_label }}" data-lang="mealsphone">Phone number</label>
+                        {{ form.phone }}
+                        {% for error in form.phone.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group {% if form.email.errors %}has-error{% endif %}">
+                        <label for="{{ form.email.id_for_label }}" data-lang="mealsemail">Email</label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group {% if form.governorate.errors %}has-error{% endif %}">
+                        <label for="{{ form.governorate.id_for_label }}" data-lang="mealsgovernorate">Governorate</label>
+                        {{ form.governorate }}
+                        {% for error in form.governorate.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group {% if form.city.errors %}has-error{% endif %}">
+                        <label for="{{ form.city.id_for_label }}" data-lang="mealscity">City</label>
+                        {{ form.city }}
+                        {% for error in form.city.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group meals-form-grid--full {% if form.address.errors %}has-error{% endif %}">
+                        <label for="{{ form.address.id_for_label }}" data-lang="mealsaddress">Address</label>
+                        {{ form.address }}
+                        {% for error in form.address.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                    </div>
+                    <div class="shop-input-group meals-form-grid--full">
+                        <label for="{{ form.notes.id_for_label }}" data-lang="mealsnotes">Notes</label>
+                        {{ form.notes }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="meals-panel">
+                <h2 class="shop-h3" style="margin-bottom:1rem;" data-lang="mealspaymentcoupon">Payment &amp; coupon</h2>
+
+                <div class="meals-radio-row">
+                    {% for radio in form.payment_method %}
+                    <label>{{ radio.tag }} <span data-lang="{% if radio.data.value == 'cash' %}mealscashondelivery{% else %}mealsonlinepayment{% endif %}">{{ radio.choice_label }}</span></label>
+                    {% endfor %}
+                </div>
+                {% for error in form.payment_method.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+
+                <div class="shop-input-group" style="margin-top:1rem;">
+                    <label for="{{ form.coupon_code.id_for_label }}" data-lang="mealscouponcode">Coupon code</label>
+                    {{ form.coupon_code }}
+                    {% for error in form.coupon_code.errors %}<p class="shop-error">{{ error }}</p>{% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="shop-btn shop-btn--primary shop-btn--lg" data-lang="mealsstartsub">
+                Start subscription
+            </button>
+
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

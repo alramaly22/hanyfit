@@ -1,0 +1,116 @@
+{% load store_extras %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order {{ order.order_number }}</title>
+</head>
+{# Inline styles only: email clients strip <style> blocks and ignore CSS files. #}
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:24px 12px;">
+<tr><td align="center">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;">
+
+  <tr>
+    <td style="background:{% if reason == 'paid' %}#1e8449{% else %}#d66a1f{% endif %};padding:22px 26px;color:#ffffff;">
+      <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.85;">
+        HANY APPAREL
+      </p>
+      <h1 style="margin:6px 0 0;font-size:21px;">
+        {% if reason == 'paid' %}Payment received{% else %}New order &mdash; cash on delivery{% endif %}
+      </h1>
+      <p style="margin:8px 0 0;font-size:15px;">
+        {{ order.order_number }} &middot; {{ order.total_price|money:order.currency }}
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding:24px 26px;">
+
+      <h2 style="margin:0 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;">Order</h2>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">
+        <tr><td style="padding:5px 0;color:#6b7280;width:42%;">Order number</td><td style="padding:5px 0;font-weight:bold;">{{ order.order_number }}</td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">Date &amp; time</td><td style="padding:5px 0;">{% if paid_at %}{{ paid_at|date:"j M Y, H:i" }} (paid){% else %}{{ placed_at|date:"j M Y, H:i" }} (placed){% endif %}</td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">Payment status</td><td style="padding:5px 0;font-weight:bold;color:{% if order.is_paid %}#1e8449{% else %}#b9770e{% endif %};">{{ order.get_payment_status_display|upper }}</td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">Payment method</td><td style="padding:5px 0;">{{ order.get_payment_method_display }}</td></tr>
+      </table>
+
+      <h2 style="margin:22px 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;">Customer</h2>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">
+        <tr><td style="padding:5px 0;color:#6b7280;width:42%;">Name</td><td style="padding:5px 0;font-weight:bold;">{{ order.full_name }}</td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">Phone</td><td style="padding:5px 0;"><a href="tel:{{ order.phone }}" style="color:#d66a1f;">{{ order.phone }}</a></td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">Email</td><td style="padding:5px 0;">{% if order.email %}<a href="mailto:{{ order.email }}" style="color:#d66a1f;">{{ order.email }}</a>{% else %}&mdash;{% endif %}</td></tr>
+      </table>
+
+      <h2 style="margin:22px 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;">Shipping address</h2>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">
+        <tr><td style="padding:5px 0;color:#6b7280;width:42%;">Address</td><td style="padding:5px 0;">{{ order.address }}</td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">City</td><td style="padding:5px 0;">{{ order.city }}</td></tr>
+        <tr><td style="padding:5px 0;color:#6b7280;">Governorate</td><td style="padding:5px 0;font-weight:bold;">{{ order.governorate }}</td></tr>
+        {% if order.notes %}<tr><td style="padding:5px 0;color:#6b7280;">Notes</td><td style="padding:5px 0;">{{ order.notes }}</td></tr>{% endif %}
+      </table>
+
+      <h2 style="margin:22px 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;">Items ({{ item_count }})</h2>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">
+        <tr style="background:#f9fafb;">
+          <th align="left"  style="padding:8px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280;">Product</th>
+          <th align="center" style="padding:8px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280;">Size</th>
+          <th align="center" style="padding:8px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280;">Qty</th>
+          <th align="right" style="padding:8px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280;">Unit</th>
+          <th align="right" style="padding:8px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280;">Line</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+          <td style="padding:9px 8px;border-bottom:1px solid #f3f4f6;">{{ item.product_name }}</td>
+          <td align="center" style="padding:9px 8px;border-bottom:1px solid #f3f4f6;font-weight:bold;">{{ item.size }}</td>
+          <td align="center" style="padding:9px 8px;border-bottom:1px solid #f3f4f6;">{{ item.quantity }}</td>
+          <td align="right" style="padding:9px 8px;border-bottom:1px solid #f3f4f6;">{{ item.unit_price|money:order.currency }}</td>
+          <td align="right" style="padding:9px 8px;border-bottom:1px solid #f3f4f6;">{{ item.line_total|money:order.currency }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-top:14px;border-collapse:collapse;">
+        <tr><td style="padding:4px 8px;color:#6b7280;" align="right">Subtotal</td><td align="right" style="padding:4px 8px;width:120px;">{{ order.subtotal|money:order.currency }}</td></tr>
+        <tr><td style="padding:4px 8px;color:#6b7280;" align="right">Shipping</td><td align="right" style="padding:4px 8px;">{% if order.shipping_cost %}{{ order.shipping_cost|money:order.currency }}{% else %}Free{% endif %}</td></tr>
+        <tr>
+          <td align="right" style="padding:10px 8px;border-top:2px solid #e5e7eb;font-weight:bold;">Total</td>
+          <td align="right" style="padding:10px 8px;border-top:2px solid #e5e7eb;font-weight:bold;font-size:17px;color:#d66a1f;">{{ order.total_price|money:order.currency }}</td>
+        </tr>
+      </table>
+
+      <h2 style="margin:22px 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;">Payment reference</h2>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">
+        {% if order.fawaterk_invoice_id %}<tr><td style="padding:5px 0;color:#6b7280;width:42%;">Invoice ID</td><td style="padding:5px 0;font-family:monospace;">{{ order.fawaterk_invoice_id }}</td></tr>{% endif %}
+        {% if order.fawaterk_invoice_key %}<tr><td style="padding:5px 0;color:#6b7280;">Invoice key</td><td style="padding:5px 0;font-family:monospace;">{{ order.fawaterk_invoice_key }}</td></tr>{% endif %}
+        {% if order.fawaterk_reference %}<tr><td style="padding:5px 0;color:#6b7280;">Transaction ref</td><td style="padding:5px 0;font-family:monospace;">{{ order.fawaterk_reference }}</td></tr>{% endif %}
+        {% if order.fawaterk_payment_method %}<tr><td style="padding:5px 0;color:#6b7280;">Paid with</td><td style="padding:5px 0;">{{ order.fawaterk_payment_method }}</td></tr>{% endif %}
+        {% if not order.fawaterk_invoice_id %}<tr><td colspan="2" style="padding:5px 0;color:#6b7280;">Cash on delivery &mdash; no online transaction.</td></tr>{% endif %}
+      </table>
+
+      <p style="margin:26px 0 0;">
+        <a href="{{ site_url }}{{ order.get_absolute_url }}"
+           style="display:inline-block;background:#d66a1f;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:6px;font-weight:bold;font-size:14px;">
+          View this order
+        </a>
+      </p>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td style="background:#f9fafb;padding:14px 26px;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;">
+      Sent automatically by the HANY APPAREL store.
+    </td>
+  </tr>
+
+</table>
+
+</td></tr>
+</table>
+
+</body>
+</html>

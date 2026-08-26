@@ -1,0 +1,112 @@
+{% extends "store/base_store.html" %}
+{% load store_extras %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container shop-receipt">
+
+        <div class="shop-result">
+
+            <div class="shop-result__mark shop-result__mark--{{ outcome }}">
+                {% if outcome == 'success' %}
+                <i class="ri-check-line" aria-hidden="true"></i>
+                {% elif outcome == 'pending' %}
+                <i class="ri-time-line" aria-hidden="true"></i>
+                {% else %}
+                <i class="ri-close-line" aria-hidden="true"></i>
+                {% endif %}
+            </div>
+
+            {% if outcome == 'success' %}
+
+            <h1 data-lang="shoppaymentreceived">Payment received</h1>
+            <p data-lang="shoppaidconfirm">
+                Thank you. Your payment went through and your order is confirmed.
+                We will be in touch about delivery.
+            </p>
+
+            {# Browser-side purchase event, sharing the order's event id with the #}
+            {# server-side CompletePayment so TikTok counts one conversion.       #}
+            {% if order.tiktok_event_id %}
+            <span hidden
+                  data-tt-event="CompletePayment"
+                  data-tt-event-id="{{ order.tiktok_event_id }}"
+                  data-tt-properties='{"currency": "{{ order.currency|escapejs }}", "value": {{ order.total_price }}, "content_type": "product", "order_id": "{{ order.order_number|escapejs }}"}'
+                  data-fb-event="Purchase"
+                  data-fb-dedupe-key="{{ order.order_number|escapejs }}"
+                  data-fb-properties='{"currency": "{{ order.currency|escapejs }}", "value": {{ order.total_price }}, "content_type": "product"}'></span>
+            {% endif %}
+
+            {% elif outcome == 'pending' %}
+
+            <h1 data-lang="shoppaymentpending">Payment pending</h1>
+            <p>
+                {% if order.fawaterk_payment_method %}
+                Your {{ order.fawaterk_payment_method }} code has been issued. Once you
+                pay at the outlet we will confirm the order automatically.
+                {% else %}
+                We have not had confirmation from the payment provider yet. This can
+                take a moment. If you have already paid, there is nothing more to do —
+                we will confirm the order as soon as it clears.
+                {% endif %}
+            </p>
+
+            {% else %}
+
+            <h1 data-lang="shoppaymentfailed">Payment not completed</h1>
+            <p>
+                Nothing has been charged. Your order is saved, so you can try paying
+                again, or switch to cash on delivery by messaging us.
+                {% if order.payment_error %}
+                <br><br>
+                <span style="color:var(--shop-muted);font-size:var(--small-font-size);">
+                    Reason given by the provider: {{ order.payment_error }}
+                </span>
+                {% endif %}
+            </p>
+
+            {% endif %}
+
+            <p class="shop-result__ref">
+                <span data-lang="shoporderno">Order number</span>
+                <strong>{{ order.order_number }}</strong>
+            </p>
+
+            <div class="shop-result__actions">
+
+                {% if outcome == 'failed' and order.requires_payment %}
+                <form method="post"
+                      action="{% url 'retry_payment' order.order_number order.access_token %}">
+                    {% csrf_token %}
+                    <button type="submit" class="shop-btn shop-btn--primary">
+                        <i class="ri-refresh-line" aria-hidden="true"></i>
+                        <span data-lang="shoptryagain">Try payment again</span>
+                    </button>
+                </form>
+                {% endif %}
+
+                <a href="{{ order.get_absolute_url }}" class="shop-btn shop-btn--ghost">
+                    <i class="ri-file-list-3-line" aria-hidden="true"></i>
+                    <span data-lang="shopvieworder">View your order</span>
+                </a>
+
+                <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Order%20{{ order.order_number }}"
+                   target="_blank" rel="noopener" class="shop-btn shop-btn--ghost">
+                    <i class="ri-whatsapp-line" aria-hidden="true"></i>
+                    <span data-lang="shopcontactus">Contact us</span>
+                </a>
+
+            </div>
+
+        </div>
+
+        {% include "store/_receipt_body.html" %}
+
+    </div>
+</section>
+
+{% endblock %}

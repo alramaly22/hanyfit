@@ -1,0 +1,599 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+
+    <meta charset="UTF-8" />
+ <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/testo/logo.png' %}"
+      type="image/x-icon"
+    />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+  name="description"
+  content="Hanyfit by Coach Hany Masoud offers professional online bodybuilding and fitness coaching with customized workout plans, smart nutrition systems, daily support, and real body transformation results. With over 8 years of coaching experience and 500+ successful client transformations in Riyadh, Saudi Arabia, Coach Hany helps clients build muscle, burn fat, improve performance, and achieve their best physique."
+/>
+
+<meta
+  property="og:title"
+  content="Hanyfit | Coach Hany Masoud - Online Fitness & Bodybuilding Coaching"
+/>
+
+<meta
+  property="og:description"
+  content="Transform your body with Coach Hany Masoud’s professional online coaching. Customized training systems, nutrition planning, daily follow-up, and proven transformation strategies designed for your body, lifestyle, and fitness goals."
+/>
+    <!-- <meta name="description"
+    content="Coach Mohamed Barakat is a professional Coach who works with clients to help them achieve their goals" />
+  <meta property="og:title" content="Coach :Ali Saad - Make your Diet and Workout Plan in Few Minutes" />
+  <meta property="og:description" content="LET’S START WITH AN INTRODUCTION.
+
+      I’m Ali Saad certified trainer. Years ago, I created Transformers Team with a single mission: 
+      
+      To provide quantifiable, evidence-based training and nutrition information to my clients.
+      
+      No fluff. No fads. Just science. 
+      
+      I took to Youtube to share my science-backed workouts and advice, but i had an accident that stopped  me to do my beloved things like gym , youtube ... etc , it was clear that the need for evidence-based information was real, and i believe in science-backed with experience add some more professionalism.
+      
+      People were tired of trying to put together their own plans, hearing millions of opinions while feeling more and more confused about the right fit for their body, their goals, and their lifestyle. 
+      
+      They were tired of fluffy advice, with no real backing. 
+      
+      And they were tired of doing the “same old, same old” with nothing to show for it. 
+      
+      And NOW , 
+      
+      I will give you the opportunity to capture your dream in a program , you can do it now or later .
+      
+      I will be your guide since you need to change and after you make it 💪
+      
+      
+      Ali Saad." /> -->
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://drive.google.com/file/d/1BmsDNr1wRarnTs_ZRXPmJFjenrDwWIpa/view?usp=sharing" />
+    <!-- <meta property="og:url" content="http://MostafaElaydy.com" /> -->
+    <title>Form</title>
+    <!-- <link rel="icon" href="images/favicon-sm.png" /> -->
+    <!-- <link rel="apple-touch-icon" sizes="72x72" href="images/favicon-md.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="images/favicon-lg.png" /> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        #language-selector {
+            appearance: none;
+            font-weight: bolder;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border: none;
+            background: #c75b16;
+            padding: 10px;
+            border-radius: 1rem 0;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        #language-selector option {
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <body class="block--dark">
+
+        <nav class="nav collapsible nav__form collapsible--expanded">
+            <a class="nav__brand" href="index.html">
+                <img src="{% static 'images/testo/logo.png' %}" alt="" class="lllo">
+            </a>
+            <!-- <select name="" id="language-selector">
+        <i class="fa-solid fa-earth-oceania"></i>
+        <option value="en" selected>En</option>
+        <option value="ar">Ar</option>
+    </select> -->
+            <img class="nav__toggler" src="SVJ/menu-symbol-of-three-parallel-lines-svgrepo-com (1).svg" alt="">
+            <!-- <svg class="icon icon--white nav__toggler">
+          <use xlink:href="images/sprite.svg#menu"></use>
+        </svg> -->
+            <ul class="list nav__list collapsible__content">
+                <li class="nav__item">
+                    <a href="{% url 'index' %}" class="nav__link" data-lang="home">Home</a>
+                </li>
+                <li class="nav__item">
+                    <a href="{% url 'about' %}" class="nav__link" data-lang="About">About</a>
+                </li>
+                <li class="nav__item">
+                    <a href="{% url 'index' %}#tranding" class="nav__link" data-lang="Transformation">Transformation</a>
+                </li>
+                <li class="nav__item">
+                    <a href="{% url 'pricing' %}" class="nav__link" data-lang="Pricing">Pricing</a>
+
+                </li>
+                <li class="nav__item">
+                    <a href="{% url 'store' %}" class="nav__link" data-lang="shopnav">Shop</a>
+                </li>
+                <!-- <li class="nav__item">
+                    <a href="index" class="nav__link" data-lang="calc">Calc</a>
+                </li> -->
+            </ul>
+
+        </nav>
+
+        <form name="myForm" method="post">
+            <section class="block container block-form" data-aos="fade-down">
+                <header class="block__header">
+                    <h2 data-aos="fade-down" data-lang="general">General Info</h2>
+                </header>
+                <div class="border-animation">
+                    <span class="form-span"></span>
+                    <div class="form__inputs-group" data-aos="fade-up">
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img class="kolo" src="{% static 'SVJ/user-card-id-svgrepo-com.svg ' %}" alt="">
+                
+              </span>
+                            <input class="input name" name="Name" type="text" placeholder="Name / الاسم" required />
+                        </div>
+
+                        <!-- <div class="input-group">
+              <span class="icon-container">
+                <img class="kolo" src="images/SVJ/whatsapp-svgrepo-com.svg" alt="">
+
+            
+              </span>
+              <input class="input" name="Whatsapp Number" type="text" placeholder="Whatsapp Number" required
+                id="Whatsapp" />
+            </div> -->
+
+
+
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img src="{% static 'SVJ/gender-mark-1-svgrepo-com.svg ' %}" alt="" class="kolo">
+              
+              </span>
+                            <div class="Gander__input">
+                                <label class="radio--style"><input class="input__radio" type="radio" name="Gender" id="Gender"
+                    value="Male" required /></label>
+                                <label class="input__radio-lable" for="meal1" data-lang="male">Male</label>
+                                <input class="input__radio" type="radio" name="Gender" id="Gender" value="Female" />
+                                <label class="input__radio-lable" for="meal2" data-lang="female">Female</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img src=" {% static 'SVJ/hourglass-svgrepo-com.svg ' %}" alt="" class="kolo">
+                <!-- <svg class="icon icon--primary">
+                    <use xlink:href="images/sprite3.svg#age"></use>
+                  </svg> -->
+              </span>
+                            <input class="input" name="Age" type="text" placeholder="Age / العمر" required id="age" />
+                        </div>
+
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img src=" {% static 'SVJ/weight-scale-svgrepo-com.svg' %}" alt="" class="kolo">
+                <!-- <svg class="icon icon--primary">
+                    <use xlink:href="images/sprite3.svg#weight"></use>
+                  </svg> -->
+              </span>
+                            <input class="input" name="Weight" type="text" placeholder="Weight / الوزن" required step="any" id="weight" />
+                        </div>
+
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img src=" {% static 'SVJ/height-svgrepo-com.svg' %}" alt="" class="kolo">
+                <!-- <svg class="icon icon--primary">
+                    <use xlink:href="images/sprite3.svg#height"></use>
+                  </svg> -->
+              </span>
+                            <input class="input" name="Height" type="text" placeholder="Height (Cm) / الطول (سم)" required step="any" id="height" />
+
+                        </div>
+
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img src=" {% static 'SVJ/wake-up-bed-svgrepo-com.svg ' %}" alt="" class="kolo">
+              </span>
+                            <input class="input" name="Wake up time" type="text" placeholder="Wake up time / وقت الاستيقاظ" required step="any" id="neck" />
+                        </div>
+
+                        <div class="input-group">
+                            <span class="icon-container">
+                <img src=" {% static 'SVJ/rest-time-svgrepo-com.svg ' %}" alt="" class="kolo">
+              </span>
+                            <input class="input" name="sleep time" type="text" placeholder="Sleep time / وقت النوم" required step="any" id="waist" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="block container block-form-part2 block-form-part4" data-aos="fade-up">
+                <header class="block__header">
+                    <h2 data-lang="other">Other</h2>
+                </header>
+                <div class="border-animation">
+                    <span class="form-span"></span>
+                    <div class="form__inputs-group" data-aos="fade-down">
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src="  {% static 'SVJ/goal-svgrepo-com.svg' %}" alt="">
+              </span>
+                            <p class="form__question" data-lang="goal">Goal of training ?</p>
+                            <div class="input__textarea">
+                                <textarea class="" placeholder="Goal of training? / هدف التدريب؟" id="describes-your-nutrition" name="Goal of training ?" rows="5" cols="33"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src="{% static 'SVJ/smiley-nervous-thin-svgrepo-com.svg' %}" alt="">
+              </span>
+                            <p class="form__question" data-lang="cardio">The right cardio schedule for you?</p>
+                            <div class=" input__textarea">
+                                <textarea class="" placeholder="The right cardio schedule for you / جدول الكارديو المناسب لك" id="eating-disorder" name="The right cardio schedule for you?" rows="5" cols="33" required></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src="{% static 'SVJ/treadmill-round-svgrepo-com.svg' %}" alt="">
+              </span>
+                            <p class="form__question" data-lang="period">Last period of training? </p>
+                            <div class=" input__textarea">
+                                <textarea class="" placeholder="Last period of training? / آخر فترة تدريب؟" id="ambitious" name="Last period of training?" rows="5" cols="33"></textarea>
+
+                            </div>
+                        </div>
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src="{% static 'SVJ/meal-svgrepo-com.svg' %}" alt="">
+              </span>
+                            <p class="form__question" data-lang="meals">Number of meals a day ?</p>
+                            <div class=" input__textarea">
+                                <textarea class="" placeholder="Number of meals a day? / عدد الوجبات في اليوم؟" id="ambitious" name="Number of meals a day ?" rows="5" cols="33" required></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="block container block-form-part2 block-form-part3" data-aos="fade-up">
+                <header class="block__header">
+                    <h2 data-lang="workout">Workout</h2>
+                </header>
+                <div class="border-animation">
+                    <span class="form-span"></span>
+                    <div class="form__inputs-group" data-aos="fade-down">
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src="{% static 'SVJ/workout-list-svgrepo-com.svg' %}" alt="">
+            
+              </span>
+                            <p class="form__question" data-lang="routine">What is Your Daily Routine ?</p>
+                            <div class="input__textarea">
+                                <textarea class="" placeholder="Day Routine | روتين اليوم" id="Day Routine" name="Day Routine" rows="5"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src=" {% static 'SVJ/injury-hospitalization-pain-injury-hospitalization-svgrepo-com.svg' %}"
+                  alt="">
+               
+              </span>
+                            <p class="form__question" data-lang="health">Do you have health problems?</p>
+
+                            <div class="input__textarea">
+                                <textarea class="" placeholder="Do you have health problems? / هل لديك مشاكل صحية؟" id="Injury" name="Do you have health problems?" rows="5" cols="33" required></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="question--block">
+                            <span class="icon__question">
+                <img class="koloh" src="{% static 'SVJ/training-running-run-svgrepo-com.svg' %}" alt="">
+
+              </span>
+                            <p class="form__question" data-lang="exercise">
+                                How many days a week will you exercise?
+                            </p>
+                            <div class="input__number">
+                                <input class="input" name="How many days a week will you exercise?" type="text" placeholder="How many days a week will you exercise? / كم يومًا في الأسبوع ستقوم بممارسة الرياضة؟" required id="days" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block container sumbit-btn">
+                    <button type="button" id="submitBtn" class="btn btn--white btn--stretched" onclick="sendToWhatsApp()" data-lang="send">
+            Submit
+          </button>
+                </div>
+            </section>
+
+            <script>
+                function sendToWhatsApp() {
+                    // رقم الهاتف الذي سيتم الإرسال إليه
+                    var phoneNumber = "+966578079833";
+
+
+                    // جمع البيانات من الحقول المختلفة
+                    var name = document.getElementsByName("Name")[0].value;
+                    var gender = document.querySelector('input[name="Gender"]:checked').value;
+                    var age = document.getElementsByName("Age")[0].value;
+                    var weight = document.getElementsByName("Weight")[0].value;
+                    var height = document.getElementsByName("Height")[0].value;
+                    var wakeUpTime = document.getElementsByName("Wake up time")[0].value;
+                    var sleepTime = document.getElementsByName("sleep time")[0].value;
+                    var goal = document.getElementsByName("Goal of training ?")[0].value;
+                    var cardioSchedule = document.getElementsByName("The right cardio schedule for you?")[0].value;
+                    var lastTrainingPeriod = document.getElementsByName("Last period of training?")[0].value;
+                    var mealsPerDay = document.getElementsByName("Number of meals a day ?")[0].value;
+                    var dailyRoutine = document.getElementsByName("Day Routine")[0].value;
+                    var healthProblems = document.getElementsByName("Do you have health problems?")[0].value;
+                    var exerciseDays = document.getElementsByName("How many days a week will you exercise?")[0].value;
+
+                    // إنشاء الرسالة
+                    var message = `الاسم: ${name}\nالجنس: ${gender}\nالعمر: ${age}\nالوزن: ${weight}\nالطول: ${height}\nوقت الاستيقاظ: ${wakeUpTime}\nوقت النوم: ${sleepTime}\nهدف التدريب: ${goal}\nجدول الكارديو: ${cardioSchedule}\nآخر فترة تدريب: ${lastTrainingPeriod}\nعدد الوجبات: ${mealsPerDay}\nروتين اليوم: ${dailyRoutine}\nمشاكل صحية: ${healthProblems}\nأيام التمرين في الأسبوع: ${exerciseDays}`;
+
+                    // تكوين رابط واتساب
+                    var whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                    // فتح الرابط في نافذة جديدة
+                    window.open(whatsappLink, '_blank');
+                }
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </form>
+
+
+<script src="{% static 'js/maino.js' %}"></script>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+        <script src="https://kit.fontawesome.com/b7ba78db53.js" crossorigin="anonymous"></script>
+
+        <script>
+            // #MonyTransfer is not present in this page's markup. Without this guard
+            // both addEventListener calls below throw and the script dies.
+            const MonyTransfer = document.getElementById('MonyTransfer');
+            if (MonyTransfer) {
+
+            MonyTransfer.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            MonyTransfer.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid age');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+            }
+        </script>
+
+
+        <script>
+            const age = document.getElementById('age');
+
+            age.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            age.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid age');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+        </script>
+
+        <script>
+            const weight = document.getElementById('weight');
+
+            weight.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            weight.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid weight');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+        </script>
+
+
+        <script>
+            const height = document.getElementById('height');
+
+            height.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            height.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid height');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+        </script>
+
+        <script>
+            const neck = document.getElementById('neck');
+
+            neck.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            neck.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid neck');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+        </script>
+
+        <script>
+            const waist = document.getElementById('waist');
+
+            waist.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            waist.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid waist');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+        </script>
+
+        <script>
+            // #arm is not present in this page's markup, so both bindings below
+            // throw without this guard and kill the rest of the script.
+            const arm = document.getElementById('arm');
+            if (arm) {
+
+            arm.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            arm.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid arm');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+            }
+        </script>
+
+        <script>
+            const days = document.getElementById('days');
+
+            days.addEventListener('input', function(event) {
+                // Remove any non-Arabic or non-English digits or decimal points from the input
+                const input = event.target.value.replace(/[^\u0660-\u0669\u06F0-\u06F90-9.,\s]+/g, '');
+                // Replace any Arabic decimal points with English decimal points
+                const inputWithEnglishDecimal = input.replace(/[\u066B]/g, '.');
+                // Update the input field with the cleaned input
+                event.target.value = inputWithEnglishDecimal;
+            });
+
+            days.addEventListener('change', function(event) {
+                // Validate the input
+                const input = event.target.value;
+                if (!input || !/^[\u0660-\u0669\u06F0-\u06F90-9.,\s]+$/.test(input)) {
+                    alert('Please enter a valid days');
+                    event.target.value = '';
+                    event.preventDefault();
+                }
+            });
+        </script>
+        <!-- <script>
+            function sendwhatsapp() {
+                var phonenumber = "+201158271006";
+                var name
+            }
+        </script> -->
+        <!-- </html> -->
+    </body>
+<script src="{% static 'js/language.js' %}"></script>
+
+</html>

@@ -1,0 +1,158 @@
+{% extends "store/base_store.html" %}
+{% load static store_extras %}
+
+{% block title %}{{ meal.name }} — {{ meal.calories }} kcal, {{ meal.protein_g }}g Protein{% endblock %}
+{% block meta_description %}{{ meal.description|default:meal.name|striptags|truncatewords:25 }}{% endblock %}
+{% block og_title %}{{ meal.name }} | HanyFit Meals{% endblock %}
+{% block og_description %}{{ meal.calories }} kcal, {{ meal.protein_g }}g protein, {{ meal.carbs_g }}g carbs, {{ meal.fat_g }}g fat. {{ meal.get_goal_display }} meal delivered across Egypt.{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/meals.css' %}">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ meal.name|escapejs }}",
+  "description": "{{ meal.description|default:meal.name|striptags|escapejs }}",
+  "image": "{{ meal.image_url }}",
+  "brand": {"@type": "Brand", "name": "HanyFit Meals"},
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EGP",
+    "price": "{{ meal.price }}",
+    "availability": "{% if today_availability == 0 %}https://schema.org/SoldOut{% else %}https://schema.org/InStock{% endif %}",
+    "url": "{{ SITE_URL }}{{ meal.get_absolute_url }}"
+  },
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "calories": "{{ meal.calories }} kcal",
+    "proteinContent": "{{ meal.protein_g }}g",
+    "carbohydrateContent": "{{ meal.carbs_g }}g",
+    "fatContent": "{{ meal.fat_g }}g"
+  }{% if meal.review_count %},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ meal.average_rating|floatformat:1 }}",
+    "reviewCount": "{{ meal.review_count }}"
+  }{% endif %}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+
+<section class="shop-section shop-detail-page">
+    <div class="shop-container">
+
+        {# Meta Pixel ViewContent -- no TikTok event fires for meal pages yet #}
+        {# (unlike apparel's product_detail.html), see the chat note about   #}
+        {# that being a separate, pre-existing gap.                          #}
+        <span hidden
+              data-fb-event="ViewContent"
+              data-fb-properties='{"currency": "EGP", "value": {{ meal.price }}, "content_type": "product", "content_ids": ["{{ meal.slug|escapejs }}"], "content_name": "{{ meal.name|escapejs }}"}'></span>
+
+        <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'meals:home' %}" data-lang="mealsnav">HanyFit Meals</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <a href="{% url 'meals:meal_list' %}?goal={{ meal.goal }}">{{ meal.get_goal_display }}</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <span aria-current="page">{{ meal.name }}</span>
+        </nav>
+
+        <div class="shop-detail">
+
+            <div class="shop-gallery">
+                <div class="shop-gallery__stage">
+                    <img src="{{ meal.image_url }}" alt="{{ meal.name }}" class="is-active"
+                         fetchpriority="high" decoding="async">
+                </div>
+            </div>
+
+            <div class="shop-buy">
+
+                <h1 class="shop-buy__name">{{ meal.name }}</h1>
+                <p class="shop-price shop-buy__price">
+                    <span class="shop-price__now">{{ meal.price|money:"EGP" }}</span>
+                </p>
+
+                <div class="meals-macros">
+                    <span class="meals-macro-pill">{{ meal.calories }} kcal</span>
+                    <span class="meals-macro-pill">{{ meal.protein_g }}g protein</span>
+                    <span class="meals-macro-pill">{{ meal.carbs_g }}g carbs</span>
+                    <span class="meals-macro-pill">{{ meal.fat_g }}g fat</span>
+                    <span class="meals-macro-pill">{{ meal.get_goal_display }}</span>
+                    <span class="meals-macro-pill">{{ meal.get_meal_type_display }}</span>
+                    {% if meal.average_rating %}
+                    <span class="meals-macro-pill">&#9733; {{ meal.average_rating|floatformat:1 }} ({{ meal.review_count }} review{{ meal.review_count|pluralize }})</span>
+                    {% endif %}
+                </div>
+
+                {% if today_availability == 0 %}
+                <p class="shop-hint" style="color:#ff8a80;" data-lang="mealssoldout">Sold out for today's delivery &mdash; choose a later date at checkout.</p>
+                {% elif today_availability is not None %}
+                <p class="shop-hint">{{ today_availability }} <span data-lang="mealslefttoday">left for today's delivery</span></p>
+                {% endif %}
+
+                {% if meal.description %}
+                <div class="shop-buy__desc">{{ meal.description }}</div>
+                {% endif %}
+
+                {% if meal.ingredients %}
+                <div class="meals-panel" style="margin-top:1rem;">
+                    <h3 class="shop-h3" style="margin-bottom:.5rem;" data-lang="mealsingredients">Ingredients</h3>
+                    <p style="color:var(--text-color);">{{ meal.ingredients }}</p>
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'cart_add_meal' %}" style="margin-top:1.5rem;">
+                    {% csrf_token %}
+                    <input type="hidden" name="slug" value="{{ meal.slug }}">
+
+                    <div class="shop-stepper" data-stepper style="margin-bottom:1rem;">
+                        <button type="button" data-step="down" aria-label="Decrease quantity">
+                            <i class="ri-subtract-line" aria-hidden="true"></i>
+                        </button>
+                        <input type="number" name="quantity" value="1" min="1" max="10" aria-label="Quantity">
+                        <button type="button" data-step="up" aria-label="Increase quantity">
+                            <i class="ri-add-line" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <button type="submit" class="shop-btn shop-btn--primary shop-btn--lg shop-btn--block">
+                        <i class="ri-shopping-bag-3-line" aria-hidden="true"></i>
+                        <span data-lang="mealsordernow">Order now</span>
+                    </button>
+                </form>
+
+                <p class="shop-hint" style="margin-top:.75rem;" data-lang="mealsdeliveryhint">
+                    You'll choose your delivery date and time at checkout.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% if related_meals %}
+        <h2 class="shop-h2" style="margin-top:3rem;">
+            {{ meal.get_goal_display }} <span data-lang="mealsmoremeals">meals you might also like</span>
+        </h2>
+        <div class="shop-grid">
+            {% for related in related_meals %}
+            <article class="shop-card">
+                <a href="{{ related.get_absolute_url }}" class="shop-card__media">
+                    <img class="shop-card__img shop-card__img--front" src="{{ related.image_url }}"
+                         alt="{{ related.name }}" loading="lazy" decoding="async">
+                </a>
+                <div class="shop-card__body">
+                    <h3 class="shop-card__name"><a href="{{ related.get_absolute_url }}">{{ related.name }}</a></h3>
+                    <p class="shop-card__price">{{ related.price|money:"EGP" }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

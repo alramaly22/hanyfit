@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access denied · HANY</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="shortcut icon" href="{% static 'images/testo/logo.png' %}" type="image/x-icon">
+    <style>
+        body {
+            margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: #0b0b0c; color: #f3f1ee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            text-align: center; padding: 1.5rem;
+        }
+        .box { max-width: 380px; }
+        .box i { font-size: 2.2rem; color: #e05c4a; }
+        h1 { font-size: 1.1rem; margin: 1rem 0 .4rem; }
+        p { color: #9a938c; font-size: .88rem; margin: 0 0 1.25rem; }
+        a {
+            display: inline-block; padding: .6rem 1.2rem; border-radius: 9px; background: #d66a1f;
+            color: #fff; text-decoration: none; font-size: .88rem; font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>You don't have access to this page</h1>
+        <p>This account is not authorized to view the store dashboard. If this looks wrong, ask the store owner to check your permissions.</p>
+        <a href="{% url 'dashboard_login' %}">Back to sign in</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,1518 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <!--=============== FAVICON ===============-->
+
+    <link rel="shortcut icon"
+        href="{% static 'images/testo/logo.png' %}"
+        type="image/x-icon">
+<meta
+  name="description"
+  content="Hanyfit by Coach Hany Masoud: online bodybuilding and fitness coaching with customized workout plans and nutrition systems, HanyFit Meals healthy meal subscriptions delivered across Egypt, and gym apparel built for training. 8+ years coaching, 500+ client transformations."
+/>
+
+<meta
+  name="keywords"
+  content="online coaching, online fitness coaching, personal trainer online, healthy food, healthy meals Egypt, meal prep Egypt, meal subscription, gym clothes, gym apparel, fitness books, Coach Hany Masoud"
+/>
+
+<meta
+  property="og:title"
+  content="Hanyfit | Coach Hany Masoud - Online Fitness & Bodybuilding Coaching"
+/>
+
+<meta
+  property="og:description"
+  content="Transform your body with Coach Hany Masoud’s professional online coaching. Customized training systems, nutrition planning, daily follow-up, and proven transformation strategies designed for your body, lifestyle, and fitness goals."
+/>
+
+<link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  "name": "Hanyfit - Coach Hany Masoud",
+  "url": "{{ SITE_URL }}/",
+  "image": "{{ SITE_URL }}{% static 'images/testo/logo.png' %}",
+  "description": "Online bodybuilding and fitness coaching, healthy meal subscriptions (HanyFit Meals), and gym apparel by Coach Hany Masoud.",
+  "areaServed": ["Egypt", "Saudi Arabia"],
+  "makesOffer": [
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Online Fitness & Bodybuilding Coaching",
+        "description": "Customized workout plans, nutrition systems and daily coaching support."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "HanyFit Meals",
+        "description": "Calorie- and macro-counted healthy meals and subscriptions, delivered across Egypt."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Product",
+        "name": "Gym Apparel",
+        "description": "Gym wear and training apparel."
+      }
+    }
+  ]
+}
+</script>
+
+    <!--=============== REMIXICONS ===============-->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+
+    <link rel="stylesheet"
+        href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+
+    <!--=============== SWIPER CSS ===============-->
+
+    <link rel="stylesheet"
+        href="{% static 'css/swiper-bundle.min.css' %}">
+
+    <!--=============== CSS ===============-->
+
+    <link rel="stylesheet"
+        href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet"
+        href="{% static 'css/master.css' %}">
+
+    <style>
+
+        #language-selector {
+
+            appearance: none;
+
+            font-weight: bolder;
+
+            -webkit-appearance: none;
+
+            -moz-appearance: none;
+
+            background-size: cover;
+
+            background-position: center;
+
+            color: var(--body-color);
+
+            border: none;
+
+            background: var(--first-color);
+
+            padding: 10px;
+
+            border-radius: 1rem 0;
+
+            cursor: pointer;
+
+            outline: none;
+
+        }
+
+        #language-selector option {
+
+            color: #000;
+
+        }
+
+    </style>
+
+    <title>HANY</title>
+
+</head>
+
+<body>
+
+    <div id="loader">
+
+        <div class="loader-bg"></div>
+
+        <div class="loader-content">
+
+            <h1 class="loader-title">
+                HANY SYSTEM
+            </h1>
+
+            <div class="space-core">
+
+                <div class="core-glow"></div>
+
+                <div class="core-circle"></div>
+
+            </div>
+
+            <div class="loader-bar">
+
+                <div class="loader-progress"></div>
+
+            </div>
+
+            <div class="loader-percent">
+                0%
+            </div>
+
+            <!-- <button class="skip-btn">SKIP</button> -->
+
+        </div>
+
+    </div>
+
+    <div id="tsparticles"></div>
+
+    <!--==================== HEADER ====================-->
+
+    <header class="header"
+        id="header">
+
+        <nav class="nav container">
+
+            <a href="{% url 'index' %}"
+                class="logo">
+
+                <img src="{% static 'images/testo/logo.png' %}"
+                    alt="">
+
+            </a>
+
+            <div class="nav__menu"
+                id="nav-menu">
+
+                <ul class="nav__list">
+
+                    <li class="nav__item">
+
+                        <a href="#home"
+                            class="nav__link"
+                            data-lang="home">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav__item nav__item--meals">
+
+                        <a href="{% url 'meals:home' %}"
+                            class="nav__link nav__link--meals">
+
+                            <i class="ri-restaurant-2-fill"></i>
+
+                            <p data-lang="mealsnav">HanyFit Meals</p>
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav__item">
+
+                        <a href="#about"
+                            class="nav__link"
+                            data-lang="about">
+
+                            About
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav__item">
+
+                        <a href="#tranding"
+                            class="nav__link"
+                            data-lang="transformation">
+
+                            Transformation
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav__item">
+
+                        <a href="#pricing"
+                            class="nav__link"
+                            data-lang="pricing">
+
+                            Pricing
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav__item">
+
+                        <a href="{% url 'store' %}"
+                            class="nav__link">
+
+                            <p data-lang="shopnav">Shop</p>
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav__item nav__item--books">
+
+                        <a href="{% url 'book' %}"
+                            class="nav__link nav__link--books">
+
+                            <i class="ri-book-open-fill"></i>
+
+                            <p data-lang="booksnav">Books</p>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+                <div class="nav__social">
+
+                    <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+                        target="_blank"
+                        class="nav__social-link">
+
+                        <i class="ri-facebook-circle-fill"></i>
+
+                    </a>
+
+                    <a href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+                        target="_blank"
+                        class="nav__social-link">
+
+                        <i class="ri-instagram-fill"></i>
+
+                    </a>
+
+                    <!--
+                    <a href="https://www.youtube.com/@Hany_hassan"
+                        target="_blank"
+                        class="nav__social-link">
+
+                        <i class="ri-youtube-fill"></i>
+
+                    </a>
+                    -->
+
+                    <a href="https://snapchat.com/t/gi7bdu8B"
+                        target="_blank"
+                        class="nav__social-link">
+
+                        <i class="ri-snapchat-fill"></i>
+
+                    </a>
+
+                </div>
+
+                <!--   CLOSE BUTTON  -->
+
+                <div class="nav__close"
+                    id="nav-close">
+
+                    <i class="ri-eye-close-fill"></i>
+
+                </div>
+
+            </div>
+
+            <!--   Toggle button  -->
+
+            <div class="nav__buttons">
+
+                <!-- <i class="ri-moon-fill change-theme" id="theme-button"></i> -->
+
+                <div class="nav__toggle"
+                    id="nav-toggle">
+
+                    <i class="ri-apps-2-fill"></i>
+
+                </div>
+
+                <select name=""
+                    id="language-selector">
+
+                    <option value="en"
+                        selected>
+
+                        En
+
+                    </option>
+
+                    <option value="ar">
+
+                        Ar
+
+                    </option>
+
+                </select>
+
+            </div>
+
+        </nav>
+
+    </header>
+    <!--==================== MAIN ====================-->
+    <main class="main">
+
+
+        <div class="scroll-progress"></div>
+
+<!--==================== HOME ====================-->
+
+<section class="home" id="home">
+
+    <div class="video-container">
+
+        <!-- الفيديو -->
+
+        <video class="home__video home__video--desktop"
+            autoplay
+            muted
+            loop>
+
+            <source src="{% static 'images/testo/videoshome.mp4' %}"
+                type="video/mp4">
+
+        </video>
+
+        <!-- الصورة للموبايل -->
+
+        <div class="home__img home__img--mobile"></div>
+
+        <div class="video-overlay"></div>
+
+    </div>
+
+    <div class="home__img"></div>
+
+    <div class="home__container container grid">
+
+        <div class="home__data">
+
+            <h1 class="home__title">
+
+                <p data-lang="home1">
+                    Build your strongest
+                </p>
+
+                <p data-lang="home2">
+                    version with Hany
+                </p>
+
+            </h1>
+
+            <p data-lang="home3"
+                class="home__description">
+
+                Build muscle, burn fat, and unlock your best physique with expert coaching.
+
+            </p>
+
+            <a data-lang="button"
+                href="{% url 'pricing' %}"
+                class="button button--flex">
+
+                Start Your Transformation
+
+                <i class="ri-arrow-right-circle-fill"></i>
+
+            </a>
+
+        </div>
+
+        <div class="home__social">
+
+            <span data-lang="follow"
+                class="home__social-follow">
+
+                Follow Us
+
+            </span>
+
+            <div class="home__social-links">
+
+                <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+                    target="_blank"
+                    class="home__social-link">
+
+                    <i class="ri-facebook-fill"></i>
+
+                </a>
+
+                <a href="https://snapchat.com/t/gi7bdu8B"
+                    target="_blank"
+                    class="home__social-link">
+
+                    <i class="ri-snapchat-fill"></i>
+
+                </a>
+
+                <a href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+                    target="_blank"
+                    class="home__social-link">
+
+                    <i class="ri-instagram-line"></i>
+
+                </a>
+
+                <!--
+                <a href="https://twitter.com/"
+                    target="_blank"
+                    class="home__social-link">
+
+                    <i class="ri-youtube-fill"></i>
+
+                </a>
+                -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--==================== pricing ====================-->
+<section class="pricing section" id="pricing">
+    <div class="container">
+        <div class="section__data">
+            <div class="section__titles">
+                <h1 data-lang="pricingtitle" class="section__title se-arab">
+                    Pricing
+                </h1>
+            </div>
+        </div>
+
+        <div class="pricing__container grid">
+
+            <!--==================== 1 MONTH ====================-->
+            <article class="pricing__card article1">
+                <header class="pricing__header">
+                    <div class="pricing__shape">
+                        <img src="{% static 'icon/3.svg' %}" alt="" class="pricing__img">
+                    </div>
+
+                    <h1 data-lang="pricingtitle1" class="pricing__title">
+                        1 MONTH ONLINE COACHING
+                    </h1>
+
+                    <h2 data-lang="pricingpackage1" class="pricing__number">
+                        1 Month / 199 SAR
+                    </h2>
+                </header>
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli1">
+                            Personalized Workout Program
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli2">
+                            Customized Nutrition Plan
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli3">
+                            Weekly Progress Check-ins
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli4">
+                            Daily WhatsApp Support
+                        </p>
+                    </li>
+
+                </ul>
+
+                <div class="mk">
+                    <a data-lang="button3"
+                       href="https://app.fawaterk.com/paymentRequest/show/40582"
+                       target="_blank"
+                       class="button button__flex pricing__button">
+                        Purchase Now
+                    </a>
+                </div>
+            </article>
+
+
+            <!--==================== 2 MONTHS ====================-->
+            <article class="pricing__card article2">
+                <header class="pricing__header">
+                    <div class="pricing__shape">
+                        <img src="{% static 'icon/2.svg' %}" alt="" class="pricing__img">
+                    </div>
+
+                    <h1 style="font-size: 1.2rem;" data-lang="pricingtitle2" class="pricing__title">
+                        2 MONTHS ONLINE COACHING
+                    </h1>
+
+                    <h2 data-lang="pricingpackage2" class="pricing__number">
+                        2 Months / 299 SAR
+                    </h2>
+                </header>
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli12">
+                            Personalized Workout Program
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli13">
+                            Customized Nutrition Plan
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli14">
+                            Weekly Progress Check-ins
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli15">
+                            Daily WhatsApp Support
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli16">
+                            Form & Technique Review
+                        </p>
+                    </li>
+
+                </ul>
+
+                <div class="mk">
+                    <a data-lang="button3"
+                       href="https://app.fawaterk.com/paymentRequest/show/40530"
+                       target="_blank"
+                       class="button button__flex pricing__button">
+                        Purchase Now
+                    </a>
+                </div>
+            </article>
+
+
+            <!--==================== 3 MONTHS ====================-->
+            <article class="pricing__card article3">
+                <header class="pricing__header">
+                    <div class="pricing__shape">
+                        <img src="{% static 'icon/5.svg' %}" alt="" class="pricing__img">
+                    </div>
+
+                    <h1 data-lang="pricingtitle3" class="pricing__title">
+                        3 MONTHS ONLINE COACHING
+                    </h1>
+
+                    <h2 data-lang="pricingpackage3" class="pricing__number">
+                        3 Months / 399 SAR
+                    </h2>
+                </header>
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli31">
+                            Personalized Workout Program
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli32">
+                            Customized Nutrition Plan
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli33">
+                            Weekly Progress Check-ins
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli34">
+                            Daily WhatsApp Support
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli35">
+                            Form & Technique Review
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli36">
+                            Unlimited Plan Adjustments
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli37">
+                            Supplement Guidance
+                        </p>
+                    </li>
+
+                    <li class="pricing__item">
+                        <i class="ri-checkbox-circle-line"></i>
+                        <p data-lang="pricinglli38">
+                            Full Body Transformation Support
+                        </p>
+                    </li>
+
+                </ul>
+
+                <a data-lang="button3"
+                   href="https://app.fawaterk.com/paymentRequest/show/40531"
+                   target="_blank"
+                   class="button button__flex pricing__button">
+                    Purchase Now
+                </a>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!--==================== FAVORITE ====================-->
+
+<section class="tt"
+    id="tranding">
+
+    <div class="containero">
+
+        <h3 data-lang="transformation"
+            class="section__title">
+
+            Transformation
+
+        </h3>
+
+    </div>
+
+    <div class="containero">
+
+        <div class="swiper tranding-slider">
+
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide tranding-slide">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test6.jpeg' %}"
+                            alt="Tranding">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="swiper-slide tranding-slide">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test7.jpeg' %}"
+                            alt="Tranding">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="swiper-slide tranding-slide">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test8.jpeg' %}"
+                            alt="Tranding">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="swiper-slide tranding-slide">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test9.jpeg' %}"
+                            alt="Tranding">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom">
+
+                            <h3 class="food-rating"></h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tranding-slider-control">
+
+                <div class="swiper-button-prev slider-arrow">
+
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+
+                </div>
+
+                <div class="swiper-button-next slider-arrow">
+
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+
+                </div>
+
+                <div class="swiper-pagination"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!--==================== CALC ====================-->
+<div class="vv">
+    <section class="nutrantion section container" id="calc">
+        <div class="nutrantion__container grid">
+
+            <img src="{% static 'images/testo/bookfinal.jpeg' %}"
+                 alt=""
+                 class="nutrantion__img">
+
+            <div class="nutrantion__data">
+
+                <h2 class="section__title nutrantion__title">
+                    <p data-lang="nurationp1">EAT SMART</p>
+                    <p data-lang="nurationp2">BUILD BETTER</p>
+                </h2>
+
+                <p data-lang="nurationp3" class="nutrantion__description">
+                    50 high-protein recipes designed to help you build muscle,
+                    burn fat, and enjoy delicious meals without sacrificing your
+                    fitness goals.
+                </p>
+
+                <div class="nutrantion__details">
+
+                    <div class="fle">
+                        <p class="nutrantion__details-description nutrantion__details-icon">
+                            <i class="ri-cake-3-line"></i>
+
+                            <p class="nutrantion__details-description nutrantion__details-icon"
+                               data-lang="nurationp11">
+                                50 Easy, Delicious & High-Protein Healthy Meals
+                            </p>
+                        </p>
+                    </div>
+
+                    <div class="fle">
+                        <p class="nutrantion__details-description nutrantion__details-icon">
+                            <i class="ri-clipboard-fill"></i>
+
+                            <p class="nutrantion__details-description nutrantion__details-icon"
+                               data-lang="nurationp12">
+                                Calories & Macros Included.
+                            </p>
+                        </p>
+                    </div>
+
+                    <div class="fle">
+                        <p class="nutrantion__details-description nutrantion__details-icon">
+                            <i class="ri-restaurant-fill"></i>
+
+                            <p class="nutrantion__details-description nutrantion__details-icon"
+                               data-lang="nurationp13">
+                                Meals for Cutting & Bulking.
+                            </p>
+                        </p>
+                    </div>
+
+                    <div class="fle">
+                        <p class="nutrantion__details-description nutrantion__details-icon">
+                            <i class="ri-thumb-up-fill"></i>
+
+                            <p data-lang="nurationp14">
+                                Simple Ingredients, Real Results.
+                            </p>
+                        </p>
+                    </div>
+
+                </div>
+
+                <a href="{% url 'book' %}" class="button">
+                    <p data-lang="button4">Get Instant Access</p>
+                    <i class="ri-arrow-right-down-line button__icon"></i>
+                </a>
+
+            </div>
+        </div>
+    </section>
+</div>
+<!--==================== ABOUT ====================-->
+
+<section class="about section"
+    id="about">
+
+    <div class="about__container container grid">
+
+        <div class="about__data">
+
+            <h2 data-lang="about1"
+                class="section__title se-arab">
+
+                About Us
+
+            </h2>
+
+            <p data-lang="about2"
+                class="about__description">
+
+                Behind every transformation is a system — and I’ve built mine through years of experience as an IFBB professional champion. I don’t believe in random workouts or generic diets. I build structured plans that are designed for one thing only: real, visible transformation. Whether your goal is losing fat, building muscle, or stepping on stage — I’ll guide you step by step until you reach it.
+
+            </p>
+
+            <a data-lang="button2"
+                href="{% url 'about' %}"
+                class="button">
+
+                Know More
+
+            </a>
+
+        </div>
+
+        <img src="{% static 'images/testo/test2.jpeg' %}"
+            alt=""
+            class="about__img">
+
+    </div>
+
+</section>
+
+
+
+<!--==================== accordion ====================-->
+<section class="accordion container" id="accordion">
+
+    <h2 data-lang="qustion" class="section__title">
+        Frequently Asked Questions
+    </h2>
+
+    <div class="accordion__container">
+
+        <div class="accordion__item">
+            <header class="accordion__header">
+                <i class='bx bx-plus accordion__icon'></i>
+
+                <h3 data-lang="qustion1" class="accordion__title">
+                    How fast can I start seeing real results?
+                </h3>
+            </header>
+
+            <div class="accordion__content">
+                <p data-lang="ansswer1" class="accordion__description">
+                    Results depend on your consistency, but most clients begin
+                    noticing real physical changes within the first few weeks
+                    thanks to structured training, nutrition guidance,
+                    and continuous follow-up.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion__item">
+            <header class="accordion__header">
+                <i class='bx bx-plus accordion__icon'></i>
+
+                <h3 data-lang="qustion2" class="accordion__title">
+                    Why train with Coach Hany?
+                </h3>
+            </header>
+
+            <div class="accordion__content">
+                <p data-lang="ansswer2" class="accordion__description">
+                    With over 8 years of coaching experience in Riyadh and
+                    more than 500 successful client transformations,
+                    Coach Hany combines real competitive bodybuilding
+                    experience with practical coaching systems that
+                    deliver measurable results.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion__item">
+            <header class="accordion__header">
+                <i class='bx bx-plus accordion__icon'></i>
+
+                <h3 data-lang="qustion3" class="accordion__title">
+                    Will I get personal follow-up during my program?
+                </h3>
+            </header>
+
+            <div class="accordion__content">
+                <p data-lang="ansswer3" class="accordion__description">
+                    Yes. Every client receives consistent follow-up,
+                    progress tracking, and program adjustments based on
+                    results to ensure steady improvement throughout the journey.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion__item">
+            <header class="accordion__header">
+                <i class='bx bx-plus accordion__icon'></i>
+
+                <h3 data-lang="qustion4" class="accordion__title">
+                    Is this program suitable for beginners?
+                </h3>
+            </header>
+
+            <div class="accordion__content">
+                <p data-lang="ansswer4" class="accordion__description">
+                    Absolutely. Whether you're just starting or already experienced,
+                    each training and nutrition plan is customized to match your
+                    level, lifestyle, and fitness goals.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion__item">
+            <header class="accordion__header">
+                <i class='bx bx-plus accordion__icon'></i>
+
+                <h3 data-lang="qustion5" class="accordion__title">
+                    What will I get from the Fitness eBooks?
+                </h3>
+            </header>
+
+            <div class="accordion__content">
+                <p data-lang="ansswer5" class="accordion__description">
+                    You’ll get practical workout systems and nutrition guides
+                    packed with easy-to-follow strategies, high-protein recipes,
+                    and structured plans designed to help you build muscle,
+                    burn fat, and stay consistent.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="tools section" id="tools">
+
+    <div class="tools__bg"></div>
+
+    <div class="container">
+
+        <div class="tools__top">
+
+            <div class="tools__textContent">
+
+                <span class="tools__mini" data-lang="toolsMini">
+                    SMART FITNESS TOOLS
+                </span>
+
+                <h2 class="section__title" data-lang="toolsTitle">
+                    Advanced Nutrition Calculators
+                </h2>
+
+                <p class="tools__text" data-lang="toolsText">
+                    Professional smart calculators designed to help athletes,
+                    coaches, and fitness clients replace foods accurately,
+                    save time, and build flexible nutrition plans instantly.
+                </p>
+
+            </div>
+
+            <div class="tools__visuals">
+
+                <div class="tools__img tools__img--1">
+                    <img src="{% static 'images/testo/protiencalc3.png' %}" alt="">
+                </div>
+
+                <div class="tools__img tools__img--2">
+                    <img src="{% static 'images/testo/protiensectioncalc1.png' %}" alt="">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tools__wrapper">
+
+            <!-- PROTEIN -->
+            <article class="tool__card">
+
+                <div class="tool__badge" data-lang="bestSeller">
+                    BEST SELLER
+                </div>
+
+                <div class="tool__image">
+                    <img src="{% static 'images/testo/protiensectioncalc1.png' %}" alt="">
+                </div>
+
+                <div class="tool__content">
+
+                    <div class="tool__price">
+                        <span>35 SAR</span>
+                    </div>
+
+                    <h3 data-lang="proteinTitle">
+                        Protein Replacement Calculator
+                    </h3>
+
+                    <p data-lang="proteinDesc">
+                        Instantly replace protein foods with exact gram calculations
+                        while keeping the same protein value in your meal plan.
+                    </p>
+
+                    <ul class="tool__features">
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i><P data-lang="proteinF1"> Save hours of manual calculations</p>
+                        </li>
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i><P data-lang="proteinF2"> Accurate protein replacement system</p>
+                        </li>
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i><P data-lang="proteinF3"> Perfect for athletes & online coaches</p>
+                        </li>
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i><P data-lang="proteinF4"> Easy and mobile friendly interface</p>
+                        </li >
+
+                    </ul>
+
+                   <a href="javascript:void(0)"  data-lang="getAccess"
+   class="tool__button" 
+   onclick="openPaymentModal('protein')">
+    Get Access
+    {% comment %} <i class="ri-arrow-right-up-line"></i> {% endcomment %}
+</a>
+
+                </div>
+
+            </article>
+
+            <!-- CALORIES -->
+            <article class="tool__card">
+
+                <div class="tool__badge orange" data-lang="newTool">
+                    NEW TOOL
+                </div>
+
+                <div class="tool__image">
+                    <img src="{% static 'images/testo/protiensectioncalc2.png' %}" alt="">
+                </div>
+
+                <div class="tool__content">
+
+                    <div class="tool__price">
+                        <span>35 SAR</span>
+                    </div>
+
+                    <h3 data-lang="caloriesTitle">
+                        Calories Replacement Calculator
+                    </h3>
+
+                    <p data-lang="caloriesDesc">
+                        Replace meals and foods while maintaining the same calories
+                        to create flexible and accurate nutrition plans.
+                    </p>
+
+                    <ul class="tool__features">
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i> <P data-lang="caloriesF1">Flexible meal replacements</p>
+                        </li>
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i><P data-lang="caloriesF2"> Faster nutrition planning</p>
+                        </li>
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i> <P data-lang="caloriesF3">Smart calorie balancing</p>
+                        </li>
+
+                        <li class="liop">
+                            <i class="ri-check-line"></i><P data-lang="caloriesF4"> Ideal for diet systems & meal plans</p>
+                        </li>
+
+                    </ul>
+
+                    <a href="javascript:void(0)" data-lang="getAccess" 
+   class="tool__button" 
+   onclick="openPaymentModal('calories')">
+    Get Access
+    {% comment %} <i class="ri-arrow-right-up-line"></i> {% endcomment %}
+</a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+    </main>
+
+ <!--==================== FOOTER ====================-->
+<footer class="footer" id="footer">
+
+    <div class="row">
+
+        <!-- Logo + Description -->
+        <div class="col">
+
+            <a href="{% url 'index' %}#home">
+                <img src="{% static 'images/testo/logo.png' %}"
+                     alt="Hany Logo"
+                     class="logo">
+            </a>
+
+            <p data-lang="footerp">
+                Coach Hany Masoud — Transforming bodies through expert coaching,
+                smart nutrition, and real results.
+            </p>
+
+        </div>
+
+        <!-- Main Menu -->
+        <div class="col">
+
+            <h3 data-lang="footerh31">
+                Main Menu
+                <div class="underline"><span></span></div>
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a data-lang="home"
+                       href="{% url 'index' %}#home">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a data-lang="mealsnav"
+                       href="{% url 'meals:home' %}">
+                        HanyFit Meals
+                    </a>
+                </li>
+                <li>
+                    <a data-lang="shopnav"
+                       href="{% url 'store' %}">
+                        Shop
+                    </a>
+                </li>
+
+                <li>
+                    <a data-lang="transformation"
+                       href="{% url 'index' %}#tranding">
+                        Transformation
+                    </a>
+                </li>
+
+                <li>
+                    <a data-lang="pricing"
+                       href="{% url 'index' %}#pricing">
+                        Pricing
+                    </a>
+                </li>
+
+                <li>
+                    <a data-lang="contact"
+                       href="{% url 'index' %}#footer">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- Information -->
+        <div class="col">
+
+            <h3 data-lang="footerh32">
+                Information
+                <div class="underline"><span></span></div>
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a data-lang="about"
+                       href="{% url 'about' %}">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a data-lang="accordion"
+                       href="{% url 'index' %}#accordion">
+                        FAQs
+                    </a>
+                </li>
+
+                <li>
+                    <a data-lang="testimonial"
+                       href="{% url 'about' %}#testimonial">
+                        Testimonial
+                    </a>
+                </li>
+
+                <li>
+                    <a data-lang="contact"
+                       href="{% url 'about' %}#footer">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- Social -->
+        <div class="col">
+
+            <h3 data-lang="footerh33">
+                Social Media
+                <div class="underline"><span></span></div>
+            </h3>
+
+            <div class="contact__social-links">
+
+                <a href="https://www.instagram.com/hany.masoud43"
+                   target="_blank"
+                   class="contact__social-link">
+
+                    <i class="ri-instagram-fill"></i>
+
+                </a>
+
+                <a href="https://snapchat.com/t/gi7bdu8B"
+                   target="_blank"
+                   class="contact__social-link">
+
+                    <i class="ri-snapchat-fill"></i>
+
+                </a>
+
+                <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+                   target="_blank"
+                   class="contact__social-link">
+
+                    <i class="ri-facebook-circle-fill"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr>
+    <p class="copyright">
+        Created By <a href="https://wa.me/201012872008" class="moalramly">
+    MOAlramaly
+</a>  © 2026 - All Rights Reserved
+    </p>
+
+</footer>
+<div id="paymentModal" class="payment-modal">
+  <div class="payment-box">
+
+    <span class="close" onclick="closePaymentModal()">×</span>
+
+    <h3>Select Language</h3>
+
+    <button onclick="goToPayment('ar')">
+      🇪🇬 Arabic
+    </button>
+
+    <button onclick="goToPayment('en')">
+      🇬🇧 English
+    </button>
+
+  </div>
+</div>
+
+<a href="https://wa.me/966578079833" class="whatsapp">
+    <i class="ri-whatsapp-fill"></i>
+</a>
+  <!--=============== SCROLL UP ===============-->
+<a href="{% url 'index' %}#home" class="scrollup" id="scroll-up">
+    <i class="ri-arrow-up-double-fill"></i>
+</a>
+
+<script>
+    window.addEventListener("scroll", () => {
+        const winScroll = document.documentElement.scrollTop
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+        const scrolled = (winScroll / height) * 100
+
+        const progress = document.querySelector(".scroll-progress")
+        if (progress) {
+            progress.style.height = scrolled + "%"
+        }
+    })
+</script>
+<script>
+let currentProduct = null;
+
+const links = {
+    protein: {
+        ar: "https://app.fawaterk.com/paymentRequest/show/40698",
+        en: "https://app.fawaterk.com/paymentRequest/show/40697"
+    },
+    calories: {
+        ar: "https://app.fawaterk.com/paymentRequest/show/40699",
+        en: "https://app.fawaterk.com/paymentRequest/show/40696"
+    }
+};
+
+function openPaymentModal(product) {
+    currentProduct = product;
+    document.getElementById("paymentModal").style.display = "flex";
+}
+
+function closePaymentModal() {
+    document.getElementById("paymentModal").style.display = "none";
+}
+
+function goToPayment(lang) {
+    window.location.href = links[currentProduct][lang];
+}
+</script>
+<!--========== SCRIPTS ==========-->
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+
+<!--=============== SCROLL / ICONS ===============-->
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script> {% endcomment %}
+
+<script type="module"
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+<script nomodule
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+<script src="{% static 'js/language.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+<script>
+    tsParticles.load("tsparticles", {
+        particles: {
+            number: {
+                value: 100
+            },
+            color: {
+                value: "#c75b16"
+            },
+            move: {
+                enable: true,
+                speed: 1
+            },
+            size: {
+                value: 2
+            }
+        }
+    });
+</script>
+
+<!--=============== MAIN JS ===============-->
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

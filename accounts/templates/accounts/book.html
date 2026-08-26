@@ -1,0 +1,1288 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/testo/logo.png' %}"
+      type="image/x-icon"
+    />
+<meta
+  name="description"
+  content="Hanyfit by Coach Hany Masoud offers professional online bodybuilding and fitness coaching with customized workout plans, smart nutrition systems, daily support, and real body transformation results. With over 8 years of coaching experience and 500+ successful client transformations in Riyadh, Saudi Arabia, Coach Hany helps clients build muscle, burn fat, improve performance, and achieve their best physique."
+/>
+
+<meta
+  property="og:title"
+  content="Hanyfit | Coach Hany Masoud - Online Fitness & Bodybuilding Coaching"
+/>
+
+<meta
+  property="og:description"
+  content="Transform your body with Coach Hany Masoud’s professional online coaching. Customized training systems, nutrition planning, daily follow-up, and proven transformation strategies designed for your body, lifestyle, and fitness goals."
+/>
+    <!--=============== REMIXICONS ===============-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}" />
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/master.css' %}" />
+
+    <style>
+      #language-selector {
+        appearance: none;
+        font-weight: bolder;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-size: cover;
+        background-position: center;
+        color: var(--body-color);
+        border: none;
+        background: var(--first-color);
+        padding: 10px;
+        border-radius: 1rem 0;
+        cursor: pointer;
+        outline: none;
+      }
+
+      #language-selector option {
+        color: #000;
+      }
+    </style>
+
+    <title>Book Hany</title>
+  </head>
+
+  <body>
+    <div id="loader">
+      <div class="loader-bg"></div>
+
+      <div class="loader-content">
+        <h1 class="loader-title">HANY SYSTEM</h1>
+
+        <div class="space-core">
+          <div class="core-glow"></div>
+          <div class="core-circle"></div>
+        </div>
+
+        <div class="loader-bar">
+          <div class="loader-progress"></div>
+        </div>
+
+        <div class="loader-percent">0%</div>
+      </div>
+    </div>
+
+    <div id="tsparticles"></div>
+
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'images/testo/logo.png' %}" alt="" />
+        </a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a
+                href="{% url 'index' %}#home"
+                class="nav__link"
+                data-lang="home"
+              >
+                Home
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="{% url 'about' %}" class="nav__link" data-lang="about">
+                About
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a
+                href="{% url 'index' %}#tranding"
+                class="nav__link"
+                data-lang="transformation"
+              >
+                Transformation
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a
+                href="{% url 'index' %}#pricing"
+                class="nav__link"
+                data-lang="pricing"
+              >
+                Pricing
+              </a>
+            </li>
+
+                    <li class="nav__item">
+
+                        <a href="{% url 'store' %}"
+                            class="nav__link">
+
+                            <p data-lang="shopnav">Shop</p>
+
+                        </a>
+
+                    </li>
+
+            <li class="nav__item nav__item--books">
+              <a href="{% url 'book' %}" class="nav__link nav__link--books">
+                <i class="ri-book-open-fill"></i>
+                <p data-lang="booksnav">Books</p>
+              </a>
+            </li>
+          </ul>
+
+          <div class="nav__social">
+            <a
+              href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-facebook-circle-fill"></i>
+            </a>
+
+            <a
+              href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+
+            <a
+              href="https://snapchat.com/t/gi7bdu8B"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-snapchat-fill"></i>
+            </a>
+          </div>
+
+          <!-- CLOSE -->
+          <div class="nav__close" id="nav-close">
+            <i class="ri-eye-close-fill"></i>
+          </div>
+        </div>
+
+        <!-- TOGGLE -->
+        <div class="nav__buttons">
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-apps-2-fill"></i>
+          </div>
+
+          <select id="language-selector">
+            <option value="en">En</option>
+            <option value="ar">Ar</option>
+          </select>
+        </div>
+      </nav>
+    </header>
+    <!--==================== MAIN ====================-->
+    <main class="main">
+      <div class="scroll-progress"></div>
+      <section class="home66 section" id="home66">
+        <div class="home__container66 container grid">
+          <div class="home__data66">
+            <h1 class="home__title66" data-lang="bookhome1">
+              Upgrade Your Body <br />
+              With Real Fitness Knowledge
+            </h1>
+
+            <p class="home__description66" data-lang="bookhome2">
+              Professional fitness books designed to help you build muscle, burn
+              fat, and understand training, nutrition, and supplements the right
+              way.
+            </p>
+
+            <!-- بدل #pricing -->
+            <a
+              href="#work"
+              class="buuton__link button"
+              data-lang="bookbutton"
+            >
+              Explore Books
+            </a>
+          </div>
+
+          <div class="home__images66">
+            <img src="{% static 'images/testo/last1.jpeg' %}" alt="" />
+            <img src="{% static 'images/testo/blackpp4.jpeg' %}" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section class="services55 section">
+        <div class="services__container55 container grid">
+          <article class="services__card55">
+            <i class="ri-book-open-line"></i>
+            <h3 data-lang="bookstep1title" class="services__title55">
+              Choose Your Book
+            </h3>
+            <p data-lang="bookstep1desc" class="services__description55">
+              Pick the fitness guide that matches your goals and transformation
+              journey.
+            </p>
+          </article>
+
+          <article class="services__card55">
+            <i class="ri-translate-2"></i>
+            <h3 data-lang="bookstep2title" class="services__title55">
+              Select Your Language
+            </h3>
+            <p data-lang="bookstep2desc" class="services__description55">
+              Choose between Arabic or English before completing your purchase.
+            </p>
+          </article>
+
+          <article class="services__card55">
+            <i class="ri-download-cloud-2-line"></i>
+            <h3 data-lang="bookstep3title" class="services__title55">
+              Instant Access
+            </h3>
+            <p data-lang="bookstep3desc" class="services__description55">
+              Complete your payment and instantly receive your digital book.
+            </p>
+          </article>
+        </div>
+      </section>
+<!-- {% comment %} sss {% endcomment %} -->
+        <!-- ================= Work ============== -->
+        <section class="work section" id="work">
+            <h2 class="section__title" data-lang="worksetiontitle">
+                Recipes You'll Actually Enjoy
+            </h2>
+            <div class="work__container container grid">
+                <div class="work__swiper swiper">
+                    <div class="swiper-wrapper">
+                        <article class="work__card swiper-slide">
+                            <a href="#" target="_blank" class="work__link">
+                                <img src="{% static 'images/testo/lastfood1.jpeg' %}" alt="" class="work__img">
+                                <div class="work__arrow">
+                                    <i class="ri-restaurant-fill"></i>
+                                </div>
+                            </a>
+                            <div class="work__data">
+                                <span class="work__number">01</span>
+                                <h3 class="work__name">Restaurant Website</h3>
+                                <p class="work__description">
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi facilis est cupiditate? Totam, quasi. Unde nostrum consequuntur accusamus veritatis.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="work__card swiper-slide">
+                            <a href="#" target="_blank" class="work__link">
+                                <img src="{% static 'images/testo/lastfood2.jpeg' %}" alt="" class="work__img">
+                                <div class="work__arrow">
+                                    <i class="ri-restaurant-fill"></i>
+                                </div>
+                            </a>
+                            <div class="work__data">
+                                <span class="work__number">01</span>
+                                <h3 class="work__name">Restaurant Website</h3>
+                                <p class="work__description">
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi facilis est cupiditate? Totam, quasi. Unde nostrum consequuntur accusamus veritatis.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="work__card swiper-slide">
+                            <a href="#" target="_blank" class="work__link">
+                                <img src="{% static 'images/testo/lastfood3.jpeg' %}" alt="" class="work__img">
+                                <div class="work__arrow">
+                                    <i class="ri-restaurant-fill"></i>
+                                </div>
+                            </a>
+                            <div class="work__data">
+                                <span class="work__number">01</span>
+                                <h3 class="work__name">Restaurant Website</h3>
+                                <p class="work__description">
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi facilis est cupiditate? Totam, quasi. Unde nostrum consequuntur accusamus veritatis.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="work__card swiper-slide">
+                            <a href="#" target="_blank" class="work__link">
+                                <img src="{% static 'images/testo/lastfood4.jpeg' %}" alt="" class="work__img">
+                                <div class="work__arrow">
+                                    <i class="ri-restaurant-fill"></i>
+                                </div>
+                            </a>
+                            <div class="work__data">
+                                <span class="work__number">01</span>
+                                <h3 class="work__name">Restaurant Website</h3>
+                                <p class="work__description">
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi facilis est cupiditate? Totam, quasi. Unde nostrum consequuntur accusamus veritatis.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+
+<!-- Featured Books -->
+<!-- ==================== FEATURED BOOKS ==================== -->
+
+<section class="featured section" id="featured">
+
+    <h2
+        data-lang="featuredtitle"
+        class="section__title"
+    >
+        Featured Books
+    </h2>
+
+    <div class="featured__container container">
+
+        <div class="featured__swiper swiper">
+
+            <div class="swiper-wrapper">
+
+                <!-- ==================== BOOK 1 ==================== -->
+
+                <article class="featured__card swiper-slide">
+
+                    <img
+                        src="{% static 'images/testo/blackpp2.jpeg' %}"
+                        class="featured__img"
+                        alt="Recipe Mastery Book"
+                    />
+
+                    <h2
+                        data-lang="featuredbook1"
+                        class="features__title"
+                    >
+                        Recipe Mastery Book
+                    </h2>
+
+                    <div class="featured__prices">
+
+                        <span
+                            data-lang="booklang"
+                            class="featured__discount"
+                        >
+                            Arabic & English
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="#pricing"
+                        class="button"
+                        data-lang="buynow"
+                    >
+                        Buy Now
+                    </a>
+
+                </article>
+
+
+                <!-- ==================== BOOK 2 ==================== -->
+
+                <article class="featured__card swiper-slide">
+
+                    <img
+                        src="{% static 'images/testo/last1.jpeg' %}"
+                        class="featured__img"
+                        alt="Ultimate Supplements Guide"
+                    />
+
+                    <h2
+                        data-lang="featuredbook2"
+                        class="features__title"
+                    >
+                        Ultimate Supplements Guide
+                    </h2>
+
+                    <div class="featured__prices">
+
+                        <span
+                            data-lang="booklang"
+                            class="featured__discount"
+                        >
+                            Arabic & English
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="#pricing"
+                        class="button"
+                        data-lang="buynow"
+                    >
+                        Buy Now
+                    </a>
+
+                </article>
+
+
+                <!-- ==================== BOOK 3 ==================== -->
+
+                <article class="featured__card swiper-slide">
+
+                    <img
+                        src="{% static 'images/testo/exerebook.jpeg' %}"
+                        class="featured__img"
+                        alt="Exercise Training Guide"
+                    />
+
+                    <h2
+                        data-lang="featuredbook3"
+                        class="features__title"
+                    >
+                        Exercise Training Guide
+                    </h2>
+
+                    <div class="featured__prices">
+
+                        <span
+                            data-lang="booklang"
+                            class="featured__discount"
+                        >
+                            Arabic & English
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="#pricing"
+                        class="button"
+                        data-lang="buynow"
+                    >
+                        Buy Now
+                    </a>
+
+                </article>
+
+
+                <!-- ==================== BOOK 4 ==================== -->
+
+                <article class="featured__card swiper-slide">
+
+                    <img
+                        src="{% static 'images/testo/subebook.jpeg' %}"
+                        class="featured__img"
+                        alt="Substances Risks & Consequences"
+                    />
+
+                    <h2
+                        data-lang="featuredbook4"
+                        class="features__title"
+                    >
+                        Substances: Risks & Consequences
+                    </h2>
+
+                    <div class="featured__prices">
+
+                        <span
+                            data-lang="booklang"
+                            class="featured__discount"
+                        >
+                            Arabic & English
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="#pricing"
+                        class="button"
+                        data-lang="buynow"
+                    >
+                        Buy Now
+                    </a>
+
+                </article>
+
+            </div>
+
+
+            <!-- ==================== SWIPER BUTTONS ==================== -->
+
+            <div class="swiper-button-prev">
+                <i class="ri-arrow-left-circle-fill"></i>
+            </div>
+
+            <div class="swiper-button-next">
+                <i class="ri-arrow-right-circle-fill"></i>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+      <!--==================== pricing ====================-->
+<!--=============== PRICING ===============-->
+<!-- ==================== PRICING / BOOKS ==================== -->
+
+<section class="pricing section" id="pricing">
+
+    <div class="container">
+
+
+        <!-- ==================== SECTION HEADER ==================== -->
+
+        <div class="section__data">
+
+            <div class="section__titles">
+
+                <h1
+                    class="section__title se-arab"
+                    data-lang="booksTitle"
+                >
+                    Choose Your Fitness Upgrade
+                </h1>
+
+            </div>
+
+            <p
+                class="pricing__description"
+                data-lang="booksDesc"
+            >
+                Stop wasting time on random workouts, fake fitness advice,
+                and useless supplements. Get real knowledge built from years
+                of coaching experience to help you transform your body faster.
+            </p>
+
+        </div>
+
+
+        <!-- ==================== BOOKS CONTAINER ==================== -->
+
+        <div class="pricing__container grid">
+
+
+            <!-- =====================================================
+                 BOOK 1
+            ====================================================== -->
+
+            <article class="pricing__card article11">
+
+                <header class="pricing__header">
+
+                    <div class="pricing__shape">
+
+                        <img
+                            src="{% static 'icon/3.svg' %}"
+                            alt=""
+                            class="pricing__img"
+                        />
+
+                    </div>
+
+
+                    <h1
+                        class="pricing__title"
+                        data-lang="book1title"
+                    >
+                        Recipe Mastery Book
+                    </h1>
+
+
+                    <h2 class="pricing__number">
+                        50 SAR
+                    </h2>
+
+                </header>
+
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book1li1">
+                            50+ High-Protein Recipes For Real Results
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book1li2">
+                            Easy Meals For Fat Loss & Muscle Growth
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book1li3">
+                            Save Time Cooking Without Sacrificing Taste
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book1li4">
+                            Learn How To Eat Smart Without Strict Diets
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book1li5">
+                            Stay Consistent & Enjoy Your Fitness Journey
+                        </p>
+
+                    </li>
+
+                </ul>
+
+
+                <div class="mk">
+
+                    <button
+                        type="button"
+                        class="button button__flex pricing__button"
+                        data-book="Recipe Mastery Book"
+                        data-description-ar="اختر اللغة العربية أو الإنجليزية واحصل فورًا على كتاب احتراف الوصفات الصحية بعد إتمام عملية الدفع."
+                        data-description-en="Choose Arabic or English and instantly receive the Recipe Mastery Book after completing your payment."
+                        data-ar="https://app.fawaterk.com/paymentRequest/show/40533"
+                        data-en="https://app.fawaterk.com/paymentRequest/show/40532"
+                        data-lang="purchaseBtn"
+                    >
+                        Purchase Now
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =====================================================
+                 BOOK 2
+            ====================================================== -->
+
+            <article
+                class="pricing__card article21 pricing__popular"
+            >
+
+                <header class="pricing__header">
+
+                    <div class="pricing__shape">
+
+                        <img
+                            src="{% static 'icon/2.svg' %}"
+                            alt=""
+                            class="pricing__img"
+                        />
+
+                    </div>
+
+
+                    <h1
+                        style="font-size: 1.2rem;"
+                        class="pricing__title"
+                        data-lang="book2title"
+                    >
+                        Ultimate Supplements Guide
+                    </h1>
+
+
+                    <h2 class="pricing__number">
+                         50 SAR
+                    </h2>
+
+                </header>
+
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book2li1">
+                            The Complete Supplement Guide Based On Real Experience
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book2li2">
+                            Know Which Supplements Your Body Actually Needs
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book2li3">
+                            Avoid Wasting Money On Useless Products
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book2li4">
+                            Understand Benefits, Side Effects & Best Timing
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book2li5">
+                            Simple Explanations Without Complicated Science
+                        </p>
+
+                    </li>
+
+                </ul>
+
+
+                <div class="mk">
+
+                    <button
+                        type="button"
+                        class="button button__flex pricing__button"
+                        data-book="Ultimate Supplements Guide"
+                        data-description-ar="اختر اللغة العربية أو الإنجليزية واحصل فورًا على الدليل الشامل للمكملات الغذائية بعد إتمام عملية الدفع."
+                        data-description-en="Choose Arabic or English and instantly receive the Ultimate Supplements Guide after completing your payment."
+                        data-ar="https://app.fawaterk.com/paymentRequest/show/40534"
+                        data-en="https://app.fawaterk.com/paymentRequest/show/40535"
+                        data-lang="purchaseBtn"
+                    >
+                        Purchase Now
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =====================================================
+                 BOOK 3
+                 EXERCISE TRAINING
+            ====================================================== -->
+
+            <article class="pricing__card article31">
+
+                <header class="pricing__header">
+
+                    <div class="pricing__shape">
+
+                        <img
+                            src="{% static 'icon/3.svg' %}"
+                            alt=""
+                            class="pricing__img"
+                        />
+
+                    </div>
+
+
+                    <h1
+                        class="pricing__title"
+                        data-lang="book4title"
+                    >
+                        Exercise Training Guide
+                    </h1>
+
+
+                    <h2 class="pricing__number">
+                         50 SAR
+                    </h2>
+
+                </header>
+
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book4li1">
+                            Learn The Fundamentals Of Effective Training
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book4li2">
+                            Understand The Full Body Training System
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book4li3">
+                            Perfect For Beginners Training 2–3 Days Per Week
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book4li4">
+                            Build A Strong Muscular Foundation With The Right Exercises
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book4li5">
+                            Learn How To Train Smarter Instead Of Simply Training More
+                        </p>
+
+                    </li>
+
+                </ul>
+
+
+                <div class="mk">
+
+                    <button
+                        type="button"
+                        class="button button__flex pricing__button"
+                        data-book="Exercise Training Guide"
+                        data-description-ar="تعلّم أساسيات التدريب الفعّال، وافهم نظام Full Body، وابنِ قاعدة عضلية قوية لتحقيق تقدم مستمر."
+                        data-description-en="Learn the fundamentals of effective training, understand the Full Body system, and build a strong foundation for long-term progress."
+                        data-ar="https://app.fawaterk.com/paymentRequest/show/45418"
+                        data-en="https://app.fawaterk.com/paymentRequest/show/45419"
+                        data-lang="purchaseBtn"
+                    >
+                        Purchase Now
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =====================================================
+                 BOOK 4
+                 SUBSTANCES
+            ====================================================== -->
+
+            <article class="pricing__card article41">
+
+                <header class="pricing__header">
+
+                    <div class="pricing__shape">
+
+                        <img
+                            src="{% static 'icon/2.svg' %}"
+                            alt=""
+                            class="pricing__img"
+                        />
+
+                    </div>
+
+
+                    <h1
+                        style="font-size: 1.2rem;"
+                        class="pricing__title"
+                        data-lang="book5title"
+                    >
+                        Substances: Risks & Consequences
+                    </h1>
+
+
+                    <h2 class="pricing__number">
+                         50 SAR
+                    </h2>
+
+                </header>
+
+
+                <ul class="pricing__list">
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book5li1">
+                            Understand The Real Risks Behind Performance-Enhancing Substances
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book5li2">
+                            Learn About The Physical & Long-Term Consequences
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book5li3">
+                            Understand How These Substances Can Affect Your Body
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book5li4">
+                            Make More Informed Decisions About Your Health & Training
+                        </p>
+
+                    </li>
+
+
+                    <li class="pricing__item">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        <p data-lang="book5li5">
+                            Knowledge Designed To Protect Your Progress And Your Future
+                        </p>
+
+                    </li>
+
+                </ul>
+
+
+                <div class="mk">
+
+                    <button
+                        type="button"
+                        class="button button__flex pricing__button"
+                        data-book="Substances: Risks & Consequences"
+                        data-description-ar="دليل تعليمي يشرح المخاطر والعواقب والتأثيرات طويلة المدى المرتبطة بالمواد المؤثرة على الأداء."
+                        data-description-en="An educational guide explaining the risks, consequences, and long-term effects associated with performance-enhancing substances."
+                        data-ar="https://app.fawaterk.com/paymentRequest/show/45421"
+                        data-en="https://app.fawaterk.com/paymentRequest/show/45422"
+                        data-lang="purchaseBtn"
+                    >
+                        Purchase Now
+                    </button>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             BOTTOM CTA
+        ====================================================== -->
+
+        <div class="pricing__bottom">
+
+            <h2 data-lang="bottomTitle">
+                Your Dream Physique Starts With The Right Knowledge.
+            </h2>
+
+
+            <p data-lang="bottomDesc">
+                Thousands waste years following random advice.
+                Get the knowledge and systems designed to save time,
+                money, and help you achieve real results faster.
+            </p>
+
+
+            <div class="mk">
+
+                <a
+                    href="{% url 'index' %}#pricing"
+                    class="button"
+                    data-lang="purchaseBtn"
+                >
+                    Purchase Now
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- BOOK MODAL -->
+<div class="book__modal" id="bookModal">
+  <div class="book__modal-card">
+    <i class="ri-close-line book__modal-close" id="closeModal"></i>
+
+    <h2 class="book__modal-title" id="modalBookTitle" data-lang="modalTitle">
+      Choose Your Book Language
+    </h2>
+
+    <p class="book__modal-description" id="modalBookDescription" data-lang="modalDesc">
+      Select the language you prefer before completing your purchase.
+    </p>
+
+    <div class="book__modal-buttons">
+      <a href="#" class="book__btn arabic" id="arabicBtn" data-lang="arabicVersion">
+        🇪🇬 Arabic Version
+      </a>
+
+      <a href="#" class="book__btn english" id="englishBtn" data-lang="englishVersion">
+        🇺🇸 English Version
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!--==================== FOOTER ====================-->
+<footer class="footer" id="footer">
+  <div class="row">
+
+    <!-- Logo -->
+    <div class="col">
+      <a href="{% url 'index' %}">
+        <img src="{% static 'images/testo/logo.png' %}" alt="Hany Logo" class="logo" />
+      </a>
+
+      <p data-lang="footerp">
+        Coach Hany Masoud — Transforming bodies through expert coaching, smart nutrition, and real results.
+      </p>
+    </div>
+
+    <!-- Main Menu -->
+    <div class="col">
+      <h3 data-lang="footerh31">
+        Main Menu
+        <div class="underline"><span></span></div>
+      </h3>
+
+      <ul>
+        <li><a data-lang="home" href="{% url 'index' %}">Home</a></li>
+        <li>
+            <a data-lang="shopnav"
+               href="{% url 'store' %}">
+                Shop
+            </a>
+        </li>
+        <li><a data-lang="transformation" href="{% url 'index' %}#tranding">Transformation</a></li>
+        <li><a data-lang="pricing" href="{% url 'pricing' %}">Pricing</a></li>
+        <li><a data-lang="contact" href="#footer">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Information -->
+    <div class="col">
+      <h3 data-lang="footerh32">
+        Information
+        <div class="underline"><span></span></div>
+      </h3>
+
+      <ul>
+        <li><a data-lang="about" href="{% url 'about' %}">About</a></li>
+        <li><a data-lang="accordion" href="{% url 'index' %}#accordion">FAQs</a></li>
+        <li><a data-lang="testimonial" href="{% url 'about' %}#testimonial">Testimonial</a></li>
+        <li><a data-lang="contact" href="{% url 'about' %}#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Social -->
+    <div class="col">
+      <h3 data-lang="footerh33">
+        Social Media
+        <div class="underline"><span></span></div>
+      </h3>
+
+      <div class="contact__social-links">
+        <a href="https://www.instagram.com/hany.masoud43" target="_blank" class="contact__social-link">
+          <i class="ri-instagram-fill"></i>
+        </a>
+
+        <a href="https://snapchat.com/t/gi7bdu8B" target="_blank" class="contact__social-link">
+          <i class="ri-snapchat-fill"></i>
+        </a>
+
+        <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr" target="_blank" class="contact__social-link">
+          <i class="ri-facebook-circle-fill"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <hr />
+
+
+    <p class="copyright">
+        Created By <a href="https://wa.me/201012872008" class="moalramly">
+    MOAlramaly
+</a>  © 2026 - All Rights Reserved
+    </p>
+
+<a href="https://wa.me/966578079833" class="whatsapp">
+    <i class="ri-whatsapp-fill"></i>
+</a>
+  <!--=============== SCROLL UP ===============-->
+<a href="{% url 'index' %}#home" class="scrollup" id="scroll-up">
+    <i class="ri-arrow-up-double-fill"></i>
+</a>
+
+<script>
+  window.addEventListener("scroll", () => {
+    const winScroll = document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+
+    const progress = document.querySelector(".scroll-progress");
+    if (progress) {
+      progress.style.height = scrolled + "%";
+    }
+  });
+</script>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script src="{% static 'js/language.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+<script>
+  tsParticles.load("tsparticles", {
+    particles: {
+      number: { value: 100 },
+      color: { value: "#c75b16" },
+      move: { enable: true, speed: 1 },
+      size: { value: 2 }
+    }
+  });
+</script>
+
+<!--=============== BOOK MODAL ===============-->
+<script>
+  const modal = document.getElementById("bookModal");
+  const closeModal = document.getElementById("closeModal");
+
+  const arabicBtn = document.getElementById("arabicBtn");
+  const englishBtn = document.getElementById("englishBtn");
+
+  const modalTitle = document.getElementById("modalBookTitle");
+  const modalDesc = document.getElementById("modalBookDescription");
+
+  const pricingButtons = document.querySelectorAll(".pricing__button");
+
+  pricingButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const book = button.dataset.book;
+      const desc = button.dataset.description;
+      const arLink = button.dataset.ar;
+      const enLink = button.dataset.en;
+
+      modalTitle.textContent = book;
+      modalDesc.textContent = desc;
+
+      arabicBtn.href = arLink;
+      englishBtn.href = enLink;
+
+      modal.classList.add("show-modal");
+    });
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.classList.remove("show-modal");
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("show-modal");
+    }
+  });
+</script>
+
+<!-- MAIN JS -->
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

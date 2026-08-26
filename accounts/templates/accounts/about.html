@@ -1,0 +1,798 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/testo/logo.png' %}"
+      type="image/x-icon"
+    />
+    <meta
+      name="description"
+      content="Hanyfit by Coach Hany Masoud offers professional online bodybuilding and fitness coaching with customized workout plans, smart nutrition systems, daily support, and real body transformation results. With over 8 years of coaching experience and 500+ successful client transformations in Riyadh, Saudi Arabia, Coach Hany helps clients build muscle, burn fat, improve performance, and achieve their best physique."
+    />
+
+    <meta
+      property="og:title"
+      content="Hanyfit | Coach Hany Masoud - Online Fitness & Bodybuilding Coaching"
+    />
+
+    <meta
+      property="og:description"
+      content="Transform your body with Coach Hany Masoud’s professional online coaching. Customized training systems, nutrition planning, daily follow-up, and proven transformation strategies designed for your body, lifestyle, and fitness goals."
+    />
+    <!--=============== REMIXICONS ===============-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}" />
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/master.css' %}" />
+
+    <style>
+      #language-selector {
+        appearance: none;
+        font-weight: bolder;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-size: cover;
+        background-position: center;
+        color: var(--body-color);
+        border: none;
+        background: var(--first-color);
+        padding: 10px;
+        border-radius: 1rem 0;
+        cursor: pointer;
+        outline: none;
+      }
+
+      #language-selector option {
+        color: #000;
+      }
+    </style>
+
+    <title>About Hany</title>
+  </head>
+
+  <body>
+    <!--==================== HEADER ====================-->
+
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'images/testo/logo.png' %}" alt="" />
+        </a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a
+                href="{% url 'index' %}#home"
+                class="nav__link"
+                data-lang="home"
+              >
+                Home
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a
+                href="#testimonial"
+                class="nav__link"
+                data-lang="transformation"
+              >
+                Testimonial
+              </a>
+            </li>
+
+            <!-- <li class="nav__item">
+                        <a href="#contact" class="nav__link" data-lang="Contact">
+                            Contact
+                        </a>
+                    </li> -->
+
+            <li class="nav__item">
+              <a href="#accordion" class="nav__link" data-lang="accordion">
+                FAQs
+              </a>
+            </li>
+
+                    <li class="nav__item">
+
+                        <a href="{% url 'store' %}"
+                            class="nav__link">
+
+                            <p data-lang="shopnav">Shop</p>
+
+                        </a>
+
+                    </li>
+
+            <li class="nav__item nav__item--books">
+              <a href="{% url 'book' %}" class="nav__link nav__link--books">
+                <i class="ri-book-open-fill"></i>
+                <p data-lang="booksnav">Books</p>
+              </a>
+            </li>
+          </ul>
+
+          <div class="nav__social">
+            <a
+              href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-facebook-circle-fill"></i>
+            </a>
+
+            <a
+              href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+
+            <!-- <a href="https://www.youtube.com/@Hany_hassan"
+                        target="_blank"
+                        class="nav__social-link">
+                        <i class="ri-youtube-fill"></i>
+                    </a> -->
+
+            <a
+              href="https://snapchat.com/t/gi7bdu8B"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-snapchat-fill"></i>
+            </a>
+          </div>
+
+          <!-- CLOSE BUTTON -->
+
+          <div class="nav__close" id="nav-close">
+            <i class="ri-eye-close-fill"></i>
+          </div>
+        </div>
+
+        <!-- Toggle button -->
+
+        <div class="nav__buttons">
+          <!-- <i class="ri-moon-fill change-theme" id="theme-button"></i> -->
+
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-apps-2-fill"></i>
+          </div>
+
+          <select name="" id="language-selector">
+            <option value="en" selected>En</option>
+
+            <option value="ar">Ar</option>
+          </select>
+        </div>
+      </nav>
+    </header>
+    <!--==================== MAIN ====================-->
+    <main class="main">
+      <div class="scroll-progress"></div>
+
+      <section class="home3 section" id="home3">
+        <div class="home__container3 container grid">
+          <img
+            src="{% static 'images/testo/1.webp' %}"
+            alt=""
+            class="home__img3"
+          />
+
+          <div class="home__data3">
+            <h1 class="home__title">
+              <p style="color: var(--title-color)" data-lang="home31">Meet</p>
+
+              <p style="color: var(--title-color)" data-lang="home3311">
+                Coach Hany Masoud
+              </p>
+            </h1>
+
+            <p data-lang="homep311" class="home__description3">
+              Professional bodybuilding coach with over 8 years of experience
+              helping clients transform their physiques through customized
+              training and nutrition plans. Specialized in building muscle,
+              burning fat, and creating real, visible results that elevate both
+              confidence and performance.
+            </p>
+
+            <a data-lang="button" href="{% url 'pricing' %}" class="button">
+              View Programs
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== ABOUT ====================-->
+
+      <section class="about section" id="about">
+        <div class="about__container container grid">
+          <div class="about__data">
+            <h2 data-lang="about1" class="section__title">About Coach Hany</h2>
+
+            <p data-lang="about22" class="about__description">
+              Coach Hany Masoud is a professional bodybuilding coach and
+              competitive athlete with more than 8 years of coaching experience
+              in Riyadh, Saudi Arabia. Throughout his career, he has helped over
+              500 clients achieve real body transformations through customized
+              training systems, smart nutrition planning, and consistent
+              follow-up. His coaching philosophy is built on practical
+              experience, proven methods, and personal accountability. Whether
+              your goal is building muscle, burning fat, improving performance,
+              or completely transforming your physique, Coach Hany creates a
+              personalized strategy designed specifically for your body,
+              lifestyle, and fitness level. With daily support, regular progress
+              adjustments, and a results-driven approach, his mission is simple:
+              helping every client reach their strongest and best version.
+            </p>
+          </div>
+
+          <img
+            src="{% static 'images/testo/homeimagee2.webp' %}"
+            alt=""
+            class="about__img"
+          />
+        </div>
+      </section>
+      <!--==================== CARE ====================-->
+      <section class="care section" id="care">
+        <h2 class="section__title">
+          <p data-lang="podcast1">PROVEN EXPERIENCE</p>
+
+          <p data-lang="podcast2">REAL TRANSFORMATIONS.</p>
+        </h2>
+
+        <div class="care__container container grid">
+          <img
+            src="{% static 'images/testo/2.webp' %}"
+            alt=""
+            class="care__img"
+          />
+
+          <ul class="care__list">
+            <li class="care__item">
+              <i class="ri-checkbox-fill"></i>
+
+              <p data-lang="podcast3">
+                With over 8 years of professional coaching experience in Riyadh,
+                Coach Hany has helped more than 500 clients build stronger
+                physiques, lose body fat, and achieve measurable fitness
+                results.
+              </p>
+            </li>
+
+            <li class="care__item">
+              <i class="ri-checkbox-fill"></i>
+
+              <p data-lang="podcast4">
+                Every transformation is built through customized training
+                systems, precise nutrition strategies, and daily follow-up
+                designed to keep clients progressing consistently.
+              </p>
+            </li>
+
+            <li class="care__item">
+              <i class="ri-checkbox-fill"></i>
+
+              <p data-lang="podcast5">
+                From coaching programs to practical fitness eBooks, Coach Hany
+                provides proven tools that help clients stay disciplined, train
+                smarter, and maintain long-term results.
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="care__stats container">
+          <div class="care__stat-card">
+            <h3>8+</h3>
+            <p>Years Experience</p>
+          </div>
+
+          <div class="care__stat-card">
+            <h3>500+</h3>
+            <p>Clients Coached</p>
+          </div>
+
+          <div class="care__stat-card">
+            <h3>24/7</h3>
+            <p>Daily Follow-up</p>
+          </div>
+
+          <div class="care__stat-card">
+            <h3>Riyadh</h3>
+            <p>Based in Saudi Arabia</p>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== TESTIMONIAL REALLY ====================-->
+
+      <section
+        class="testimonial section"
+        id="testimonial"
+        data-aos="fade-left"
+      >
+        <h2 data-lang="testimonialh2" class="section__title">Testimonials</h2>
+
+        <div class="testimonial__container container swiper">
+          <div class="swiper-wrapper">
+            <div class="testimonial__card swiper-slide">
+              <img
+                src="{% static 'images/client1_2_11zon.webp' %}"
+                alt=""
+                class="testimonial__img"
+              />
+
+              <h3 data-lang="testimonialname1" class="testimonial__name">
+                Khalid Al Falasi
+              </h3>
+
+              <p data-lang="testimonialp1" class="testimonial__description">
+                Joining was a game-changer! Achieved fitness goals with
+                personalized guidance and remarkable trainer support. The
+                encouraging community made sharing my journey truly rewarding.
+              </p>
+            </div>
+
+            <div class="testimonial__card swiper-slide">
+              <img
+                src="{% static 'images/client3_3_11zon.webp' %}"
+                alt=""
+                class="testimonial__img"
+              />
+
+              <h3 data-lang="testimonialname2" class="testimonial__name">
+                Omar Al Nuaimi
+              </h3>
+
+              <p data-lang="testimonialp2" class="testimonial__description">
+                Transformative experience with an excellent trainer. Your story
+                matters here. Join, share, and let's empower each other!
+              </p>
+            </div>
+
+            <div class="testimonial__card swiper-slide">
+              <img
+                src="{% static 'images/feed4_4_11zon.webp' %}"
+                alt=""
+                class="testimonial__img"
+              />
+
+              <h3 data-lang="testimonialname3" class="testimonial__name">
+                Faisal Al Qassimi
+              </h3>
+
+              <p data-lang="testimonialp3" class="testimonial__description">
+                One of the best decisions. Unparalleled support and inspiration.
+                Don't miss out—join us and share your achievements!
+              </p>
+            </div>
+          </div>
+
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+      <!--==================== Contact ====================-->
+      <!-- <section class="contact section" id="contact">
+            <div class="contact__container grid">
+                <div class="contact__data">
+                    <h2 class="section__title-2">
+                        <span data-lang="comtact">contact me.</span>
+                    </h2>
+                    <p class="contact__description-1">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos error dicta aspernatur? Accusantium, sed? Consectetur.
+                    </p>
+                    <p class="contact__description-2">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates reiciendis officia culpa ipsum commodi id.
+                    </p>
+                    <div class="gometric-box"></div>
+                </div>
+                <div class="contact__mail">
+                    <h2 data-lang="contactsend" class="contact__title">
+                        Send Me A Message
+                    </h2>
+                    <form action="" class="contact__form" id="contact-form">
+                        <div class="contact__group">
+                            <div class="contact__box">
+                                <input type="text" name="user_name" class="contact__input" id="name" required placeholder="Frist Name">
+                                <label data-lang="contactlabel1" for="name" class="contact__label">First Name</label>
+                            </div>
+
+                            <div class="contact__box">
+                                <input type="email" name="user_email" class="contact__input" id="email" required placeholder="Email Address">
+                                <label data-lang="contactlabel2" for="email" class="contact__label">Email Address</label>
+                            </div>
+                        </div>
+                        <div class="contact__box">
+                            <input type="text" name="user_subject" class="contact__input" id="subject" required placeholder="Subject">
+                            <label data-lang="contactlabel3" for="subject" class="contact__label">Subject</label>
+                        </div>
+
+                        <div class="contact__box contact__area">
+                            <textarea name="user_message" id="message" class="contact__input" required placeholder="Message"></textarea>
+                            <label data-lang="contactlabel4" for="message" class="contact__label">Message</label>
+                        </div>
+
+                        <p class="contact__message" id="contact-message">
+
+                        </p>
+
+                        <button data-lang="button4" type="submit" class="contact__button button">
+                        Send Message
+                     </button>
+                    </form>
+                </div>
+                <div class="contact__social">
+                    <img src="images/curved-arrow.svg" alt="" class="contact__social-arrow">
+                    <div class="contact__social-data">
+                        <div>
+                            <p data-lang="contacno" class="contact__social-description-1">
+                                Does not send emails
+                            </p>
+                            <p data-lang="contactyes" class="contact__social-description-2">
+                                Write me on my social networks
+                            </p>
+                        </div>
+
+                        <div class="contact__social-links">
+                            <a href="" target="_blank" class="contact__social-link">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+
+                            <a href="" target="_blank" class="contact__social-link">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+
+                            <a href="" target="_blank" class="contact__social-link">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+
+                            <a href="" target="_blank" class="contact__social-link">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+      <!--==================== accordion ====================-->
+      <section class="accordion container" id="accordion">
+        <h2 data-lang="qustion" class="section__title">
+          Frequently Asked Questions
+        </h2>
+
+        <div class="accordion__container">
+          <div class="accordion__item">
+            <header class="accordion__header">
+              <i class="bx bx-plus accordion__icon"></i>
+
+              <h3 data-lang="qustion1" class="accordion__title">
+                How fast can I start seeing real results?
+              </h3>
+            </header>
+
+            <div class="accordion__content">
+              <p data-lang="ansswer1" class="accordion__description">
+                Results depend on your consistency, but most clients begin
+                noticing real physical changes within the first few weeks thanks
+                to structured training, nutrition guidance, and continuous
+                follow-up.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion__item">
+            <header class="accordion__header">
+              <i class="bx bx-plus accordion__icon"></i>
+
+              <h3 data-lang="qustion2" class="accordion__title">
+                Why train with Coach Hany?
+              </h3>
+            </header>
+
+            <div class="accordion__content">
+              <p data-lang="ansswer2" class="accordion__description">
+                With over 8 years of coaching experience in Riyadh and more than
+                500 successful client transformations, Coach Hany combines real
+                competitive bodybuilding experience with practical coaching
+                systems that deliver measurable results.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion__item">
+            <header class="accordion__header">
+              <i class="bx bx-plus accordion__icon"></i>
+
+              <h3 data-lang="qustion3" class="accordion__title">
+                Will I get personal follow-up during my program?
+              </h3>
+            </header>
+
+            <div class="accordion__content">
+              <p data-lang="ansswer3" class="accordion__description">
+                Yes. Every client receives consistent follow-up, progress
+                tracking, and program adjustments based on results to ensure
+                steady improvement throughout the journey.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion__item">
+            <header class="accordion__header">
+              <i class="bx bx-plus accordion__icon"></i>
+
+              <h3 data-lang="qustion4" class="accordion__title">
+                Is this program suitable for beginners?
+              </h3>
+            </header>
+
+            <div class="accordion__content">
+              <p data-lang="ansswer4" class="accordion__description">
+                Absolutely. Whether you're just starting or already experienced,
+                each training and nutrition plan is customized to match your
+                level, lifestyle, and fitness goals.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion__item">
+            <header class="accordion__header">
+              <i class="bx bx-plus accordion__icon"></i>
+
+              <h3 data-lang="qustion5" class="accordion__title">
+                What will I get from the Fitness eBooks?
+              </h3>
+            </header>
+
+            <div class="accordion__content">
+              <p data-lang="ansswer5" class="accordion__description">
+                You’ll get practical workout systems and nutrition guides packed
+                with easy-to-follow strategies, high-protein recipes, and
+                structured plans designed to help you build muscle, burn fat,
+                and stay consistent.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!--==================== FOOTER ====================-->
+
+    <footer class="footer" id="footer">
+      <div class="row">
+        <div class="col">
+          <a href="{% url 'index' %}">
+            <img
+              src="{% static 'images/testo/logo.webp' %}"
+              alt=""
+              class="logo"
+            />
+          </a>
+
+          <p data-lang="footerp">
+            Coach Hany Masoud — Transforming bodies through expert coaching,
+            smart nutrition, and real results.
+          </p>
+        </div>
+
+        <div class="col">
+          <h3 data-lang="footerh31">
+            Main Menu
+
+            <div class="underline">
+              <span></span>
+            </div>
+          </h3>
+
+          <ul>
+            <li>
+              <a data-lang="home" href="{% url 'index' %}"> Home </a>
+            </li>
+            <li>
+                <a data-lang="shopnav"
+                   href="{% url 'store' %}">
+                    Shop
+                </a>
+            </li>
+
+            <li>
+              <a data-lang="transformation" href="{% url 'index' %}#tranding">
+                Transformation
+              </a>
+            </li>
+
+            <li>
+              <a data-lang="pricing" href="{% url 'pricing' %}"> Pricing </a>
+            </li>
+
+            <li>
+              <a data-lang="footer" href="#footer"> Footer </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3 data-lang="footerh32">
+            Information
+
+            <div class="underline">
+              <span></span>
+            </div>
+          </h3>
+
+          <ul>
+            <li>
+              <a data-lang="about" href="{% url 'about' %}"> About </a>
+            </li>
+
+            <li>
+              <a data-lang="accordion" href="#accordion"> FAQs </a>
+            </li>
+
+            <li>
+              <a data-lang="testimonial" href="{% url 'about' %}#testimonial">
+                Testimonial
+              </a>
+            </li>
+
+            <li>
+              <a data-lang="contact" href="#contact"> Contact </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3 data-lang="footerh33">
+            Social Media
+
+            <div class="underline">
+              <span></span>
+            </div>
+          </h3>
+
+          <div class="contact__social-links">
+            <a
+              href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+              target="_blank"
+              class="contact__social-link"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+
+            <a
+              href="https://snapchat.com/t/gi7bdu8B"
+              target="_blank"
+              class="contact__social-link"
+            >
+              <i class="ri-snapchat-fill"></i>
+            </a>
+
+            <a
+              href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+              target="_blank"
+              class="contact__social-link"
+            >
+              <i class="ri-facebook-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <p class="copyright">
+        Created By
+        <a href="https://wa.me/201012872008" class="moalramly"> MOAlramaly </a>
+        © 2026 - All Rights Reserved
+      </p>
+    </footer>
+    <a href="https://wa.me/966578079833" class="whatsapp">
+      <i class="ri-whatsapp-fill"></i>
+    </a>
+    <!--=============== SCROLL UP ===============-->
+    <a href="{% url 'index' %}#home" class="scrollup" id="scroll-up">
+      <i class="ri-arrow-up-double-fill"></i>
+    </a>
+
+    <script>
+      window.addEventListener("scroll", () => {
+        const winScroll = document.documentElement.scrollTop;
+
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+
+        const scrolled = (winScroll / height) * 100;
+
+        document.querySelector(".scroll-progress").style.height =
+          scrolled + "%";
+      });
+    </script>
+
+    <!--========== SCROLL UP ==========-->
+
+    <!-- <script src="{% static 'js/nav.js' %}"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+
+    <!--=============== SCROLLREVEAL ===============-->
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+    <script src="{% static 'js/language.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+    <script>
+      tsParticles.load("tsparticles", {
+        particles: {
+          number: {
+            value: 100,
+          },
+
+          color: {
+            value: "#c75b16",
+          },
+
+          move: {
+            enable: true,
+            speed: 1,
+          },
+
+          size: {
+            value: 2,
+          },
+        },
+      });
+    </script>
+
+    <!--=============== MAIN JS ===============-->
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

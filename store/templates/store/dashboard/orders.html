@@ -1,0 +1,121 @@
+{% extends "store/dashboard/base.html" %}
+{% load store_extras %}
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+
+<div class="dash-panel" style="margin-top:0;">
+    <form method="get" class="dash-filters">
+        <input type="text" name="q" value="{{ q }}" placeholder="Order #, name, phone, email"
+               style="min-width:220px;">
+
+        <select name="status">
+            <option value="">All statuses</option>
+            {% for value, label in order_status_choices %}
+            <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="payment_status">
+            <option value="">All payments</option>
+            {% for value, label in payment_status_choices %}
+            <option value="{{ value }}" {% if payment_status == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="country">
+            <option value="">All countries</option>
+            {% for code, config in country_choices %}
+            <option value="{{ code }}" {% if country == code %}selected{% endif %}>{{ config.label }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="date" name="from" value="{{ date_from }}">
+        <span style="color:var(--dash-muted);font-size:.8rem;">to</span>
+        <input type="date" name="to" value="{{ date_to }}">
+
+        <button type="submit" class="dash-btn dash-btn--primary"><i class="ri-search-line"></i> Filter</button>
+        {% if q or status or payment_status or country or date_from or date_to %}
+        <a href="{% url 'dashboard_orders' %}" class="dash-btn">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head">
+        <h2>{{ page_obj.paginator.count }} order{{ page_obj.paginator.count|pluralize }}</h2>
+    </div>
+
+    {% if page_obj.object_list %}
+    <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Country</th>
+                    <th>Delivery</th>
+                    <th>Payment</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in page_obj.object_list %}
+                <tr onclick="window.location='{% url 'dashboard_order_detail' order.order_number %}'" style="cursor:pointer;">
+                    <td>
+                        {{ order.order_number }}
+                        {% if order.has_meal_items %}
+                        <span class="dash-badge" style="background:rgba(214,106,31,.15);color:var(--dash-accent);">Meal</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.created_at|date:"d M, H:i" }}</td>
+                    <td>{{ order.full_name }}<br><span style="color:var(--dash-muted);font-size:.76rem;">{{ order.phone }}</span></td>
+                    <td>{{ order.get_country_display }}</td>
+                    <td>
+                        {% if order.delivery_date %}
+                        {{ order.delivery_date|date:"d M" }}{% if order.delivery_slot %} &middot; {{ order.delivery_slot.start_time|time:"H:i" }}{% endif %}
+                        {% else %}
+                        &mdash;
+                        {% endif %}
+                    </td>
+                    <td><span class="dash-badge dash-badge--{{ order.payment_status }}">{{ order.get_payment_status_display }}</span></td>
+                    <td>{{ order.total_price|money:order.currency }}</td>
+                    <td><span class="dash-badge dash-badge--{{ order.order_status }}">{{ order.get_order_status_display }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="dash-pagination">
+        {% if page_obj.has_previous %}
+        <a class="dash-btn" href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">
+            <i class="ri-arrow-left-line"></i>
+        </a>
+        {% endif %}
+        <span class="dash-btn" style="pointer-events:none;">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+        <a class="dash-btn" href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">
+            <i class="ri-arrow-right-line"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="dash-empty">
+        <i class="ri-inbox-line"></i>
+        <p>No orders match these filters.</p>
+        {% if q or status or payment_status or country or date_from or date_to %}
+        <a href="{% url 'dashboard_orders' %}" class="dash-btn">Clear filters</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

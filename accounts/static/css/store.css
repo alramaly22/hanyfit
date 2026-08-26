@@ -1,0 +1,1814 @@
+/* ===========================================================================
+   HANY APPAREL — store styles
+   ---------------------------------------------------------------------------
+   Built on the tokens already defined in master.css (--first-color,
+   --container-color, --title-color and friends) so the shop reads as part of
+   the same site rather than a bolted-on storefront.
+
+   Everything is namespaced .shop-* to guarantee it cannot collide with the
+   existing .store-* / .checkout-* rules elsewhere in the codebase.
+
+   Structure
+     1  Tokens and base
+     2  Header additions (bag button)
+     3  Flash messages and toasts
+     4  Shared pieces (eyebrow, section head, buttons, badges)
+     5  Catalogue grid and product card
+     6  Product detail
+     7  Cart
+     8  Checkout
+     9  Order and payment result
+    10  Responsive
+    11  Motion and focus preferences
+   =========================================================================== */
+
+/* ============================ 1. TOKENS ================================= */
+
+:root {
+    --shop-surface: #0e0e0e;
+    --shop-surface-raised: #151515;
+    --shop-line: rgba(214, 106, 31, .16);
+    --shop-line-soft: rgba(255, 255, 255, .07);
+    --shop-muted: #8d8078;
+    --shop-success: #2ecc71;
+    --shop-danger: #e05c4a;
+    --shop-warning: #e2a03f;
+
+    /* Echoes the asymmetric radius of .button (4rem 0) at panel scale. */
+    --shop-radius: 1.5rem 0;
+    --shop-radius-sm: .75rem 0;
+    --shop-radius-plain: 14px;
+
+    --shop-gap: 1.5rem;
+    --shop-max: 1180px;
+    --shop-ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+.shop-body {
+    background-color: var(--body-color);
+    color: var(--text-color);
+    font-family: var(--body-font);
+}
+
+.shop-main {
+    padding-top: calc(var(--header-height) + 2.5rem);
+    padding-bottom: 4rem;
+    min-height: 70vh;
+}
+
+.shop-container {
+    width: min(100% - 2.5rem, var(--shop-max));
+    margin-inline: auto;
+}
+
+.shop-section {
+    padding-block: 2.5rem;
+}
+
+/* ====================== 2. HEADER ADDITIONS ============================= */
+
+.shop-bag-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: var(--title-color);
+    font-size: 1.35rem;
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid var(--shop-line);
+    transition: color .3s var(--shop-ease), background-color .3s var(--shop-ease);
+}
+
+.shop-bag-button:hover,
+.shop-bag-button:focus-visible {
+    color: var(--first-color-light);
+    background: rgba(214, 106, 31, .14);
+}
+
+.shop-bag-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding-inline: 5px;
+    border-radius: 999px;
+    background: var(--first-color);
+    color: #fff;
+    font-size: .68rem;
+    font-weight: var(--font-bold);
+    display: grid;
+    place-items: center;
+    line-height: 1;
+    transition: transform .35s var(--shop-ease);
+}
+
+.shop-bag-count.is-empty {
+    display: none;
+}
+
+.shop-bag-count.is-bumped {
+    transform: scale(1.35);
+}
+
+/* =================== 3. FLASH MESSAGES AND TOASTS ======================= */
+
+.shop-flash {
+    width: min(100% - 2.5rem, var(--shop-max));
+    margin: calc(var(--header-height) + 1.25rem) auto 0;
+    display: grid;
+    gap: .6rem;
+}
+
+.shop-flash + .shop-main {
+    padding-top: 1.5rem;
+}
+
+.shop-flash__item {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .85rem 1.1rem;
+    border-radius: var(--shop-radius-plain);
+    background: var(--shop-surface-raised);
+    border-left: 3px solid var(--first-color);
+    color: var(--title-color);
+    font-size: var(--small-font-size);
+}
+
+.shop-flash__item i {
+    font-size: 1.1rem;
+    color: var(--first-color);
+    flex-shrink: 0;
+}
+
+.shop-flash__item p {
+    margin: 0;
+}
+
+.shop-flash__item--error {
+    border-left-color: var(--shop-danger);
+}
+
+.shop-flash__item--error i {
+    color: var(--shop-danger);
+}
+
+.shop-flash__item--success {
+    border-left-color: var(--shop-success);
+}
+
+.shop-flash__item--success i {
+    color: var(--shop-success);
+}
+
+.shop-toast-host {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%);
+    z-index: 1200;
+    display: grid;
+    gap: .5rem;
+    width: min(92vw, 380px);
+    pointer-events: none;
+}
+
+.shop-toast {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .8rem 1rem;
+    border-radius: var(--shop-radius-plain);
+    background: #1b1b1b;
+    border: 1px solid var(--shop-line);
+    color: var(--title-color);
+    font-size: var(--small-font-size);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .55);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .3s var(--shop-ease), transform .3s var(--shop-ease);
+}
+
+.shop-toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.shop-toast i {
+    color: var(--first-color);
+    font-size: 1.15rem;
+}
+
+.shop-toast--error i {
+    color: var(--shop-danger);
+}
+
+/* ======================= 4. SHARED PIECES =============================== */
+
+.shop-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: var(--tiny-font-size);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--first-color);
+    font-weight: var(--font-bold);
+    margin-bottom: .9rem;
+}
+
+.shop-eyebrow::before {
+    content: "";
+    width: 26px;
+    height: 1px;
+    background: var(--first-color);
+}
+
+.shop-title {
+    font-size: clamp(2rem, 6vw, 3.25rem);
+    line-height: 1.05;
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    letter-spacing: -.01em;
+}
+
+.shop-subtitle {
+    max-width: 56ch;
+    margin-top: 1rem;
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+.shop-h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+}
+
+.shop-h3 {
+    font-size: 1.05rem;
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    letter-spacing: .02em;
+}
+
+.shop-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: var(--small-font-size);
+    color: var(--shop-muted);
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+}
+
+.shop-breadcrumb a {
+    color: var(--shop-muted);
+    transition: color .3s var(--shop-ease);
+}
+
+.shop-breadcrumb a:hover {
+    color: var(--first-color-light);
+}
+
+.shop-breadcrumb span[aria-current] {
+    color: var(--title-color);
+}
+
+/* Buttons ---------------------------------------------------------------- */
+
+.shop-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    padding: .95rem 1.6rem;
+    border: none;
+    border-radius: 4rem 0;
+    border-left: 4px solid var(--first-color);
+    background: var(--gradient-color);
+    color: var(--white-color);
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    text-align: center;
+    transition: box-shadow .4s var(--shop-ease), transform .3s var(--shop-ease);
+}
+
+.shop-btn:hover:not(:disabled),
+.shop-btn:focus-visible:not(:disabled) {
+    box-shadow: 0 0 18px rgba(214, 106, 31, .28), 0 0 35px rgba(214, 106, 31, .12);
+    transform: translateY(-3px);
+}
+
+.shop-btn:disabled,
+.shop-btn.is-busy {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.shop-btn--primary {
+    background: linear-gradient(120deg, var(--first-color) 0%, var(--first-color-dark) 100%);
+    border-left-color: var(--first-color-light);
+}
+
+.shop-btn--ghost {
+    background: transparent;
+    border: 1px solid var(--shop-line);
+    border-left-width: 1px;
+    color: var(--title-color);
+    border-radius: var(--shop-radius-plain);
+}
+
+.shop-btn--ghost:hover {
+    border-color: var(--first-color);
+    color: var(--first-color-light);
+}
+
+.shop-btn--block {
+    width: 100%;
+}
+
+.shop-btn--lg {
+    padding: 1.1rem 2rem;
+    font-size: 1.02rem;
+}
+
+.shop-link-quiet {
+    color: var(--shop-muted);
+    font-size: var(--small-font-size);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.shop-link-quiet:hover {
+    color: var(--first-color-light);
+}
+
+/* Badges ----------------------------------------------------------------- */
+
+.shop-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .3rem .65rem;
+    border-radius: 999px;
+    font-size: var(--tiny-font-size);
+    font-weight: var(--font-bold);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.shop-badge--sale {
+    background: var(--first-color);
+    color: #fff;
+}
+
+.shop-badge--sold-out {
+    background: rgba(255, 255, 255, .1);
+    color: var(--shop-muted);
+}
+
+.shop-badge--low {
+    background: rgba(226, 160, 63, .16);
+    color: var(--shop-warning);
+}
+
+.shop-badge--paid {
+    background: rgba(46, 204, 113, .15);
+    color: var(--shop-success);
+}
+
+.shop-badge--pending {
+    background: rgba(226, 160, 63, .16);
+    color: var(--shop-warning);
+}
+
+.shop-badge--failed {
+    background: rgba(224, 92, 74, .16);
+    color: var(--shop-danger);
+}
+
+/* Price ------------------------------------------------------------------ */
+
+.shop-price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: .55rem;
+    flex-wrap: wrap;
+}
+
+.shop-price__now {
+    color: var(--first-color-light);
+    font-weight: var(--font-bold);
+    font-size: 1.2rem;
+}
+
+.shop-price__was {
+    color: var(--shop-muted);
+    text-decoration: line-through;
+    font-size: .9rem;
+}
+
+/* ===================== 5. CATALOGUE AND CARDS =========================== */
+
+.shop-hero {
+    position: relative;
+    padding-block: 1rem 2.5rem;
+    text-align: center;
+}
+
+.shop-hero .shop-eyebrow {
+    justify-content: center;
+}
+
+.shop-hero .shop-subtitle {
+    margin-inline: auto;
+}
+
+.shop-hero__meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--shop-line-soft);
+}
+
+.shop-hero__meta div {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    font-size: var(--small-font-size);
+    color: var(--text-color);
+}
+
+.shop-hero__meta i {
+    color: var(--first-color);
+    font-size: 1.25rem;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+    gap: var(--shop-gap);
+    margin-top: 2.5rem;
+}
+
+.shop-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius);
+    overflow: hidden;
+    transition: transform .45s var(--shop-ease), border-color .45s var(--shop-ease),
+        box-shadow .45s var(--shop-ease);
+}
+
+.shop-card:hover,
+.shop-card:focus-within {
+    transform: translateY(-6px);
+    border-color: var(--shop-line);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, .5);
+}
+
+/* Signature interaction: the garment turns to show its back. On desktop it
+   happens on hover, on touch devices via the explicit turn button below. */
+.shop-card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: #0a0a0a;
+    overflow: hidden;
+    display: block;
+}
+
+.shop-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: inherit;
+    transition: opacity .5s var(--shop-ease), transform .7s var(--shop-ease);
+}
+
+.shop-card__img--back {
+    opacity: 0;
+}
+
+@media (hover: hover) {
+    .shop-card:hover .shop-card__img--front {
+        opacity: 0;
+    }
+
+    .shop-card:hover .shop-card__img--back {
+        opacity: 1;
+    }
+
+    .shop-card:hover .shop-card__img {
+        transform: scale(1.04);
+    }
+}
+
+/* Touch: state is toggled by store.js instead of hover. */
+.shop-card.is-turned .shop-card__img--front {
+    opacity: 0;
+}
+
+.shop-card.is-turned .shop-card__img--back {
+    opacity: 1;
+}
+
+.shop-card__turn {
+    position: absolute;
+    bottom: .75rem;
+    right: .75rem;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .4rem .7rem;
+    border: 1px solid var(--shop-line);
+    border-radius: 999px;
+    background: rgba(5, 5, 5, .72);
+    backdrop-filter: blur(6px);
+    color: var(--title-color);
+    font-size: var(--tiny-font-size);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.shop-card__turn i {
+    font-size: .95rem;
+    color: var(--first-color);
+}
+
+@media (hover: hover) {
+    .shop-card__turn {
+        display: none;
+    }
+}
+
+.shop-card__flags {
+    position: absolute;
+    top: .8rem;
+    left: .8rem;
+    z-index: 3;
+    display: grid;
+    gap: .4rem;
+    justify-items: start;
+}
+
+.shop-card__body {
+    padding: 1.25rem 1.25rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    flex: 1;
+}
+
+.shop-card__name {
+    font-size: 1.1rem;
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    line-height: 1.3;
+}
+
+.shop-card__name a {
+    color: inherit;
+}
+
+.shop-card__name a:hover {
+    color: var(--first-color-light);
+}
+
+.shop-card__desc {
+    font-size: var(--small-font-size);
+    line-height: 1.6;
+    color: var(--text-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.shop-card__sizes {
+    display: flex;
+    gap: .35rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+.shop-size-chip {
+    min-width: 34px;
+    padding: .3rem .5rem;
+    text-align: center;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: 8px;
+    font-size: var(--tiny-font-size);
+    color: var(--text-color);
+    letter-spacing: .06em;
+}
+
+.shop-size-chip--out {
+    opacity: .35;
+    text-decoration: line-through;
+}
+
+.shop-card__actions {
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+}
+
+.shop-card__actions .shop-btn {
+    flex: 1;
+    padding-block: .8rem;
+}
+
+.shop-empty {
+    text-align: center;
+    padding: 4rem 1.5rem;
+    border: 1px dashed var(--shop-line);
+    border-radius: var(--shop-radius);
+    background: var(--shop-surface);
+}
+
+.shop-empty i {
+    font-size: 2.75rem;
+    color: var(--first-color);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.shop-empty h2 {
+    color: var(--title-color);
+    margin-bottom: .6rem;
+    font-size: 1.35rem;
+}
+
+.shop-empty p {
+    color: var(--text-color);
+    max-width: 42ch;
+    margin: 0 auto 1.75rem;
+    line-height: 1.7;
+}
+
+/* Reassurance strip ------------------------------------------------------ */
+
+.shop-assurance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 1rem;
+    margin-top: 3.5rem;
+}
+
+.shop-assurance__item {
+    padding: 1.4rem;
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius-sm);
+}
+
+.shop-assurance__item i {
+    font-size: 1.5rem;
+    color: var(--first-color);
+}
+
+.shop-assurance__item h3 {
+    color: var(--title-color);
+    font-size: .98rem;
+    margin: .6rem 0 .35rem;
+}
+
+.shop-assurance__item p {
+    font-size: var(--small-font-size);
+    line-height: 1.6;
+    color: var(--shop-muted);
+    margin: 0;
+}
+
+/* ======================= 6. PRODUCT DETAIL ============================== */
+
+.shop-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.shop-gallery {
+    display: grid;
+    gap: .75rem;
+}
+
+.shop-gallery__stage {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: #0a0a0a;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius);
+    overflow: hidden;
+}
+
+.shop-gallery__stage img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: inherit;
+    opacity: 0;
+    transition: opacity .45s var(--shop-ease);
+}
+
+.shop-gallery__stage img.is-active {
+    opacity: 1;
+}
+
+.shop-gallery__thumbs {
+    display: flex;
+    gap: .6rem;
+}
+
+.shop-thumb {
+    width: 68px;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0a0a0a;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color .3s var(--shop-ease), opacity .3s var(--shop-ease);
+    opacity: .6;
+}
+
+.shop-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.shop-thumb.is-active,
+.shop-thumb:hover {
+    border-color: var(--first-color);
+    opacity: 1;
+}
+
+.shop-buy {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius);
+    padding: 2rem;
+}
+
+.shop-buy__name {
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    line-height: 1.15;
+    margin-bottom: .75rem;
+}
+
+.shop-buy__price {
+    margin-bottom: 1.25rem;
+}
+
+.shop-buy__price .shop-price__now {
+    font-size: 1.7rem;
+}
+
+.shop-buy__desc {
+    color: var(--text-color);
+    line-height: 1.75;
+    font-size: var(--normal-font-size);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--shop-line-soft);
+    white-space: pre-line;
+}
+
+.shop-field {
+    margin-bottom: 1.5rem;
+}
+
+.shop-field__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .7rem;
+}
+
+.shop-field__label {
+    font-size: var(--small-font-size);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+}
+
+.shop-field__hint {
+    font-size: var(--small-font-size);
+    color: var(--shop-muted);
+}
+
+.shop-sizes {
+    display: flex;
+    gap: .55rem;
+    flex-wrap: wrap;
+}
+
+/* Radio inputs are visually hidden but still focusable, so the size picker
+   works with a keyboard and reads correctly to a screen reader. */
+.shop-size input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.shop-size {
+    position: relative;
+    display: inline-block;
+}
+
+.shop-size__box {
+    display: grid;
+    place-items: center;
+    min-width: 52px;
+    height: 46px;
+    padding-inline: .75rem;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .02);
+    color: var(--title-color);
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-medium);
+    letter-spacing: .06em;
+    cursor: pointer;
+    transition: border-color .25s var(--shop-ease), background-color .25s var(--shop-ease),
+        color .25s var(--shop-ease);
+}
+
+.shop-size__box:hover {
+    border-color: var(--first-color);
+}
+
+.shop-size input:checked + .shop-size__box {
+    border-color: var(--first-color);
+    background: rgba(214, 106, 31, .16);
+    color: var(--first-color-light);
+}
+
+.shop-size input:focus-visible + .shop-size__box {
+    outline: 2px solid var(--first-color-light);
+    outline-offset: 2px;
+}
+
+.shop-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, .02);
+}
+
+.shop-stepper button {
+    width: 44px;
+    height: 46px;
+    border: none;
+    background: transparent;
+    color: var(--title-color);
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background-color .25s var(--shop-ease), color .25s var(--shop-ease);
+}
+
+.shop-stepper button:hover:not(:disabled) {
+    background: rgba(214, 106, 31, .16);
+    color: var(--first-color-light);
+}
+
+.shop-stepper button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.shop-stepper input {
+    width: 52px;
+    height: 46px;
+    border: none;
+    border-inline: 1px solid var(--shop-line-soft);
+    background: transparent;
+    color: var(--title-color);
+    text-align: center;
+    font-family: var(--body-font);
+    font-size: 16px;  /* see note above: prevents iOS zoom-on-focus */
+    -moz-appearance: textfield;
+}
+
+.shop-stepper input::-webkit-outer-spin-button,
+.shop-stepper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.shop-buy__note {
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+    font-size: var(--small-font-size);
+    color: var(--shop-muted);
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+.shop-buy__note i {
+    color: var(--first-color);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.shop-inline-error {
+    color: var(--shop-danger);
+    font-size: var(--small-font-size);
+    margin-top: .6rem;
+    display: none;
+}
+
+.shop-inline-error.is-visible {
+    display: block;
+}
+
+/* Mobile buy bar --------------------------------------------------------- */
+
+.shop-mobile-bar {
+    display: none;
+}
+
+/* ============================== 7. CART ================================= */
+
+.shop-cart {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.shop-cart__lines {
+    display: grid;
+    gap: 1rem;
+}
+
+.shop-line {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) auto;
+    gap: 1.1rem;
+    padding: 1.1rem;
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius-sm);
+    align-items: center;
+}
+
+.shop-line__media {
+    width: 92px;
+    aspect-ratio: 4 / 5;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0a0a0a;
+}
+
+.shop-line__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.shop-line__name {
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.shop-line__name a {
+    color: inherit;
+}
+
+.shop-line__name a:hover {
+    color: var(--first-color-light);
+}
+
+.shop-line__meta {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-wrap: wrap;
+    margin-top: .35rem;
+    font-size: var(--small-font-size);
+    color: var(--shop-muted);
+}
+
+.shop-line__controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: .85rem;
+    flex-wrap: wrap;
+}
+
+.shop-line__total {
+    text-align: right;
+    color: var(--first-color-light);
+    font-weight: var(--font-bold);
+    white-space: nowrap;
+}
+
+.shop-remove {
+    background: none;
+    border: none;
+    color: var(--shop-muted);
+    cursor: pointer;
+    font-size: var(--small-font-size);
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: 0;
+    transition: color .25s var(--shop-ease);
+}
+
+.shop-remove:hover {
+    color: var(--shop-danger);
+}
+
+/* Summary --------------------------------------------------------------- */
+
+.shop-summary {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line);
+    border-radius: var(--shop-radius);
+    padding: 1.75rem;
+}
+
+.shop-summary__title {
+    font-size: var(--small-font-size);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--first-color);
+    font-weight: var(--font-bold);
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--shop-line-soft);
+}
+
+.shop-summary__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: .55rem;
+    font-size: var(--normal-font-size);
+    color: var(--text-color);
+}
+
+.shop-summary__row strong {
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+}
+
+.shop-summary__row--free strong {
+    color: var(--shop-success);
+}
+
+.shop-summary__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--shop-line-soft);
+}
+
+.shop-summary__total span {
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    font-size: var(--small-font-size);
+}
+
+.shop-summary__total strong {
+    color: var(--first-color-light);
+    font-size: 1.6rem;
+    font-weight: var(--font-bold);
+}
+
+.shop-summary .shop-btn {
+    margin-top: 1.5rem;
+}
+
+/* Free shipping progress: encodes a real number, not decoration. */
+.shop-progress {
+    margin-top: 1.25rem;
+    padding: .9rem 1rem;
+    background: rgba(214, 106, 31, .07);
+    border: 1px solid var(--shop-line);
+    border-radius: 10px;
+}
+
+.shop-progress p {
+    font-size: var(--small-font-size);
+    color: var(--text-color);
+    margin: 0 0 .6rem;
+    line-height: 1.5;
+}
+
+.shop-progress p strong {
+    color: var(--first-color-light);
+}
+
+.shop-progress__track {
+    height: 5px;
+    background: rgba(255, 255, 255, .09);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.shop-progress__bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--first-color-dark), var(--first-color-light));
+    border-radius: 999px;
+    transition: width .5s var(--shop-ease);
+}
+
+/* ============================ 8. CHECKOUT =============================== */
+
+.shop-checkout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.shop-panel {
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius);
+    padding: 1.9rem;
+}
+
+.shop-panel + .shop-panel {
+    margin-top: 1.25rem;
+}
+
+.shop-panel__head {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding-bottom: 1.1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--shop-line-soft);
+}
+
+.shop-panel__step {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(214, 106, 31, .16);
+    color: var(--first-color-light);
+    font-size: var(--small-font-size);
+    font-weight: var(--font-bold);
+}
+
+.shop-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem;
+}
+
+.shop-form-grid--full {
+    grid-template-columns: 1fr;
+}
+
+.shop-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+}
+
+.shop-input-group--full {
+    grid-column: 1 / -1;
+}
+
+.shop-input-group label {
+    font-size: var(--small-font-size);
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+}
+
+.shop-input-group .shop-req {
+    color: var(--first-color);
+}
+
+.shop-input-group input,
+.shop-input-group select,
+.shop-input-group textarea {
+    width: 100%;
+    padding: .85rem 1rem;
+    background: #0a0a0a;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: 10px;
+    color: var(--title-color);
+    font-family: var(--body-font);
+    /* 16px exactly. iOS and iPadOS Safari zoom the page when a focused control
+       is smaller than this, which throws the customer out of the checkout
+       layout mid-typing. Not expressed in rem so a root font change cannot
+       silently drop it below the threshold. */
+    font-size: 16px;
+    transition: border-color .25s var(--shop-ease), box-shadow .25s var(--shop-ease);
+}
+
+.shop-input-group textarea {
+    resize: vertical;
+    min-height: 84px;
+}
+
+.shop-input-group input::placeholder,
+.shop-input-group textarea::placeholder {
+    color: #5f5852;
+}
+
+.shop-input-group input:focus,
+.shop-input-group select:focus,
+.shop-input-group textarea:focus {
+    outline: none;
+    border-color: var(--first-color);
+    box-shadow: 0 0 0 3px rgba(214, 106, 31, .14);
+}
+
+.shop-input-group.has-error input,
+.shop-input-group.has-error select,
+.shop-input-group.has-error textarea {
+    border-color: var(--shop-danger);
+}
+
+.shop-error {
+    font-size: var(--small-font-size);
+    color: var(--shop-danger);
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.shop-errors-top {
+    padding: 1rem 1.15rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    background: rgba(224, 92, 74, .1);
+    border-left: 3px solid var(--shop-danger);
+}
+
+.shop-errors-top p {
+    color: var(--shop-danger);
+    font-size: var(--small-font-size);
+    margin: 0;
+}
+
+/* Payment method cards -------------------------------------------------- */
+
+.shop-pay-options {
+    display: grid;
+    gap: .85rem;
+}
+
+.shop-pay {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+.shop-pay input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.shop-pay__box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.15rem;
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius-plain);
+    background: rgba(255, 255, 255, .02);
+    transition: border-color .25s var(--shop-ease), background-color .25s var(--shop-ease);
+}
+
+.shop-pay__box:hover {
+    border-color: var(--first-color);
+}
+
+.shop-pay input:checked + .shop-pay__box {
+    border-color: var(--first-color);
+    background: rgba(214, 106, 31, .1);
+}
+
+.shop-pay input:focus-visible + .shop-pay__box {
+    outline: 2px solid var(--first-color-light);
+    outline-offset: 2px;
+}
+
+.shop-pay__icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(214, 106, 31, .14);
+    color: var(--first-color-light);
+    font-size: 1.3rem;
+}
+
+.shop-pay__text h4 {
+    color: var(--title-color);
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-bold);
+    margin-bottom: .25rem;
+}
+
+.shop-pay__text p {
+    color: var(--shop-muted);
+    font-size: var(--small-font-size);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.shop-pay--disabled .shop-pay__box {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* Mini order review in the checkout summary ----------------------------- */
+
+.shop-mini-lines {
+    display: grid;
+    gap: .9rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: .5rem;
+    border-bottom: 1px solid var(--shop-line-soft);
+}
+
+.shop-mini {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: .8rem;
+    align-items: center;
+}
+
+.shop-mini__media {
+    width: 52px;
+    aspect-ratio: 4 / 5;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0a0a0a;
+}
+
+.shop-mini__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.shop-mini__name {
+    color: var(--title-color);
+    font-size: var(--small-font-size);
+    font-weight: var(--font-medium);
+    line-height: 1.35;
+}
+
+.shop-mini__meta {
+    color: var(--shop-muted);
+    font-size: var(--tiny-font-size);
+    margin-top: .2rem;
+}
+
+.shop-mini__price {
+    color: var(--title-color);
+    font-size: var(--small-font-size);
+    white-space: nowrap;
+}
+
+.shop-secure-note {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    justify-content: center;
+    margin-top: 1rem;
+    font-size: var(--tiny-font-size);
+    color: var(--shop-muted);
+    letter-spacing: .04em;
+}
+
+.shop-secure-note i {
+    color: var(--shop-success);
+}
+
+/* ================== 9. ORDER AND PAYMENT RESULT ========================= */
+
+.shop-receipt {
+    max-width: 720px;
+    margin-inline: auto;
+}
+
+.shop-result {
+    text-align: center;
+    padding: 2.5rem 1.75rem 2rem;
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-radius: var(--shop-radius) var(--shop-radius) 0 0;
+    border-bottom: none;
+}
+
+.shop-result__mark {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 2.2rem;
+}
+
+.shop-result__mark--success {
+    background: rgba(46, 204, 113, .14);
+    color: var(--shop-success);
+    border: 1px solid rgba(46, 204, 113, .3);
+}
+
+.shop-result__mark--pending {
+    background: rgba(226, 160, 63, .14);
+    color: var(--shop-warning);
+    border: 1px solid rgba(226, 160, 63, .3);
+}
+
+.shop-result__mark--failed {
+    background: rgba(224, 92, 74, .14);
+    color: var(--shop-danger);
+    border: 1px solid rgba(224, 92, 74, .3);
+}
+
+.shop-result h1 {
+    font-size: clamp(1.5rem, 4vw, 2.15rem);
+    color: var(--title-color);
+    margin-bottom: .75rem;
+    line-height: 1.2;
+}
+
+.shop-result p {
+    color: var(--text-color);
+    line-height: 1.75;
+    max-width: 48ch;
+    margin-inline: auto;
+}
+
+.shop-result__ref {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 1.5rem;
+    padding: .6rem 1.1rem;
+    border: 1px dashed var(--shop-line);
+    border-radius: 999px;
+    font-size: var(--small-font-size);
+    color: var(--title-color);
+    letter-spacing: .06em;
+}
+
+.shop-result__ref strong {
+    color: var(--first-color-light);
+}
+
+.shop-receipt__body {
+    background: var(--shop-surface);
+    border: 1px solid var(--shop-line-soft);
+    border-top: 1px solid var(--shop-line-soft);
+    border-radius: 0 0 var(--shop-radius);
+    padding: 1.75rem;
+}
+
+.shop-receipt__section + .shop-receipt__section {
+    margin-top: 1.75rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--shop-line-soft);
+}
+
+.shop-receipt__section h2 {
+    font-size: var(--small-font-size);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--first-color);
+    font-weight: var(--font-bold);
+    margin-bottom: 1.1rem;
+}
+
+.shop-kv {
+    display: grid;
+    gap: .55rem;
+}
+
+.shop-kv div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: var(--normal-font-size);
+}
+
+.shop-kv dt,
+.shop-kv span:first-child {
+    color: var(--shop-muted);
+}
+
+.shop-kv dd,
+.shop-kv span:last-child {
+    color: var(--title-color);
+    text-align: right;
+    margin: 0;
+}
+
+.shop-result__actions {
+    display: flex;
+    gap: .85rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* =========================== 10. RESPONSIVE ============================= */
+
+@media screen and (max-width: 1024px) {
+    .shop-detail {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .shop-buy {
+        position: static;
+    }
+
+    .shop-cart,
+    .shop-checkout {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-summary {
+        position: static;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .shop-main {
+        padding-top: calc(var(--header-height) + 1.5rem);
+    }
+
+    .shop-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: .9rem;
+    }
+
+    .shop-card__body {
+        padding: .9rem .9rem 1.1rem;
+        gap: .55rem;
+    }
+
+    .shop-card__name {
+        font-size: .95rem;
+    }
+
+    .shop-card__desc {
+        display: none;
+    }
+
+    .shop-panel,
+    .shop-summary,
+    .shop-buy {
+        padding: 1.35rem;
+    }
+
+    .shop-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-hero__meta {
+        gap: 1.25rem;
+    }
+
+    /* Cart lines reflow so the image and details sit side by side with the
+       controls underneath, instead of a cramped three-column squeeze. */
+    .shop-line {
+        grid-template-columns: 74px minmax(0, 1fr);
+        gap: .85rem;
+        padding: .9rem;
+    }
+
+    .shop-line__media {
+        width: 74px;
+    }
+
+    .shop-line__total {
+        grid-column: 2;
+        text-align: left;
+    }
+
+    /* Sticky buy bar keeps the primary action in reach on a phone. */
+    .shop-mobile-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: .75rem 1rem;
+        padding-bottom: calc(.75rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(8, 8, 8, .94);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--shop-line);
+    }
+
+    .shop-mobile-bar__price {
+        display: grid;
+        line-height: 1.2;
+    }
+
+    .shop-mobile-bar__price span {
+        font-size: var(--tiny-font-size);
+        color: var(--shop-muted);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+    }
+
+    .shop-mobile-bar__price strong {
+        color: var(--first-color-light);
+        font-size: 1.1rem;
+    }
+
+    .shop-mobile-bar .shop-btn {
+        flex: 1;
+        padding-block: .85rem;
+    }
+
+    .shop-detail-page {
+        padding-bottom: 5.5rem;
+    }
+
+    .whatsapp {
+        bottom: 5.5rem;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-card__desc {
+        display: -webkit-box;
+    }
+
+    .shop-result__actions .shop-btn {
+        width: 100%;
+    }
+}
+
+/* ================= 11. MOTION AND FOCUS PREFERENCES ==================== */
+
+.shop-body a:focus-visible,
+.shop-body button:focus-visible,
+.shop-body input:focus-visible,
+.shop-body select:focus-visible,
+.shop-body textarea:focus-visible {
+    outline: 2px solid var(--first-color-light);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .shop-body *,
+    .shop-body *::before,
+    .shop-body *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .shop-card:hover {
+        transform: none;
+    }
+
+    .shop-btn:hover {
+        transform: none;
+    }
+}
+
+/* Screen-reader-only utility */
+.shop-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* ====================== 2b. COUNTRY SELECTOR ============================= */
+/* Matches .shop-bag-button: same pill shape, same border/hover language,   */
+/* so it reads as part of the header rather than a bolted-on <select>.      */
+
+.shop-country-form {
+    display: inline-flex;
+    align-items: center;
+    margin-inline-start: .6rem;
+}
+
+.shop-country-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    font-family: var(--body-font);
+    font-size: .78rem;
+    font-weight: var(--font-medium);
+    color: var(--title-color);
+
+    background-color: rgba(255, 255, 255, .04);
+    border: 1px solid var(--shop-line);
+    border-radius: 999px;
+
+    padding: .5rem 2rem .5rem 1rem;
+    cursor: pointer;
+    line-height: 1;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23f5d2b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .8rem center;
+    background-size: .6rem;
+
+    transition: border-color .3s var(--shop-ease),
+                background-color .3s var(--shop-ease),
+                color .3s var(--shop-ease);
+}
+
+.shop-country-select:hover,
+.shop-country-select:focus-visible {
+    color: var(--first-color-light);
+    background-color: rgba(214, 106, 31, .14);
+    border-color: var(--first-color);
+    outline: none;
+}
+
+/* Option list styling is browser-limited (no border-radius/background-image
+   inside a native dropdown), but the dark bg + light text keeps it legible
+   instead of falling back to a jarring white system default. */
+.shop-country-select option {
+    background-color: var(--shop-surface);
+    color: var(--title-color);
+}
+
+@media (max-width: 480px) {
+    .shop-country-select {
+        font-size: .52rem;
+        padding: .45rem 1.7rem .45rem .8rem;
+    }
+}

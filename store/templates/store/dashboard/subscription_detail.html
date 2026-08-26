@@ -1,0 +1,75 @@
+{% extends "store/dashboard/base.html" %}
+{% block title %}Subscription #{{ subscription.pk }}{% endblock %}
+
+{% block content %}
+<div class="dash-grid" style="display:grid;grid-template-columns:2fr 1fr;gap:1rem;align-items:start;">
+    <div class="dash-panel">
+        <div class="dash-panel__head"><h2 data-lang="dashsubdeliveries">Deliveries</h2></div>
+        {% if deliveries %}
+        <table class="dash-table">
+            <thead><tr><th data-lang="dashsubdate">Date</th><th data-lang="dashmealsmeal">Meals</th><th data-lang="dashsubdeliverystatus">Status</th><th></th></tr></thead>
+            <tbody>
+                {% for d in deliveries %}
+                <tr>
+                    <td>{{ d.scheduled_date|date:"D, d M Y" }}</td>
+                    <td>{% for m in d.meals.all %}{{ m.name }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</td>
+                    <td><span class="dash-badge dash-badge--{{ d.status }}">{{ d.get_status_display }}</span></td>
+                    <td>
+                        <form method="post" style="display:flex;gap:.4rem;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="set_delivery_status">
+                            <input type="hidden" name="delivery_id" value="{{ d.pk }}">
+                            <select name="delivery_status">
+                                {% for value, label in delivery_status_choices %}
+                                <option value="{{ value }}" {% if d.status == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="dash-btn" data-lang="dashsubupdatestatus">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="dash-empty"><i class="ri-truck-line"></i><p>No deliveries scheduled yet.</p></div>
+        {% endif %}
+    </div>
+
+    <div class="dash-panel">
+        <div class="dash-panel__head"><h2 data-lang="dashsubdetailtitle">Details</h2></div>
+        <p><strong>{{ subscription.full_name }}</strong><br>{{ subscription.phone }}{% if subscription.email %} &middot; {{ subscription.email }}{% endif %}</p>
+        <p>{{ subscription.get_plan_type_display }} &middot; {{ subscription.get_goal_display }} &middot; {{ subscription.meals_per_day }} meal(s)/day</p>
+        <p>{{ subscription.start_date }} &rarr; {{ subscription.end_date }}</p>
+        <p>{{ subscription.city }}, {{ subscription.governorate }}<br>{{ subscription.address }}</p>
+        {% if subscription.delivery_slot %}<p>Delivery time: {{ subscription.delivery_slot.start_time|time:"H:i" }} - {{ subscription.delivery_slot.end_time|time:"H:i" }} (daily)</p>{% endif %}
+        <p>Delivery days: {{ subscription.delivery_weekdays_display }}</p>
+        <p>Price: {{ subscription.price }} EGP{% if subscription.discount_amount %} &minus; {{ subscription.discount_amount }} EGP coupon{% endif %} = <strong>{{ subscription.total_price }} EGP</strong></p>
+        <p>Payment: <span class="dash-badge dash-badge--{{ subscription.payment_status }}">{{ subscription.get_payment_status_display }}</span></p>
+
+        {% if subscription.allergies or subscription.disliked_foods or subscription.dietary_notes %}
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--dash-line);">
+            <p style="color:var(--dash-muted);font-size:.78rem;margin-bottom:.4rem;" data-lang="dashsubpreferences">Preferences</p>
+            {% if subscription.allergies %}<p><i class="ri-alert-line" style="color:var(--dash-danger);"></i> <strong>Allergies:</strong> {{ subscription.allergies }}</p>{% endif %}
+            {% if subscription.disliked_foods %}<p><i class="ri-close-circle-line"></i> <strong>Dislikes:</strong> {{ subscription.disliked_foods }}</p>{% endif %}
+            {% if subscription.dietary_notes %}<p><i class="ri-sticky-note-line"></i> <strong>Notes:</strong> {{ subscription.dietary_notes }}</p>{% endif %}
+        </div>
+        {% endif %}
+
+        <form method="post" style="margin-top:1rem;display:flex;gap:.5rem;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="set_status">
+            <select name="status">
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" data-lang="dashsub{{ value }}" {% if subscription.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="dash-btn dash-btn--primary" data-lang="dashsubupdatestatus">Update status</button>
+        </form>
+
+        <p style="margin-top:1rem;">
+            <a href="{% url 'dashboard_subscriptions' %}" style="color:var(--dash-accent);" data-lang="dashsubback">&larr; Back to Subscriptions</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

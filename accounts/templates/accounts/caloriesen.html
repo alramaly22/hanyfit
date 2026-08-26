@@ -1,0 +1,1007 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/testo/logo.png' %}"
+      type="image/x-icon"
+    />
+    <!--=============== REMIXICONS ===============-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css"
+    />
+
+    <!--=============== SWIPER CSS ===============-->
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/cancel.css' %}" />
+
+    <title>آلة حاسبة لبدائل الطعام سعرات حراريه</title>
+    <script>
+      function calculate(
+        originalAmountId,
+        originalFoodId,
+        replacementFoodId,
+        resultId,
+        resultInputId,
+      ) {
+        const originalAmount = parseFloat(
+          document.getElementById(originalAmountId).value,
+        );
+        const originalFoodValue = parseFloat(
+          document.getElementById(originalFoodId).value,
+        );
+        const replacementFoodValue = parseFloat(
+          document.getElementById(replacementFoodId).value,
+        );
+
+        // حساب كمية البديل باستخدام التناسب
+        const replacementAmount =
+          (originalAmount * replacementFoodValue) / originalFoodValue;
+
+        // عرض النتيجة في حقل الإدخال
+        document.getElementById(resultInputId).value =
+          `${replacementAmount.toFixed(2)} جم`;
+        document.getElementById(resultInputId).style.display = "inline-block"; // عرض مربع النتيجة
+      }
+
+      function showCalculator(type) {
+        const calculators = [
+          "protein",
+          "carbohydrate",
+          "healthyfats",
+          "snack",
+          "fruits",
+          "vegetables",
+          "dairyproducts",
+          "legumes",
+        ];
+        calculators.forEach((calc) => {
+          document.getElementById(calc).style.display = "none";
+        });
+        document.getElementById(type).style.display = "block";
+      }
+
+      function resetCalculator() {
+        document
+          .querySelectorAll('input[type="number"]')
+          .forEach((input) => (input.value = ""));
+        document
+          .querySelectorAll("select")
+          .forEach((select) => (select.selectedIndex = 0));
+        const results = [
+          "resultProtein",
+          "resultCarbohydrate",
+          "resultHealthyFats",
+          "resultSnack",
+          "resultFruits",
+          "resultVegetables",
+          "resultDairy",
+          "resultLegumes",
+        ];
+        results.forEach(
+          (resultId) => (document.getElementById(resultId).innerText = ""),
+        );
+        showCalculator("protein"); // يمكنك تغييرها إلى أي نوع مفضل
+      }
+    </script>
+    <script>
+      function addUnit(input) {
+        const value = input.value.replace(/[^0-9.]/g, ""); // Remove any non-numeric characters
+        input.value = value ? value + "g" : ""; // Append "جم" only if there's a value
+      }
+    </script>
+
+    <style>
+      .equation-container {
+        background-color: #000000;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        margin-top: 5rem;
+        font-family: "Arial", sans-serif;
+      }
+
+      .equation-container h2 {
+        color: #007bff;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .equation-container p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #ffffff;
+        margin-bottom: 15px;
+      }
+
+      .equation {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 15px;
+        background-color: #35353580;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .equation-part {
+        flex: 1;
+      }
+
+      .calculation {
+        flex: 1;
+        text-align: center;
+        background-color: #ffffff2e;
+        border: 1px solid #c3e6cb;
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .formula {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #28a745;
+      }
+
+      .equation-part span,
+      .formula span {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--==================== OPEN SCREEN ====================-->
+    <div class="intro-screen" id="intro-screen">
+      <div class="door left-door"></div>
+      <div class="door right-door"></div>
+
+      <div class="intro-content">
+        <img
+          src="{% static 'images/testo/logo.png' %}"
+          alt=""
+          class="intro-logo"
+        />
+
+        <h1>Food Calculator</h1>
+
+        <button id="openBtn">
+          <i class="ri-lock-unlock-line"></i>
+          Open
+        </button>
+      </div>
+    </div>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'images/testo/logo.png' %}" alt="" />
+        </a>
+
+        {% comment %}
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a href="#home" class="nav__link" data-lang="home"> Home </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#about" class="nav__link" data-lang="about"> About </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#tranding" class="nav__link" data-lang="transformation">
+                Transformation
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#pricing" class="nav__link" data-lang="pricing">
+                Pricing
+              </a>
+            </li>
+
+            <li class="nav__item nav__item--books">
+              <a href="{% url 'book' %}" class="nav__link nav__link--books">
+                <i class="ri-book-open-fill"></i>
+
+                <p data-lang="booksnav">Books</p>
+              </a>
+            </li>
+          </ul>
+
+          <div class="nav__social">
+            <a
+              href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-facebook-circle-fill"></i>
+            </a>
+
+            <a
+              href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+
+            <!--
+                    <a href="https://www.youtube.com/@Hany_hassan"
+                        target="_blank"
+                        class="nav__social-link">
+
+                        <i class="ri-youtube-fill"></i>
+
+                    </a>
+                    -->
+
+            <a
+              href="https://snapchat.com/t/gi7bdu8B"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-snapchat-fill"></i>
+            </a>
+          </div>
+
+          <!--   CLOSE BUTTON  -->
+
+          <div class="nav__close" id="nav-close">
+            <i class="ri-eye-close-fill"></i>
+          </div>
+        </div>
+        {% endcomment %}
+
+        <!--   Toggle button  -->
+
+        <div class="nav__buttons">
+          <!-- <i class="ri-moon-fill change-theme" id="theme-button"></i> -->
+
+          {% comment %}
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-apps-2-fill"></i>
+          </div>
+          {% endcomment %} {% comment %}
+          <select name="" id="language-selector">
+            <option value="en" selected>En</option>
+
+            <option value="ar">Ar</option>
+          </select>
+          {% endcomment %}
+        </div>
+      </nav>
+    </header>
+
+    <!--==================== MAIN ====================-->
+    <main class="main">
+      <!-- <div class="equation-container container">
+            <h2>كيف تستخدم البدائل؟</h2>
+            <p>
+                لنفترض أني كاتبلك 60 جم رز في النظام بتاعك، وانت عاوز تبدله ببطاطس. هنروح لجدول البدائل ونلاقي أن 60 جم رز = 260 جم بطاطس.
+            </p>
+            <p>
+                طب لو مكتوبلك 100 جم رز مش 60 جم؟ وانت عاوز تبدلهم ببطاطس. هنا هنعمل عملية حسابية بسيطة بطريقتين عشان نعرف محتاجين بطاطس قد إيه:
+            </p>
+            <div class="equation">
+                <div class="equation-part">
+                    <p>كمية البطاطس من جدول البدائل = <span>260 جم</span></p>
+                    <p>كمية الرز من جدول البدائل = <span>60 جم</span></p>
+                </div>
+                <div class="calculation">
+                    <p>كمية البطاطس المطلوبة معرفتها:</p>
+                    <p class="formula" style="color: rgb(0, 0, 0)">
+                        260 &times; 100 / 60 = <span>435 جم</span>
+                    </p>
+                </div>
+            </div>
+        </div>  -->
+
+      <div class="section calc2">
+        <h1>آلة حاسبة لبدائل الطعام سعرات حراريه</h1>
+        <div class="somebutton">
+          <button onclick="showCalculator('protein')">بروتين</button>
+          <button onclick="showCalculator('carbohydrate')">كربوهيدرات</button>
+          <button onclick="showCalculator('healthyfats')">دهون صحية</button>
+          <button onclick="showCalculator('fruits')">فواكه</button>
+          <button onclick="showCalculator('vegetables')">خضروات</button>
+          <button onclick="showCalculator('dairyproducts')">
+            منتجات ألبان
+          </button>
+          <button onclick="showCalculator('legumes')">بقوليات</button>
+          <button onclick="showCalculator('snack')">وجبات خفيفة</button>
+        </div>
+        <!-- <button onclick="resetCalculator()">إعادة تعيين</button> -->
+
+        <!-- جدول البروتين -->
+        <div class="calculator food-table" id="protein" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل البروتين</h2>
+
+            <label for="originalFoodProtein">الطعام الأصلي:</label>
+            <select id="originalFoodProtein">
+              <option value="300">Egg Whites</option>
+              <option value="200">Cottage Cheese</option>
+              <option value="120">Salmon</option>
+              <option value="120">Mackerel Fish</option>
+              <option value="120">Tilapia Fish</option>
+              <!-- <option value="120">Sardines</option> -->
+              <option value="120">Mullet Fish</option>
+              <option value="120">Fish Fillet</option>
+              <option value="100">Shrimp</option>
+              <option value="130">Liver</option>
+              <option value="100">Tuna</option>
+              <option value="120">Chicken Breast</option>
+              <option value="120">Chicken Liver</option>
+              <option value="100">Rabbit Meat</option>
+              <option value="120">Red Meat</option>
+              <option value="250">Whole Eggs</option>
+              <option value="100">Chicken Thighs</option>
+              <option value="150">Light Feta Cheese</option>
+              <option value="120">Turkey Slices</option>
+              <option value="120">Roast Beef</option>
+            </select>
+
+            <label for="originalAmountProtein"
+              >كمية الطعام المكتوبة في النظام الغذائي (جم):</label
+            >
+            <div style="position: relative; display: inline-block">
+              <input
+                class="nun"
+                type="number"
+                id="originalAmountProtein"
+                placeholder="ادخل الكمية المكتوبة بالجرام"
+                required
+              />
+              <!-- <span style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">جم</span> -->
+            </div>
+
+            <label for="replacementFoodProtein">البديل المطلوب:</label>
+            <select id="replacementFoodProtein">
+              <option value="300">Egg Whites</option>
+              <option value="200">Cottage Cheese</option>
+              <option value="120">Salmon</option>
+              <option value="120">Mackerel Fish</option>
+              <option value="120">Tilapia Fish</option>
+              <!-- <option value="120">Sardines</option> -->
+              <option value="120">Mullet Fish</option>
+              <option value="120">Fish Fillet</option>
+              <option value="100">Shrimp</option>
+              <option value="130">Liver</option>
+              <option value="100">Tuna</option>
+              <option value="120">Chicken Breast</option>
+              <option value="120">Chicken Liver</option>
+              <option value="100">Rabbit Meat</option>
+              <option value="120">Red Meat</option>
+              <option value="250">Whole Eggs</option>
+              <option value="100">Chicken Thighs</option>
+              <option value="150">Light Feta Cheese</option>
+              <option value="120">Turkey Slices</option>
+              <option value="120">Roast Beef</option>
+            </select>
+
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountProtein',
+                  'originalFoodProtein',
+                  'replacementFoodProtein',
+                  'resultProtein',
+                  'resultInputProtein',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputProtein"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultProtein"></p>
+          </div>
+        </div>
+
+        <!-- جدول الكربوهيدرات -->
+        <div
+          class="calculator food-table"
+          id="carbohydrate"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الكربوهيدرات</h2>
+
+            <label for="originalFoodCarbohydrate">الطعام الأصلي:</label>
+            <select id="originalFoodCarbohydrate">
+              <option value="60">Rice</option>
+              <option value="55">Corn Flakes</option>
+              <option value="65">Pasta / Vermicelli</option>
+              <option value="60">Bulgur</option>
+              <option value="60">Freekeh</option>
+              <!-- <option value="90">Fino Bread</option> -->
+              <!-- <option value="85">Shami Bread</option> -->
+              <!-- <option value="100">Baladi Bread</option> -->
+              <!-- <option value="90">Kaiser Roll</option> -->
+              <option value="90">White Toast</option>
+              <option value="90">Brown Toast</option>
+              <option value="90">Grilled Corn Cob</option>
+              <option value="260">Potatoes</option>
+              <option value="180">Taro</option>
+              <option value="260">Sweet Potatoes</option>
+              <option value="60">Quinoa</option>
+              <option value="60">Oats</option>
+              <!-- <option value="60">Bread Crumbs</option> -->
+              <option value="60">Boiled Wheat</option>
+              <option value="65">Popcorn</option>
+              <option value="80">Tortilla</option>
+              <option value="65">Pasta Before Cooking</option>
+              <option value="153">Pasta After Cooking</option>
+            </select>
+            <!-- <label for="originalAmountCarbohydrate">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountCarbohydrate"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodCarbohydrate">البديل المطلوب:</label>
+            <select id="replacementFoodCarbohydrate">
+              <option value="60">Rice</option>
+              <option value="55">Corn Flakes</option>
+              <option value="65">Pasta / Vermicelli</option>
+              <option value="60">Bulgur</option>
+              <option value="60">Freekeh</option>
+              <!-- <option value="90">Fino Bread</option> -->
+              <!-- <option value="85">Shami Bread</option> -->
+              <!-- <option value="100">Baladi Bread</option> -->
+              <!-- <option value="90">Kaiser Roll</option> -->
+              <option value="90">White Toast</option>
+              <option value="90">Brown Toast</option>
+              <option value="90">Grilled Corn Cob</option>
+              <option value="260">Potatoes</option>
+              <option value="180">Taro</option>
+              <option value="260">Sweet Potatoes</option>
+              <option value="60">Quinoa</option>
+              <option value="60">Oats</option>
+              <!-- <option value="60">Bread Crumbs</option> -->
+              <option value="60">Boiled Wheat</option>
+              <option value="65">Popcorn</option>
+              <option value="80">Tortilla</option>
+              <option value="65">Pasta Before Cooking</option>
+              <option value="153">Pasta After Cooking</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountCarbohydrate',
+                  'originalFoodCarbohydrate',
+                  'replacementFoodCarbohydrate',
+                  'resultCarbohydrate',
+                  'resultInputCarbohydrate',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputCarbohydrate"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultCarbohydrate"></p>
+          </div>
+        </div>
+
+        <!-- جدول الدهون الصحية -->
+        <div
+          class="calculator food-table"
+          id="healthyfats"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الدهون الصحية</h2>
+
+            <label for="originalFoodHealthyFats">الطعام الأصلي:</label>
+            <select id="originalFoodHealthyFats">
+              <option value="20">Almonds</option>
+              <option value="20">Cashews</option>
+              <option value="20">Hazelnuts</option>
+              <option value="20">Peanuts</option>
+              <option value="20">Pecans</option>
+              <option value="20">Pistachios</option>
+              <option value="4">Olive Oil</option>
+              <option value="15">Black Olives</option>
+              <option value="60">Avocado</option>
+
+              <!-- Group 2 -->
+              <option value="20">Walnuts</option>
+              <option value="4">Vegetable Oil</option>
+              <option value="20">Flax Seeds</option>
+              <option value="20">Chia Seeds</option>
+
+              <!-- Group 3 -->
+              <option value="15">Natural Butter</option>
+              <option value="4">Margarine</option>
+              <option value="4">Coconut Oil</option>
+              <!-- أضف المزيد من الأطعمة حسب الجدول المتوفر لديك -->
+            </select>
+
+            <!-- <label for="originalAmountHealthyFats">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountHealthyFats"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodHealthyFats">البديل المطلوب:</label>
+            <select id="replacementFoodHealthyFats">
+              <option value="20">Almonds</option>
+              <option value="20">Cashews</option>
+              <option value="20">Hazelnuts</option>
+              <option value="20">Peanuts</option>
+              <option value="20">Pecans</option>
+              <option value="20">Pistachios</option>
+              <option value="4">Olive Oil</option>
+              <option value="15">Black Olives</option>
+              <option value="60">Avocado</option>
+
+              <!-- Group 2 -->
+              <option value="20">Walnuts</option>
+              <option value="4">Vegetable Oil</option>
+              <option value="20">Flax Seeds</option>
+              <option value="20">Chia Seeds</option>
+
+              <!-- Group 3 -->
+              <option value="15">Natural Butter</option>
+              <option value="4">Margarine</option>
+              <option value="4">Coconut Oil</option>
+              <!-- أضف المزيد من الأطعمة حسب الجدول المتوفر لديك -->
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountHealthyFats',
+                  'originalFoodHealthyFats',
+                  'replacementFoodHealthyFats',
+                  'resultHealthyFats',
+                  'resultInputHealthyFats',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputHealthyFats"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultHealthyFats"></p>
+          </div>
+        </div>
+
+        <!-- جدول الوجبات الخفيفة (snack) -->
+
+        <!-- جدول الفواكه -->
+        <div class="calculator food-table" id="fruits" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الفواكه</h2>
+
+            <label for="originalFoodFruits">الطعام الأصلي:</label>
+            <select id="originalFoodFruits">
+              <option value="100">Apple</option>
+              <option value="200">Watermelon</option>
+              <option value="100">Pear</option>
+              <option value="85">Cape Gooseberry</option>
+              <option value="100">Mandarin</option>
+              <option value="100">Prickly Pear</option>
+              <option value="85">Berries</option>
+              <option value="65">Persimmon</option>
+              <option value="85">Fig (Brashomy)</option>
+              <option value="100">Orange</option>
+              <option value="200">Strawberry</option>
+              <option value="100">Mango</option>
+              <option value="100">Kiwi</option>
+              <option value="100">Pineapple</option>
+              <option value="80">Grapes</option>
+              <option value="85">Plum</option>
+              <option value="100">Guava</option>
+              <option value="200">Melon</option>
+              <option value="200">Cantaloupe</option>
+              <option value="100">Peach</option>
+              <option value="85">Pomegranate</option>
+              <option value="100">Apricot</option>
+              <option value="20">Dates</option>
+              <option value="60">Banana</option>
+              <option value="20">Raisins</option>
+              <option value="20">Prunes</option>
+              <option value="25">Fig</option>
+              <option value="20">Apricot (Dried)</option>
+            </select>
+
+            <!-- <label for="originalAmountFruits">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountFruits"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodFruits">البديل المطلوب:</label>
+            <select id="replacementFoodFruits">
+              <option value="100">Apple</option>
+              <option value="200">Watermelon</option>
+              <option value="100">Pear</option>
+              <option value="85">Cape Gooseberry</option>
+              <option value="100">Mandarin</option>
+              <option value="100">Prickly Pear</option>
+              <option value="85">Berries</option>
+              <option value="65">Persimmon</option>
+              <option value="85">Fig (Brashomy)</option>
+              <option value="100">Orange</option>
+              <option value="200">Strawberry</option>
+              <option value="100">Mango</option>
+              <option value="100">Kiwi</option>
+              <option value="100">Pineapple</option>
+              <option value="80">Grapes</option>
+              <option value="85">Plum</option>
+              <option value="100">Guava</option>
+              <option value="200">Melon</option>
+              <option value="200">Cantaloupe</option>
+              <option value="100">Peach</option>
+              <option value="85">Pomegranate</option>
+              <option value="100">Apricot</option>
+              <option value="20">Dates</option>
+              <option value="60">Banana</option>
+              <option value="20">Raisins</option>
+              <option value="20">Prunes</option>
+              <option value="25">Fig</option>
+              <option value="20">Apricot (Dried)</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountFruits',
+                  'originalFoodFruits',
+                  'replacementFoodFruits',
+                  'resultFruits',
+                  'resultInputFruits',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputFruits"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultFruits"></p>
+          </div>
+        </div>
+
+        <!-- جدول الخضروات -->
+        <div
+          class="calculator food-table"
+          id="vegetables"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الخضروات</h2>
+
+            <label for="originalFoodVegetables">الطعام الأصلي:</label>
+            <select id="originalFoodVegetables">
+              <option value="50">Bell Peppers</option>
+              <option value="100">Lettuce</option>
+              <option value="100">Cucumber</option>
+              <option value="50">Zucchini</option>
+              <option value="50">Okra</option>
+              <option value="100">Arugula</option>
+              <option value="150">Eggplant</option>
+              <option value="50">Green Beans</option>
+              <option value="50">Carrot</option>
+              <option value="100">Cauliflower</option>
+              <option value="50">Beetroot</option>
+              <option value="100">Tomato</option>
+              <option value="100">Mushroom</option>
+              <option value="50">Artichoke</option>
+              <option value="50">Broccoli</option>
+              <option value="50">Molokhia</option>
+              <option value="100">Spinach</option>
+            </select>
+
+            <!-- <label for="originalAmountVegetables">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountVegetables"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodVegetables">البديل المطلوب:</label>
+            <select id="replacementFoodVegetables">
+              <option value="50">Bell Peppers</option>
+              <option value="100">Lettuce</option>
+              <option value="100">Cucumber</option>
+              <option value="50">Zucchini</option>
+              <option value="50">Okra</option>
+              <option value="100">Arugula</option>
+              <option value="150">Eggplant</option>
+              <option value="50">Green Beans</option>
+              <option value="50">Carrot</option>
+              <option value="100">Cauliflower</option>
+              <option value="50">Beetroot</option>
+              <option value="100">Tomato</option>
+              <option value="100">Mushroom</option>
+              <option value="50">Artichoke</option>
+              <option value="50">Broccoli</option>
+              <option value="50">Molokhia</option>
+              <option value="100">Spinach</option>
+            </select>
+
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountVegetables',
+                  'originalFoodVegetables',
+                  'replacementFoodVegetables',
+                  'resultVegetables',
+                  'resultInputVegetables',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputVegetables"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+          </div>
+        </div>
+
+        <!-- جدول منتجات الألبان -->
+        <div
+          class="calculator food-table"
+          id="dairyproducts"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل منتجات الألبان</h2>
+
+            <label for="originalFoodDairy">الطعام الأصلي:</label>
+            <select id="originalFoodDairy">
+              <option value="30">Milk Powder</option>
+              <option value="240">Whole Milk</option>
+              <option value="240">Full Fat Yogurt</option>
+              <option value="240">Skimmed Milk</option>
+              <option value="105">Greek Yogurt 0.2% - Pink</option>
+              <option value="90">Greek Yogurt 2% - Green</option>
+              <option value="49">Greek Yogurt 7% - Red</option>
+              <option value="68">Greek Yogurt 5% - Blue</option>
+            </select>
+
+            <!-- <label for="originalAmountDairy">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountDairy"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodDairy">البديل المطلوب:</label>
+            <select id="replacementFoodDairy">
+              <option value="30">Milk Powder</option>
+              <option value="240">Whole Milk</option>
+              <option value="240">Full Fat Yogurt</option>
+              <option value="240">Skimmed Milk</option>
+              <option value="105">Greek Yogurt 0.2% - Pink</option>
+              <option value="90">Greek Yogurt 2% - Green</option>
+              <option value="49">Greek Yogurt 7% - Red</option>
+              <option value="68">Greek Yogurt 5% - Blue</option>
+            </select>
+
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountDairy',
+                  'originalFoodDairy',
+                  'replacementFoodDairy',
+                  'resultDairy',
+                  'resultInputDairy',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputDairy"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultDairy"></p>
+          </div>
+        </div>
+
+        <!-- جدول البقوليات -->
+        <div class="calculator food-table" id="legumes" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل البقوليات</h2>
+
+            <label for="originalFoodLegumes">الطعام الأصلي:</label>
+            <select id="originalFoodLegumes">
+              <option value="25">Chickpeas</option>
+              <option value="30">Lentils</option>
+              <option value="30">Red Kidney Beans</option>
+              <option value="30">White Beans</option>
+              <option value="30">Cowpeas</option>
+              <option value="30">Fava Beans</option>
+              <option value="50">Lupin Beans</option>
+              <option value="30">Peas</option>
+            </select>
+
+            <!-- <label for="originalAmountLegumes">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountLegumes"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodLegumes">البديل المطلوب:</label>
+            <select id="replacementFoodLegumes">
+              <option value="25">Chickpeas</option>
+              <option value="30">Lentils</option>
+              <option value="30">Red Kidney Beans</option>
+              <option value="30">White Beans</option>
+              <option value="30">Cowpeas</option>
+              <option value="30">Fava Beans</option>
+              <option value="50">Lupin Beans</option>
+              <option value="30">Peas</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountLegumes',
+                  'originalFoodLegumes',
+                  'replacementFoodLegumes',
+                  'resultLegumes',
+                  'resultInputLegumes',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputLegumes"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultLegumes"></p>
+          </div>
+        </div>
+
+        <div class="calculator food-table" id="snack" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الوجبات الخفيفة</h2>
+
+            <label for="originalFoodSnack">الطعام الأصلي:</label>
+            <select id="originalFoodSnack">
+              <option value="50">Protein Bar</option>
+              <option value="100">Lupin Beans</option>
+              <option value="100">Balance Chips</option>
+              <option value="30">Puff Chips</option>
+              <option value="30">Digestive Biscuits</option>
+              <option value="70">Popcorn</option>
+              <option value="50">Dark Chocolate</option>
+            </select>
+
+            <!-- <label for="originalAmountSnack">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountSnack"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodSnack">البديل المطلوب:</label>
+            <select id="replacementFoodSnack">
+              <option value="50">Protein Bar</option>
+              <option value="100">Lupin Beans</option>
+              <option value="100">Balance Chips</option>
+              <option value="30">Puff Chips</option>
+              <option value="30">Digestive Biscuits</option>
+              <option value="70">Popcorn</option>
+              <option value="50">Dark Chocolate</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountSnack',
+                  'originalFoodSnack',
+                  'replacementFoodSnack',
+                  'resultSnack',
+                  'resultInputSnack',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputSnack"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultSnack"></p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      const openBtn = document.getElementById("openBtn");
+      const introScreen = document.getElementById("intro-screen");
+
+      openBtn.addEventListener("click", () => {
+        introScreen.classList.add("open");
+
+        setTimeout(() => {
+          introScreen.classList.add("hide");
+        }, 1300);
+      });
+    </script>
+    <!--=============== MAIN JS ===============-->
+    <script src="{% static 'js/naves.js' %}"></script>
+  <script src="{% static 'js/language.js' %}"></script>
+</body>
+</html>

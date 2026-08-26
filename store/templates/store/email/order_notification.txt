@@ -1,0 +1,49 @@
+{% load store_extras %}{% if reason == 'paid' %}PAYMENT RECEIVED{% else %}NEW ORDER - CASH ON DELIVERY{% endif %}
+==========================================================
+
+ORDER NUMBER   : {{ order.order_number }}
+DATE & TIME    : {% if paid_at %}{{ paid_at|date:"l, j F Y, H:i" }} (paid){% else %}{{ placed_at|date:"l, j F Y, H:i" }} (placed){% endif %}
+PAYMENT STATUS : {{ order.get_payment_status_display|upper }}
+PAYMENT METHOD : {{ order.get_payment_method_display }}
+
+CUSTOMER
+----------------------------------------------------------
+Name     : {{ order.full_name }}
+Phone    : {{ order.phone }}
+Email    : {{ order.email|default:"(not provided)" }}
+
+SHIPPING ADDRESS
+----------------------------------------------------------
+Address     : {{ order.address }}
+City        : {{ order.city }}
+Governorate : {{ order.governorate }}
+{% if order.notes %}Notes       : {{ order.notes }}{% endif %}
+
+ITEMS ({{ item_count }} piece{{ item_count|pluralize }})
+----------------------------------------------------------
+{% for item in items %}{{ forloop.counter }}. {{ item.product_name }}
+   Size     : {{ item.size }}
+   Quantity : {{ item.quantity }}
+   Unit     : {{ item.unit_price|money }}
+   Line     : {{ item.line_total|money }}
+{% endfor %}
+TOTALS
+----------------------------------------------------------
+Subtotal : {{ order.subtotal|money }}
+Shipping : {% if order.shipping_cost %}{{ order.shipping_cost|money }}{% else %}Free{% endif %}
+TOTAL    : {{ order.total_price|money }}
+
+PAYMENT REFERENCE
+----------------------------------------------------------
+{% if order.fawaterk_invoice_id %}Fawaterk invoice ID  : {{ order.fawaterk_invoice_id }}
+{% endif %}{% if order.fawaterk_invoice_key %}Fawaterk invoice key : {{ order.fawaterk_invoice_key }}
+{% endif %}{% if order.fawaterk_reference %}Transaction reference: {{ order.fawaterk_reference }}
+{% endif %}{% if order.fawaterk_payment_method %}Paid with            : {{ order.fawaterk_payment_method }}
+{% endif %}{% if not order.fawaterk_invoice_id %}(Cash on delivery - no online transaction)
+{% endif %}
+
+----------------------------------------------------------
+View this order:
+{{ site_url }}{{ order.get_absolute_url }}
+
+Call the customer: {{ order.phone }}

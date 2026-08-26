@@ -1,0 +1,134 @@
+{% load store_extras %}
+{% comment %}
+Receipt body, shared by the order page and the payment result page so the two
+never drift apart. Expects `order` and `items` in the context.
+{% endcomment %}
+
+<div class="shop-receipt__body">
+
+    <section class="shop-receipt__section">
+        <h2 data-lang="shopitems">Items</h2>
+        <div class="shop-mini-lines" style="border-bottom:none;margin-bottom:0;">
+            {% for item in items %}
+            <div class="shop-mini">
+                <div class="shop-mini__media">
+                    {% if item.image_url %}
+                    <img src="{{ item.image_url }}" alt="{{ item.product_name }}"
+                         loading="lazy" decoding="async">
+                    {% endif %}
+                </div>
+                <div>
+                    <p class="shop-mini__name">{{ item.product_name }}</p>
+                    <p class="shop-mini__meta">
+                        {% if item.item_type == "apparel" %}Size {{ item.size }} · {% endif %}Qty {{ item.quantity }}
+                    </p>
+                    {% if item.item_type == "meal" and order.order_status == "delivered" and item.meal_id %}
+                        {% if item.review %}
+                        <p class="shop-mini__meta">You rated this {{ item.review.rating }}/5</p>
+                        {% else %}
+                        <details style="margin-top:.4rem;">
+                            <summary class="shop-link-quiet" style="cursor:pointer;display:inline;">Rate this meal</summary>
+                            <form method="post" action="{% url 'meals:add_review' order_number=order.order_number token=order.access_token item_id=item.pk %}"
+                                  style="margin-top:.5rem;display:flex;flex-direction:column;gap:.4rem;max-width:280px;">
+                                {% csrf_token %}
+                                <div style="display:flex;gap:.4rem;">
+                                    {% for n in "12345" %}
+                                    <label style="font-size:.85rem;"><input type="radio" name="rating" value="{{ n }}" required> {{ n }}</label>
+                                    {% endfor %}
+                                </div>
+                                <textarea name="comment" rows="2" placeholder="Optional comment" class="shop-input"></textarea>
+                                <button type="submit" class="shop-btn shop-btn--ghost" style="font-size:.8rem;padding:.35rem .7rem;">Submit rating</button>
+                            </form>
+                        </details>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <p class="shop-mini__price">{{ item.line_total|money:order.currency }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="shop-receipt__section">
+        <h2 data-lang="shoptotals">Totals</h2>
+        <div class="shop-kv">
+            <div>
+                <span data-lang="shopsubtotal">Subtotal</span>
+                <span>{{ order.subtotal|money:order.currency }}</span>
+            </div>
+            <div>
+                <span data-lang="shopshippingrow">Delivery</span>
+                <span>
+                    {% if order.shipping_cost %}{{ order.shipping_cost|money:order.currency }}{% else %}Free{% endif %}
+                </span>
+            </div>
+            <div style="padding-top:.5rem;border-top:1px solid var(--shop-line-soft);">
+                <span data-lang="shoptotal"><strong>Total</strong></span>
+                <span style="color:var(--first-color-light);font-weight:700;">
+                    {{ order.total_price|money:order.currency }}
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="shop-receipt__section">
+        <h2 data-lang="shopdelivdetails">Delivery details</h2>
+        <div class="shop-kv">
+            <div>
+                <span data-lang="shopname">Name</span>
+                <span>{{ order.full_name }}</span>
+            </div>
+            <div>
+                <span data-lang="shopphone">Phone</span>
+                <span>{{ order.phone }}</span>
+            </div>
+            {% if order.email %}
+            <div>
+                <span data-lang="shopemail">Email</span>
+                <span>{{ order.email }}</span>
+            </div>
+            {% endif %}
+            <div>
+                <span data-lang="shopaddress">Address</span>
+                <span>{{ order.address }}, {{ order.city }}, {{ order.governorate }}</span>
+            </div>
+            {% if order.notes %}
+            <div>
+                <span data-lang="shopnotes">Notes</span>
+                <span>{{ order.notes }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="shop-receipt__section">
+        <h2 data-lang="shoppayment">Payment</h2>
+        <div class="shop-kv">
+            <div>
+                <span data-lang="shopmethod">Method</span>
+                <span>{{ order.get_payment_method_display }}</span>
+            </div>
+            <div>
+                <span data-lang="shopstatus">Status</span>
+                <span>
+                    <span class="shop-badge {% if order.is_paid %}shop-badge--paid{% elif order.payment_status == 'pending' %}shop-badge--pending{% else %}shop-badge--failed{% endif %}">
+                        {{ order.get_payment_status_display }}
+                    </span>
+                </span>
+            </div>
+            {% if order.paid_at %}
+            <div>
+                <span data-lang="shoppaidat">Paid</span>
+                <span>{{ order.paid_at|date:"j M Y, H:i" }}</span>
+            </div>
+            {% endif %}
+            {% if order.fawaterk_reference %}
+            <div>
+                <span data-lang="shopreference">Reference</span>
+                <span>{{ order.fawaterk_reference }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+</div>

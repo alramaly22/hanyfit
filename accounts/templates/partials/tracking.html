@@ -1,0 +1,67 @@
+{% comment %}
+TikTok Pixel base code.
+
+Included from the <head> of every page. There is no site-wide base template in
+this project (each page is standalone HTML), so this partial is the single
+place the pixel lives: edit it once and every page follows.
+
+The ID comes from the TIKTOK_PIXEL_ID environment variable via the
+store.context_processors.tracking context processor, so the same code runs
+against a test pixel locally and the live pixel in production. If the variable
+is unset the block renders nothing at all, which keeps development traffic out
+of the client's ad reporting.
+
+Only the pixel ID appears here. The Events API access token is secret and stays
+server side in store/services/tiktok.py.
+
+Standard events fired by the store:
+  ViewContent       product detail page
+  AddToCart         add to bag
+  InitiateCheckout  checkout page opened
+  CompletePayment   payment confirmed (TikTok's name for a purchase)
+
+Each of those is also sent server side with a matching event_id so TikTok
+merges the two reports instead of counting the conversion twice.
+{% endcomment %}
+
+{% if TIKTOK_PIXEL_ID %}
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{},n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(n,s)};
+  ttq.load('{{ TIKTOK_PIXEL_ID|escapejs }}');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+{% endif %}
+
+{% comment %}
+Meta (Facebook/Instagram) Pixel base code -- same on/off pattern as TikTok
+above: driven by settings.FACEBOOK_PIXEL_ID (FACEBOOK_PIXEL_ID in .env /
+test_project/credentials.py), renders nothing while that's empty so local
+and test traffic never lands in the client's ad reporting.
+
+Only PageView is fired here (Meta's own base snippet). Store/meals events
+that would map to Meta's standard events (ViewContent, AddToCart,
+InitiateCheckout, Purchase) are not wired up yet -- there is no
+Conversions API (server-side) integration for Meta the way store/services/
+tiktok.py has one for TikTok, so anything added here would be client-side
+pixel calls only, and easy to ask for separately once the account's ad
+account/catalog setup is ready for it.
+{% endcomment %}
+{% if FACEBOOK_PIXEL_ID %}
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '{{ FACEBOOK_PIXEL_ID|escapejs }}');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id={{ FACEBOOK_PIXEL_ID|urlencode }}&ev=PageView&noscript=1"
+/></noscript>
+{% endif %}

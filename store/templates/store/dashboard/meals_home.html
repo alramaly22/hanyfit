@@ -1,0 +1,117 @@
+{% extends "store/dashboard/base.html" %}
+{% load store_extras %}
+{% block title %}HanyFit Meals{% endblock %}
+
+{% block content %}
+<div class="dash-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+    <div class="dash-panel">
+        <div style="color:var(--dash-muted);font-size:.8rem;" data-lang="dashmealsinventory">Meals in catalogue</div>
+        <div style="font-size:1.6rem;font-weight:700;">{{ meal_count }}</div>
+        <div style="color:var(--dash-muted);font-size:.78rem;">{{ active_meal_count }} <span data-lang="dashmealsactive">active</span></div>
+    </div>
+    <div class="dash-panel">
+        <div style="color:var(--dash-muted);font-size:.8rem;" data-lang="dashmealsorders">Meal orders</div>
+        <div style="font-size:1.6rem;font-weight:700;">{{ meal_order_count }}</div>
+        <div style="color:var(--dash-muted);font-size:.78rem;">{{ pending_meal_orders }} <span data-lang="dashmealsawaiting">awaiting confirmation</span></div>
+    </div>
+    <div class="dash-panel">
+        <div style="color:var(--dash-muted);font-size:.8rem;" data-lang="dashmealsactivesubs">Active subscriptions</div>
+        <div style="font-size:1.6rem;font-weight:700;">{{ active_subscription_count }}</div>
+    </div>
+    <div class="dash-panel">
+        <div style="color:var(--dash-muted);font-size:.8rem;" data-lang="dashmealsactivecoupons">Active coupons</div>
+        <div style="font-size:1.6rem;font-weight:700;">{{ coupon_count }}</div>
+    </div>
+    <div class="dash-panel">
+        <div style="color:var(--dash-muted);font-size:.8rem;" data-lang="dashmealsopenslots">Open delivery slots</div>
+        <div style="font-size:1.6rem;font-weight:700;">{{ delivery_slot_count }}</div>
+    </div>
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2 data-lang="dashmealsmanage">Manage</h2></div>
+    {# Left untranslated on purpose: it has live url-tag links woven through
+       the sentence, and data-lang replaces a node's full textContent -- doing
+       that here would silently delete the two links. See the chat note about
+       this exact trap on the customer-facing pages. #}
+    <p style="color:var(--dash-muted);">
+        Meal catalogue, coupons and delivery slots are edited from the Django
+        admin (same login, same permission) -- the links in the sidebar open
+        them directly. Orders that include meals show up in the normal
+        <a href="{% url 'dashboard_orders' %}?item_type=meal" style="color:var(--dash-accent);">Orders</a>
+        list, filtered to meal items. Subscription status and day-by-day
+        deliveries are tracked here in
+        <a href="{% url 'dashboard_subscriptions' %}" style="color:var(--dash-accent);">Subscriptions</a>.
+    </p>
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2 data-lang="dashmealsrevenue">Revenue (expected, excludes cancelled/failed orders)</h2></div>
+    <div class="dash-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;">
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealstoday">Today</div><div style="font-size:1.3rem;font-weight:700;">{{ revenue_today|money:"EGP" }}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealslast7">Last 7 days</div><div style="font-size:1.3rem;font-weight:700;">{{ revenue_7_days|money:"EGP" }}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealslast30">Last 30 days</div><div style="font-size:1.3rem;font-weight:700;">{{ revenue_30_days|money:"EGP" }}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealsalltime">All time</div><div style="font-size:1.3rem;font-weight:700;">{{ total_revenue|money:"EGP" }}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealsavgorder">Average order value</div><div style="font-size:1.3rem;font-weight:700;">{{ average_order_value|money:"EGP" }}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealscancelled">Cancelled orders</div><div style="font-size:1.3rem;font-weight:700;">{{ cancelled_order_count }}</div></div>
+    </div>
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2 data-lang="dashmealssubscriptions">Subscriptions</h2></div>
+    <div class="dash-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;">
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealstotalcreated">Total created</div><div style="font-size:1.3rem;font-weight:700;">{{ subscription_count }}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealsconversion">Payment conversion</div><div style="font-size:1.3rem;font-weight:700;">{% if subscription_conversion_rate is not None %}{{ subscription_conversion_rate }}%{% else %}&mdash;{% endif %}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealsrenewal">Renewal rate</div><div style="font-size:1.3rem;font-weight:700;">{% if subscription_renewal_rate is not None %}{{ subscription_renewal_rate }}%{% else %}&mdash;{% endif %}</div></div>
+        <div><div style="color:var(--dash-muted);font-size:.78rem;" data-lang="dashmealscancellation">Cancellation rate</div><div style="font-size:1.3rem;font-weight:700;">{% if subscription_cancellation_rate is not None %}{{ subscription_cancellation_rate }}%{% else %}&mdash;{% endif %}</div></div>
+    </div>
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2 data-lang="dashmealsbestselling">Best-selling meals</h2></div>
+    {% if best_selling_meals %}
+    <table class="dash-table">
+        <thead><tr><th data-lang="dashmealsmeal">Meal</th><th data-lang="dashmealsunitssold">Units sold</th></tr></thead>
+        <tbody>
+        {% for row in best_selling_meals %}
+            <tr><td>{{ row.meal__name }}</td><td>{{ row.units_sold }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color:var(--dash-muted);" data-lang="dashmealsnosales">No meal sales yet.</p>
+    {% endif %}
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2 data-lang="dashmealsgoaldist">Goal distribution (units sold)</h2></div>
+    {% if goal_distribution %}
+    <table class="dash-table">
+        <thead><tr><th data-lang="dashmealsgoal">Goal</th><th data-lang="dashmealsunitssold">Units sold</th></tr></thead>
+        <tbody>
+        {% for row in goal_distribution %}
+            <tr><td>{{ row.meal__goal }}</td><td>{{ row.units_sold }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color:var(--dash-muted);" data-lang="dashmealsnosales">No meal sales yet.</p>
+    {% endif %}
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2 data-lang="dashmealspopularslots">Popular delivery times</h2></div>
+    {% if popular_delivery_slots %}
+    <table class="dash-table">
+        <thead><tr><th data-lang="dashmealstimewindow">Time window</th><th data-lang="dashmealsordersandsubs">Orders + subscriptions</th></tr></thead>
+        <tbody>
+        {% for row in popular_delivery_slots %}
+            <tr><td>{{ row.start_time|time:"H:i" }} - {{ row.end_time|time:"H:i" }}</td><td>{{ row.count }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color:var(--dash-muted);" data-lang="dashmealsnoslotdata">No delivery-slot data yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

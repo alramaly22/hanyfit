@@ -1,0 +1,131 @@
+{% extends "store/base_store.html" %}
+{% load static store_extras %}
+
+{% block title %}HanyFit Meals — Healthy Meal Prep & Subscriptions in Egypt{% endblock %}
+{% block meta_description %}Healthy meals delivered to your door in Egypt. Calorie- and macro-counted meals for muscle gain, fat loss or maintenance, plus weekly and monthly meal subscriptions -- from Coach Hany Masoud's HanyFit Meals.{% endblock %}
+{% block og_title %}HanyFit Meals — Healthy Meals Delivered in Egypt{% endblock %}
+{% block og_description %}Pick your goal, get calorie- and macro-counted meals delivered, or subscribe for daily healthy food delivery across Egypt.{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/meals.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container">
+
+        <div class="meals-hero">
+            <p class="meals-hero__eyebrow" data-lang="mealseyebrow">HanyFit Meals</p>
+            <h1 class="shop-h2" style="margin-top:.5rem;" data-lang="mealsherotitle">Healthy Meals Delivered to Your Door</h1>
+            <p style="max-width:640px;margin:1rem auto 0;color:var(--text-color);" data-lang="mealsherosub">
+                Pick meals that match your goal, or subscribe and let us handle the daily
+                delivery. Every meal shows real calories, protein, carbs and fat -- no guesswork.
+            </p>
+        </div>
+
+        <h2 class="shop-h3" style="text-align:center;" data-lang="mealschoosegoal">Choose Your Goal</h2>
+
+        <div class="meals-goal-grid">
+            {% for card in goal_cards %}
+            <a href="{% url 'meals:meal_list' %}?goal={{ card.goal }}" class="meals-goal-card">
+                <span class="meals-goal-card__emoji">{{ card.emoji }}</span>
+                <h3 class="meals-goal-card__title" data-lang="mealsgoal{{ card.goal|cut:'_' }}title">{{ card.title }}</h3>
+                <p class="meals-goal-card__subtitle" data-lang="mealsgoal{{ card.goal|cut:'_' }}sub">{{ card.subtitle }}</p>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0;">
+            <a href="{% url 'meals:calculator' %}" class="shop-btn shop-btn--ghost">
+                <i class="ri-calculator-line" aria-hidden="true"></i>
+                <span data-lang="mealscalculatorcta">Calorie Calculator</span>
+            </a>
+            <a href="{% url 'meals:subscribe' plan_type='weekly' %}" class="shop-btn shop-btn--ghost">
+                <span data-lang="mealsweeklycta">Weekly Subscription</span>
+            </a>
+            <a href="{% url 'meals:subscribe' plan_type='monthly' %}" class="shop-btn shop-btn--primary">
+                <span data-lang="mealsmonthlycta">Monthly Subscription</span>
+            </a>
+        </div>
+
+        {% if weekly_prices or monthly_prices %}
+        <div class="meals-panel">
+            <h2 class="shop-h3" data-lang="mealspricingtitle">Subscription Plans & Pricing</h2>
+            <p style="color:var(--text-color);font-size:.9rem;margin-bottom:1rem;" data-lang="mealspricingsub">
+                See exactly what you'll pay before you subscribe.
+            </p>
+
+            <div class="meals-pricing-grid">
+                {% if weekly_prices %}
+                <div>
+                    <h3 class="shop-h3" style="font-size:1rem;" data-lang="mealspricingweekly">Weekly subscription</h3>
+                    <table class="meals-delivery-table">
+                        <tbody>
+                        {% for plan in weekly_prices %}
+                            <tr>
+                                <td>{{ plan.get_goal_display }} &middot; {{ plan.meals_per_day }} <span data-lang="mealspricingperday">meal/day</span></td>
+                                <td style="text-align:right;font-weight:700;">{{ plan.price|money:"EGP" }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if monthly_prices %}
+                <div>
+                    <h3 class="shop-h3" style="font-size:1rem;" data-lang="mealspricingmonthly">Monthly subscription</h3>
+                    <table class="meals-delivery-table">
+                        <tbody>
+                        {% for plan in monthly_prices %}
+                            <tr>
+                                <td>{{ plan.get_goal_display }} &middot; {{ plan.meals_per_day }} <span data-lang="mealspricingperday">meal/day</span></td>
+                                <td style="text-align:right;font-weight:700;">{{ plan.price|money:"EGP" }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if featured_meals %}
+        <h2 class="shop-h2" data-lang="mealsfeatured">Featured meals</h2>
+        <div class="shop-grid">
+            {% for meal in featured_meals %}
+            <article class="shop-card">
+                <a href="{{ meal.get_absolute_url }}" class="shop-card__media">
+                    <img class="shop-card__img shop-card__img--front" src="{{ meal.image_url }}"
+                         alt="{{ meal.name }}" loading="lazy" decoding="async">
+                </a>
+                <div class="shop-card__body">
+                    <h3 class="shop-card__name">
+                        <a href="{{ meal.get_absolute_url }}">{{ meal.name }}</a>
+                    </h3>
+                    <p class="shop-card__price">{{ meal.price|money:"EGP" }}</p>
+                    <div class="meals-macros">
+                        <span class="meals-macro-pill">{{ meal.calories }} kcal</span>
+                        <span class="meals-macro-pill">{{ meal.protein_g }}g protein</span>
+                    </div>
+                    <div class="shop-card__actions">
+                        <a href="{{ meal.get_absolute_url }}" class="shop-btn shop-btn--primary" data-lang="mealsviewmeal">
+                            View meal
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <p style="text-align:center;margin-top:1rem;">
+            <a href="{% url 'meals:meal_list' %}" class="shop-link-quiet" data-lang="mealsbrowseall">Browse the full catalogue &rarr;</a>
+        </p>
+
+    </div>
+</section>
+
+{% endblock %}

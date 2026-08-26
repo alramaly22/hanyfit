@@ -1,0 +1,274 @@
+{% extends "store/base_store.html" %}
+{% load store_extras %}
+
+{% block title %}Your bag{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container">
+
+        <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'store' %}" data-lang="shopnav">Shop</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <span aria-current="page" data-lang="shopbag">Your bag</span>
+        </nav>
+
+        {% if cart %}
+
+        <h1 class="shop-h2" data-lang="shopbag">Your bag</h1>
+
+        <div class="shop-cart"
+             data-cart-root
+             data-update-url="{% url 'cart_update' %}"
+             data-remove-url="{% url 'cart_remove' %}"
+             data-free-shipping-threshold="{{ free_shipping_threshold|default:0 }}"
+             style="margin-top:2rem;">
+
+            <!-- ============== LINES ============== -->
+            <div class="shop-cart__lines">
+
+                {% for line in cart %}
+                {% if line.kind == "meal" %}
+                <article class="shop-line" data-line-key="{{ line.key }}">
+
+                    <a class="shop-line__media" href="{{ line.meal.get_absolute_url }}">
+                        <img src="{{ line.image_url }}" alt="{{ line.meal.name }}"
+                             loading="lazy" decoding="async">
+                    </a>
+
+                    <div>
+                        <h2 class="shop-line__name">
+                            <a href="{{ line.meal.get_absolute_url }}">{{ line.meal.name }}</a>
+                        </h2>
+
+                        <div class="shop-line__meta">
+                            <span class="shop-badge">HanyFit Meals</span>
+                            <span aria-hidden="true">·</span>
+                            <span>{{ line.unit_price|money:currency_label }} each</span>
+                        </div>
+
+                        <div class="shop-line__controls">
+
+                            <form method="post" action="{% url 'cart_update' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="key" value="{{ line.key }}">
+
+                                <div class="shop-stepper" data-stepper>
+                                    <button type="button" data-step="down"
+                                            aria-label="Decrease quantity of {{ line.meal.name }}">
+                                        <i class="ri-subtract-line" aria-hidden="true"></i>
+                                    </button>
+                                    <input type="number"
+                                           name="quantity"
+                                           value="{{ line.quantity }}"
+                                           min="1"
+                                           max="{{ line.max_quantity }}"
+                                           aria-label="Quantity of {{ line.meal.name }}">
+                                    <button type="button" data-step="up"
+                                            aria-label="Increase quantity of {{ line.meal.name }}">
+                                        <i class="ri-add-line" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <noscript>
+                                    <button type="submit" class="shop-btn shop-btn--ghost"
+                                            style="margin-top:.6rem;">
+                                        Update
+                                    </button>
+                                </noscript>
+                            </form>
+
+                            <form method="post" action="{% url 'cart_remove' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="key" value="{{ line.key }}">
+                                <button type="submit" class="shop-remove" data-remove>
+                                    <i class="ri-delete-bin-line" aria-hidden="true"></i>
+                                    <span data-lang="shopremove">Remove</span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <p class="shop-line__total" data-line-total>{{ line.line_total|money:currency_label }}</p>
+
+                </article>
+                {% else %}
+                <article class="shop-line" data-line-key="{{ line.key }}">
+
+                    <a class="shop-line__media" href="{{ line.product.get_absolute_url }}">
+                        <img src="{{ line.image_url }}" alt="{{ line.product.name }}"
+                             loading="lazy" decoding="async">
+                    </a>
+
+                    <div>
+                        <h2 class="shop-line__name">
+                            <a href="{{ line.product.get_absolute_url }}">{{ line.product.name }}</a>
+                        </h2>
+
+                        <div class="shop-line__meta">
+                            <span>Size {{ line.size }}</span>
+                            <span aria-hidden="true">·</span>
+                            <span>{{ line.unit_price|money:currency_label }} each</span>
+                        </div>
+
+                        <div class="shop-line__controls">
+
+                            {# Works without JavaScript: a real POST that redirects back. #}
+                            <form method="post" action="{% url 'cart_update' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="key" value="{{ line.key }}">
+
+                                <div class="shop-stepper" data-stepper>
+                                    <button type="button" data-step="down"
+                                            aria-label="Decrease quantity of {{ line.product.name }}">
+                                        <i class="ri-subtract-line" aria-hidden="true"></i>
+                                    </button>
+                                    <input type="number"
+                                           name="quantity"
+                                           value="{{ line.quantity }}"
+                                           min="1"
+                                           max="{{ line.max_quantity }}"
+                                           aria-label="Quantity of {{ line.product.name }}">
+                                    <button type="button" data-step="up"
+                                            aria-label="Increase quantity of {{ line.product.name }}">
+                                        <i class="ri-add-line" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <noscript>
+                                    <button type="submit" class="shop-btn shop-btn--ghost"
+                                            style="margin-top:.6rem;">
+                                        Update
+                                    </button>
+                                </noscript>
+                            </form>
+
+                            <form method="post" action="{% url 'cart_remove' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="key" value="{{ line.key }}">
+                                <button type="submit" class="shop-remove" data-remove>
+                                    <i class="ri-delete-bin-line" aria-hidden="true"></i>
+                                    <span data-lang="shopremove">Remove</span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <p class="shop-line__total" data-line-total>{{ line.line_total|money:currency_label }}</p>
+
+                </article>
+                {% endif %}
+                {% endfor %}
+
+                <p style="margin-top:.5rem;">
+                    <a href="{% url 'store' %}" class="shop-link-quiet" data-lang="shopkeep">
+                        Keep shopping
+                    </a>
+                </p>
+
+            </div>
+
+            <!-- ============== SUMMARY ============== -->
+            <aside class="shop-summary">
+
+                <h2 class="shop-summary__title" data-lang="shopsummary">Order summary</h2>
+
+                <div class="shop-summary__row">
+                    <span data-lang="shopsubtotal">Subtotal</span>
+                    <strong data-subtotal>{{ subtotal|money:currency_label }}</strong>
+                </div>
+
+                <div class="shop-summary__row {% if not shipping %}shop-summary__row--free{% endif %}">
+                    <span data-lang="shopshippingrow">Delivery</span>
+                    <strong data-shipping>
+                        {% if shipping %}{{ shipping|money:currency_label }}{% else %}Free{% endif %}
+                    </strong>
+                </div>
+
+                {% if cart.has_meal_items %}
+                <div class="shop-summary__row" style="align-items:center;">
+                    {% if cart.coupon %}
+                        <span>Coupon <strong>{{ cart.coupon.code }}</strong></span>
+                        <form method="post" action="{% url 'cart_remove_coupon' %}" style="margin:0;">
+                            {% csrf_token %}
+                            <button type="submit" class="shop-link-quiet" style="border:0;background:none;cursor:pointer;">Remove</button>
+                        </form>
+                    {% else %}
+                        <form method="post" action="{% url 'cart_apply_coupon' %}"
+                              style="display:flex;gap:.5rem;width:100%;margin:0;">
+                            {% csrf_token %}
+                            <input type="text" name="code" placeholder="Coupon code"
+                                   class="shop-input" style="flex:1;">
+                            <button type="submit" class="shop-btn shop-btn--ghost">Apply</button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% if cart.discount_amount %}
+                <div class="shop-summary__row">
+                    <span>Discount</span>
+                    <strong data-discount>-{{ cart.discount_amount|money:currency_label }}</strong>
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <div class="shop-summary__total">
+                    <span data-lang="shoptotal">Total</span>
+                    <strong data-total>{{ total|money:currency_label }}</strong>
+                </div>
+
+                {% if free_shipping_threshold %}
+                <div class="shop-progress" data-progress>
+                    <p data-progress-label>
+                        {% if until_free_shipping %}
+                        Add <strong>{{ until_free_shipping|money:currency_label }}</strong> more for free delivery.
+                        {% else %}
+                        <strong>Free delivery unlocked.</strong>
+                        {% endif %}
+                    </p>
+                    <div class="shop-progress__track">
+                        <div class="shop-progress__bar"
+                             data-progress-bar
+                             style="width: {% widthratio subtotal free_shipping_threshold 100 %}%;"></div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <a href="{% url 'checkout' %}"
+                   class="shop-btn shop-btn--primary shop-btn--block shop-btn--lg">
+                    <span data-lang="shopcheckout">Checkout</span>
+                    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                </a>
+
+                <p class="shop-secure-note">
+                    <i class="ri-lock-line" aria-hidden="true"></i>
+                    <span data-lang="shopsecurenote">Secure checkout</span>
+                </p>
+
+            </aside>
+
+        </div>
+
+        {% else %}
+
+        <div class="shop-empty">
+            <i class="ri-shopping-bag-3-line" aria-hidden="true"></i>
+            <h2 data-lang="shopbagemptytitle">Your bag is empty</h2>
+            <p data-lang="shopbagemptybody">
+                Nothing in here yet. Have a look at the collection and pick your size.
+            </p>
+            <a href="{% url 'store' %}" class="shop-btn shop-btn--primary">
+                <i class="ri-t-shirt-line" aria-hidden="true"></i>
+                <span data-lang="shopbrowse">Browse the collection</span>
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

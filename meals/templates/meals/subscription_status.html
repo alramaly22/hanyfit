@@ -1,0 +1,232 @@
+{% extends "store/base_store.html" %}
+{% load static store_extras %}
+
+{% block title %}Your subscription{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/meals.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container" style="max-width:900px;">
+
+        <div class="meals-account-hero">
+
+            <div class="meals-account-hero__top">
+                <div>
+                    <h1 class="meals-account-hero__title" data-lang="mealsyoursub">Your subscription</h1>
+                    <p class="meals-account-hero__subtitle">
+                        {{ subscription.get_plan_type_display }} &middot; {{ subscription.get_goal_display }}
+                    </p>
+                </div>
+                <span class="meals-status-badge meals-status-badge--{{ subscription.status }}">
+                    {{ subscription.get_status_display }}
+                </span>
+            </div>
+
+            <div class="meals-summary-grid">
+                <div class="meals-stat">
+                    <i class="ri-restaurant-2-line" aria-hidden="true"></i>
+                    <span class="meals-stat__label" data-lang="mealsmealsperday">Meals per day</span>
+                    <span class="meals-stat__value">{{ subscription.meals_per_day }}</span>
+                </div>
+                <div class="meals-stat">
+                    <i class="ri-calendar-event-line" aria-hidden="true"></i>
+                    <span class="meals-stat__label" data-lang="mealsplandates">Plan dates</span>
+                    <span class="meals-stat__value">{{ subscription.start_date }} &rarr; {{ subscription.end_date }}</span>
+                </div>
+                {% if subscription.delivery_slot %}
+                <div class="meals-stat">
+                    <i class="ri-time-line" aria-hidden="true"></i>
+                    <span class="meals-stat__label" data-lang="mealsdeliverytime">Delivery time</span>
+                    <span class="meals-stat__value">{{ subscription.delivery_slot.start_time|time:"H:i" }}-{{ subscription.delivery_slot.end_time|time:"H:i" }}</span>
+                </div>
+                {% endif %}
+                <div class="meals-stat">
+                    <i class="ri-truck-line" aria-hidden="true"></i>
+                    <span class="meals-stat__label" data-lang="mealsdeliverydaysshort">Delivery days</span>
+                    <span class="meals-stat__value">{{ subscription.delivery_weekdays_display }}</span>
+                </div>
+            </div>
+
+            {% if subscription.allergies or subscription.disliked_foods or subscription.dietary_notes %}
+            <div style="margin-bottom:1.5rem;">
+                <p class="meals-stat__label" style="margin-bottom:.6rem;" data-lang="mealspreferences">Your preferences</p>
+                <div class="meals-preference-tags">
+                    {% if subscription.allergies %}
+                    <span class="meals-preference-tag"><i class="ri-alert-line" aria-hidden="true"></i>{{ subscription.allergies }}</span>
+                    {% endif %}
+                    {% if subscription.disliked_foods %}
+                    <span class="meals-preference-tag"><i class="ri-close-circle-line" aria-hidden="true"></i>{{ subscription.disliked_foods }}</span>
+                    {% endif %}
+                    {% if subscription.dietary_notes %}
+                    <span class="meals-preference-tag"><i class="ri-sticky-note-line" aria-hidden="true"></i>{{ subscription.dietary_notes }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;">
+                <div class="meals-price-row">
+                    {% if subscription.discount_amount %}
+                    <span class="meals-price-row__was">{{ subscription.price|money:"EGP" }}</span>
+                    {% endif %}
+                    <span class="meals-price-row__now">{{ subscription.total_price|money:"EGP" }}</span>
+                </div>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+                    <span class="meals-macro-pill"><i class="ri-bank-card-line" aria-hidden="true"></i> {{ subscription.get_payment_method_display }}</span>
+                    <span class="meals-macro-pill">{{ subscription.get_payment_status_display }}</span>
+                </div>
+            </div>
+
+            {% if subscription.payment_method == "online" and not subscription.is_paid %}
+            <form method="post" action="{% url 'meals:retry_subscription_payment' pk=subscription.pk token=subscription.access_token %}">
+                {% csrf_token %}
+                <button type="submit" class="shop-btn shop-btn--primary" style="margin-top:1rem;" data-lang="mealsretrypayment">Retry payment</button>
+            </form>
+            {% endif %}
+
+            <div class="meals-action-bar">
+                {% if subscription.status == "active" %}
+                <form method="post" action="{% url 'meals:subscription_pause' pk=subscription.pk token=subscription.access_token %}">
+                    {% csrf_token %}
+                    <button type="submit" class="shop-btn shop-btn--ghost">
+                        <i class="ri-pause-circle-line" aria-hidden="true"></i>
+                        <span data-lang="mealspausesub">Pause subscription</span>
+                    </button>
+                </form>
+                {% elif subscription.status == "paused" %}
+                <form method="post" action="{% url 'meals:subscription_resume' pk=subscription.pk token=subscription.access_token %}">
+                    {% csrf_token %}
+                    <button type="submit" class="shop-btn shop-btn--primary">
+                        <i class="ri-play-circle-line" aria-hidden="true"></i>
+                        <span data-lang="mealsresumesub">Resume subscription</span>
+                    </button>
+                </form>
+                {% endif %}
+
+                {% if subscription.status == "active" or subscription.status == "paused" %}
+                <form method="post" action="{% url 'meals:subscription_cancel' pk=subscription.pk token=subscription.access_token %}"
+                      onsubmit="return confirm('Cancel this subscription? This cannot be undone.');">
+                    {% csrf_token %}
+                    <button type="submit" class="shop-btn shop-btn--ghost">
+                        <i class="ri-close-circle-line" aria-hidden="true"></i>
+                        <span data-lang="mealscancelsub">Cancel subscription</span>
+                    </button>
+                </form>
+                {% endif %}
+
+                {% if subscription.status == "active" or subscription.status == "expired" %}
+                <form method="post" action="{% url 'meals:subscription_renew' pk=subscription.pk token=subscription.access_token %}">
+                    {% csrf_token %}
+                    <button type="submit" class="shop-btn shop-btn--primary">
+                        <i class="ri-refresh-line" aria-hidden="true"></i>
+                        <span data-lang="mealsrenewsub">Renew subscription</span>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="meals-panel">
+            <div class="meals-panel__head">
+                <i class="ri-map-pin-line" aria-hidden="true"></i>
+                <h2 class="shop-h3" data-lang="mealsdeliveryaddress">Delivery address</h2>
+            </div>
+            <form method="post" action="{% url 'meals:subscription_change_address' pk=subscription.pk token=subscription.access_token %}">
+                {% csrf_token %}
+                <div class="meals-form-grid">
+                    <div class="shop-input-group">
+                        <label for="{{ address_form.governorate.id_for_label }}" data-lang="mealsgovernorate">Governorate</label>
+                        {{ address_form.governorate }}
+                    </div>
+                    <div class="shop-input-group">
+                        <label for="{{ address_form.city.id_for_label }}" data-lang="mealscity">City</label>
+                        {{ address_form.city }}
+                    </div>
+                    <div class="shop-input-group meals-form-grid--full">
+                        <label for="{{ address_form.address.id_for_label }}" data-lang="mealsaddress">Address</label>
+                        {{ address_form.address }}
+                    </div>
+                </div>
+                <button type="submit" class="shop-btn shop-btn--ghost" style="margin-top:1rem;" data-lang="mealsupdateaddress">Update address</button>
+            </form>
+        </div>
+
+        {% if deliveries %}
+        <div class="meals-panel">
+            <div class="meals-panel__head">
+                <i class="ri-truck-line" aria-hidden="true"></i>
+                <h2 class="shop-h3" data-lang="mealsdeliveryschedule">Delivery schedule</h2>
+            </div>
+            <table class="meals-delivery-table">
+                <thead>
+                    <tr><th>Date</th><th>Status</th><th></th></tr>
+                </thead>
+                <tbody>
+                    {% for delivery in deliveries %}
+                    <tr>
+                        <td>{{ delivery.scheduled_date }}</td>
+                        <td><span class="meals-status-pill meals-status-pill--{{ delivery.status }}">{{ delivery.get_status_display }}</span></td>
+                        <td>
+                            {% if delivery.status == "scheduled" and subscription.status == "active" %}
+                            <details style="display:inline-block;">
+                                <summary class="shop-link-quiet" style="cursor:pointer;display:inline;">Manage</summary>
+                                <div style="margin-top:.5rem;display:flex;flex-direction:column;gap:.5rem;">
+                                    <form method="post" action="{% url 'meals:subscription_skip_delivery' pk=subscription.pk token=subscription.access_token delivery_id=delivery.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="shop-btn shop-btn--ghost" style="font-size:.8rem;padding:.35rem .7rem;" data-lang="mealsskipday">Skip this day</button>
+                                    </form>
+                                    <form method="post" action="{% url 'meals:subscription_reschedule_delivery' pk=subscription.pk token=subscription.access_token delivery_id=delivery.pk %}"
+                                          style="display:flex;gap:.4rem;">
+                                        {% csrf_token %}
+                                        {{ reschedule_form.new_date }}
+                                        <button type="submit" class="shop-btn shop-btn--ghost" style="font-size:.8rem;padding:.35rem .7rem;" data-lang="mealsmovedate">Move</button>
+                                    </form>
+                                </div>
+                            </details>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if recommended_meals %}
+        <div class="meals-panel">
+            <div class="meals-panel__head">
+                <i class="ri-sparkling-2-line" aria-hidden="true"></i>
+                <h2 class="shop-h3" data-lang="mealsrecommendedforyou">Recommended for you</h2>
+            </div>
+            <div class="shop-grid">
+                {% for meal in recommended_meals %}
+                <article class="shop-card">
+                    <a href="{{ meal.get_absolute_url }}" class="shop-card__media">
+                        <img class="shop-card__img shop-card__img--front" src="{{ meal.image_url }}" alt="{{ meal.name }}" loading="lazy">
+                    </a>
+                    <div class="shop-card__body">
+                        <h3 class="shop-card__name"><a href="{{ meal.get_absolute_url }}">{{ meal.name }}</a></h3>
+                        <div class="meals-macros">
+                            <span class="meals-macro-pill">{{ meal.calories }} kcal</span>
+                            <span class="meals-macro-pill">{{ meal.protein_g }}g protein</span>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <p style="text-align:center;">
+            <a href="{% url 'meals:home' %}" class="shop-link-quiet" data-lang="mealsbacktomeals">&larr; Back to HanyFit Meals</a>
+        </p>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,352 @@
+{% extends "store/dashboard/base.html" %}
+{% load store_extras %}
+{% block title %}Overview{% endblock %}
+
+{% block content %}
+
+<div class="dash-grid">
+
+    <div class="dash-card dash-card--accent">
+        <div class="dash-card__label"><i class="ri-shopping-bag-3-line"></i> Total orders</div>
+        <div class="dash-card__value">{{ order_counts.total }}</div>
+        <div class="dash-card__sub">{{ order_counts.paid }} paid</div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-money-dollar-circle-line"></i> Revenue</div>
+        {% if revenue_by_currency %}
+        <div class="dash-card__value">
+            {% for row in revenue_by_currency %}{{ row.total|money:row.currency }}{% if not forloop.last %} · {% endif %}{% endfor %}
+        </div>
+        <div class="dash-card__sub">All time, paid orders</div>
+        {% else %}
+        <div class="dash-card__value">—</div>
+        <div class="dash-card__sub">No paid orders yet</div>
+        {% endif %}
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-calendar-event-line"></i> Revenue today</div>
+        {% if revenue_today %}
+        <div class="dash-card__value">
+            {% for row in revenue_today %}{{ row.total|money:row.currency }}{% if not forloop.last %} · {% endif %}{% endfor %}
+        </div>
+        {% else %}
+        <div class="dash-card__value">—</div>
+        {% endif %}
+        <div class="dash-card__sub">Since midnight</div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-line-chart-line"></i> Avg. order value</div>
+        {% if aov_by_currency %}
+        <div class="dash-card__value">
+            {% for row in aov_by_currency %}{{ row.value|money:row.currency }}{% if not forloop.last %} · {% endif %}{% endfor %}
+        </div>
+        {% else %}
+        <div class="dash-card__value">—</div>
+        {% endif %}
+        <div class="dash-card__sub">Paid orders</div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-t-shirt-line"></i> Products</div>
+        <div class="dash-card__value">{{ product_count }}</div>
+        <div class="dash-card__sub">{{ sold_out_count }} sold out</div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-user-line"></i> Customers</div>
+        <div class="dash-card__value">{{ customer_count }}</div>
+        <div class="dash-card__sub">Unique phone numbers</div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-eye-line"></i> Visitors today</div>
+        <div class="dash-card__value">{{ visit_counts.today }}</div>
+        <div class="dash-card__sub">{{ unique_counts.today }} unique</div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card__label"><i class="ri-group-line"></i> Visitors (30d)</div>
+        <div class="dash-card__value">{{ visit_counts.month }}</div>
+        <div class="dash-card__sub">{{ unique_counts.month }} unique · {{ visit_counts.week }} last 7d</div>
+    </div>
+
+</div>
+
+<!-- ============== ORDER STATUS BREAKDOWN ============== -->
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2>Orders by status</h2></div>
+    <div style="display:flex;flex-wrap:wrap;gap:.6rem;">
+        <span class="dash-badge dash-badge--new">New · {{ order_counts.new }}</span>
+        <span class="dash-badge dash-badge--confirmed">Confirmed · {{ order_counts.confirmed }}</span>
+        <span class="dash-badge dash-badge--processing">Processing · {{ order_counts.processing }}</span>
+        <span class="dash-badge dash-badge--shipped">Shipped · {{ order_counts.shipped }}</span>
+        <span class="dash-badge dash-badge--delivered">Delivered · {{ order_counts.delivered }}</span>
+        <span class="dash-badge dash-badge--cancelled">Cancelled · {{ order_counts.cancelled }}</span>
+    </div>
+</div>
+
+<!-- ============== CHARTS ============== -->
+<div class="dash-panel">
+    <div class="dash-panel__head">
+        <h2>Trends</h2>
+        <div class="dash-filters">
+            <a href="?days=7" class="dash-btn {% if period_days == 7 %}dash-btn--primary{% endif %}">7 days</a>
+            <a href="?days=30" class="dash-btn {% if period_days == 30 %}dash-btn--primary{% endif %}">30 days</a>
+            <a href="?days=90" class="dash-btn {% if period_days == 90 %}dash-btn--primary{% endif %}">90 days</a>
+        </div>
+    </div>
+
+    {% if chart_days %}
+    <div class="dash-two-col">
+        <div>
+            <p style="font-size:.8rem;color:var(--dash-muted);margin:0 0 .5rem;">Sales (paid orders, revenue by day)</p>
+            <canvas id="salesChart" height="110" data-loading="true"></canvas>
+        </div>
+        <div>
+            <p style="font-size:.8rem;color:var(--dash-muted);margin:0 0 .5rem;">Visitors (page views vs unique)</p>
+            <canvas id="visitorsChart" height="110" data-loading="true"></canvas>
+        </div>
+    </div>
+    {% else %}
+    <div class="dash-empty">
+        <i class="ri-bar-chart-line"></i>
+        <p>Not enough data yet to draw a chart.</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="dash-two-col">
+
+    <!-- ============== RECENT ORDERS ============== -->
+    <div class="dash-panel" style="margin-top:0;">
+        <div class="dash-panel__head">
+            <h2>Recent orders</h2>
+            <a href="{% url 'dashboard_orders' %}" class="dash-btn">View all <i class="ri-arrow-right-line"></i></a>
+        </div>
+
+        {% if recent_orders %}
+        <div style="overflow-x:auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Country</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr onclick="window.location='{% url 'dashboard_order_detail' order.order_number %}'" style="cursor:pointer;">
+                        <td>{{ order.order_number }}</td>
+                        <td>{{ order.full_name }}</td>
+                        <td>{{ order.get_country_display }}</td>
+                        <td>{{ order.total_price|money:order.currency }}</td>
+                        <td><span class="dash-badge dash-badge--{{ order.order_status }}">{{ order.get_order_status_display }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="dash-empty">
+            <i class="ri-inbox-line"></i>
+            <p>No orders yet. Once your first order comes in, it will show up here.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div>
+        <!-- ============== LOW STOCK ============== -->
+        <div class="dash-panel" style="margin-top:0;">
+            <div class="dash-panel__head"><h2>Low stock</h2></div>
+            {% if low_stock %}
+            <table class="dash-table">
+                <tbody>
+                    {% for variant in low_stock %}
+                    <tr>
+                        <td>{{ variant.product.name }} — {{ variant.get_size_display }}</td>
+                        <td style="text-align:right;color:var(--dash-warning);font-weight:600;">{{ variant.stock }} left</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="dash-empty" style="padding:1.5rem 1rem;">
+                <i class="ri-check-line"></i>
+                <p>Stock levels look healthy.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ============== TOP PRODUCTS ============== -->
+        <div class="dash-panel">
+            <div class="dash-panel__head"><h2>Best sellers</h2></div>
+            {% if top_products %}
+            <table class="dash-table">
+                <tbody>
+                    {% for row in top_products %}
+                    <tr>
+                        <td>{{ row.items__product__name|default:"—" }}</td>
+                        <td style="text-align:right;">{{ row.units }} sold</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="dash-empty" style="padding:1.5rem 1rem;">
+                <i class="ri-bar-chart-2-line"></i>
+                <p>No paid orders yet.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ============== RECENT CUSTOMERS ============== -->
+        <div class="dash-panel">
+            <div class="dash-panel__head"><h2>Recent customers</h2></div>
+            {% if recent_customers %}
+            <table class="dash-table">
+                <tbody>
+                    {% for c in recent_customers %}
+                    <tr>
+                        <td>{{ c.full_name }}<br><span style="color:var(--dash-muted);font-size:.76rem;">{{ c.phone }}</span></td>
+                        <td style="text-align:right;">{{ c.country }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="dash-empty" style="padding:1.5rem 1rem;">
+                <i class="ri-user-line"></i>
+                <p>No customers yet.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ============== TOP PAGES ============== -->
+        <div class="dash-panel">
+            <div class="dash-panel__head"><h2>Most visited pages (30d)</h2></div>
+            {% if top_pages %}
+            <table class="dash-table">
+                <tbody>
+                    {% for row in top_pages %}
+                    <tr>
+                        <td style="font-family:monospace;font-size:.78rem;">{{ row.path }}</td>
+                        <td style="text-align:right;">{{ row.views }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="dash-empty" style="padding:1.5rem 1rem;">
+                <i class="ri-eye-line"></i>
+                <p>No visits recorded yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+{% if chart_days %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script>
+(function () {
+    // Real backend data only -- these arrays come straight from the
+    // dashboard view's queryset aggregates for the selected period.
+    const labels = {{ chart_days|safe }};
+    const revenue = {{ chart_revenue|safe }};
+    const orders = {{ chart_orders|safe }};
+    const visits = {{ chart_visits|safe }};
+    const unique = {{ chart_unique|safe }};
+
+    const gridColor = "rgba(255,255,255,.06)";
+    const textColor = "#9a938c";
+    const commonScales = {
+        x: { grid: { color: gridColor }, ticks: { color: textColor, maxRotation: 0, autoSkip: true } },
+        y: { grid: { color: gridColor }, ticks: { color: textColor }, beginAtZero: true },
+    };
+
+    const salesEl = document.getElementById("salesChart");
+    if (salesEl) {
+        salesEl.removeAttribute("data-loading");
+        new Chart(salesEl, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Revenue",
+                        data: revenue,
+                        backgroundColor: "rgba(214,106,31,.55)",
+                        borderRadius: 4,
+                        yAxisID: "y",
+                    },
+                    {
+                        label: "Orders",
+                        data: orders,
+                        type: "line",
+                        borderColor: "#7cb8ff",
+                        backgroundColor: "transparent",
+                        tension: .35,
+                        yAxisID: "y1",
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: "index", intersect: false },
+                plugins: { legend: { labels: { color: textColor } } },
+                scales: {
+                    x: commonScales.x,
+                    y: { ...commonScales.y, position: "left" },
+                    y1: { position: "right", grid: { display: false }, ticks: { color: textColor, precision: 0 } },
+                },
+            },
+        });
+    }
+
+    const visitorsEl = document.getElementById("visitorsChart");
+    if (visitorsEl) {
+        visitorsEl.removeAttribute("data-loading");
+        new Chart(visitorsEl, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Page views",
+                        data: visits,
+                        borderColor: "#d66a1f",
+                        backgroundColor: "rgba(214,106,31,.12)",
+                        fill: true,
+                        tension: .35,
+                    },
+                    {
+                        label: "Unique visitors",
+                        data: unique,
+                        borderColor: "#2ecc71",
+                        backgroundColor: "transparent",
+                        tension: .35,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: "index", intersect: false },
+                plugins: { legend: { labels: { color: textColor } } },
+                scales: commonScales,
+            },
+        });
+    }
+})();
+</script>
+{% endif %}
+{% endblock %}

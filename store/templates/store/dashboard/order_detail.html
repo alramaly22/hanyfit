@@ -1,0 +1,133 @@
+{% extends "store/dashboard/base.html" %}
+{% load store_extras %}
+{% block title %}Order {{ order.order_number }}{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'dashboard_orders' %}" class="dash-btn" style="margin-bottom:1rem;">
+    <i class="ri-arrow-left-line"></i> All orders
+</a>
+
+<div class="dash-two-col">
+
+    <div>
+        <!-- ============== ITEMS ============== -->
+        <div class="dash-panel" style="margin-top:0;">
+            <div class="dash-panel__head">
+                <h2>{{ order.order_number }}</h2>
+                <span class="dash-badge dash-badge--{{ order.payment_status }}">{{ order.get_payment_status_display }}</span>
+            </div>
+
+            <table class="dash-table">
+                <thead>
+                    <tr><th>Item</th><th>Type</th><th>Size</th><th>Qty</th><th style="text-align:right;">Total</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.get_item_type_display }}</td>
+                        <td>{{ item.size }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td style="text-align:right;">{{ item.line_total|money:order.currency }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--dash-line);font-size:.88rem;">
+                <div style="display:flex;justify-content:space-between;padding:.2rem 0;color:var(--dash-muted);">
+                    <span>Subtotal</span><span>{{ order.subtotal|money:order.currency }}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:.2rem 0;color:var(--dash-muted);">
+                    <span>Shipping</span><span>{{ order.shipping_cost|money:order.currency }}</span>
+                </div>
+                {% if order.discount_amount %}
+                <div style="display:flex;justify-content:space-between;padding:.2rem 0;color:var(--dash-muted);">
+                    <span>Discount{% if order.coupon %} ({{ order.coupon.code }}){% endif %}</span>
+                    <span>-{{ order.discount_amount|money:order.currency }}</span>
+                </div>
+                {% endif %}
+                <div style="display:flex;justify-content:space-between;padding:.35rem 0;font-weight:700;font-size:1rem;">
+                    <span>Total</span><span>{{ order.total_price|money:order.currency }}</span>
+                </div>
+            </div>
+        </div>
+
+        {% if order.delivery_date %}
+        <div class="dash-panel">
+            <div class="dash-panel__head"><h2>HanyFit Meals delivery</h2></div>
+            <table class="dash-table">
+                <tbody>
+                    <tr><td style="color:var(--dash-muted);">Delivery date</td><td>{{ order.delivery_date }}</td></tr>
+                    {% if order.delivery_slot %}
+                    <tr><td style="color:var(--dash-muted);">Delivery time</td><td>{{ order.delivery_slot.start_time|time:"H:i" }} - {{ order.delivery_slot.end_time|time:"H:i" }}</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- ============== CUSTOMER ============== -->
+        <div class="dash-panel">
+            <div class="dash-panel__head"><h2>Delivery details</h2></div>
+            <table class="dash-table">
+                <tbody>
+                    <tr><td style="color:var(--dash-muted);">Name</td><td>{{ order.full_name }}</td></tr>
+                    <tr><td style="color:var(--dash-muted);">Phone</td><td>{{ order.phone }}</td></tr>
+                    {% if order.email %}
+                    <tr><td style="color:var(--dash-muted);">Email</td><td>{{ order.email }}</td></tr>
+                    {% endif %}
+                    <tr><td style="color:var(--dash-muted);">Country</td><td>{{ order.get_country_display }}</td></tr>
+                    {% if order.governorate %}
+                    <tr><td style="color:var(--dash-muted);">Governorate</td><td>{{ order.governorate }}</td></tr>
+                    {% endif %}
+                    <tr><td style="color:var(--dash-muted);">City</td><td>{{ order.city }}</td></tr>
+                    <tr><td style="color:var(--dash-muted);">Address</td><td>{{ order.address }}</td></tr>
+                    {% if order.notes %}
+                    <tr><td style="color:var(--dash-muted);">Notes</td><td>{{ order.notes }}</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <!-- ============== STATUS UPDATE ============== -->
+        <div class="dash-panel" style="margin-top:0;">
+            <div class="dash-panel__head"><h2>Order status</h2></div>
+            <form method="post">
+                {% csrf_token %}
+                <select name="order_status" style="width:100%;background:var(--dash-panel-raised);border:1px solid var(--dash-line);color:var(--dash-text);border-radius:8px;padding:.55rem .6rem;font-size:.88rem;margin-bottom:.75rem;">
+                    {% for value, label in order_status_choices %}
+                    <option value="{{ value }}" {% if order.order_status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="dash-btn dash-btn--primary" style="width:100%;justify-content:center;">
+                    <i class="ri-refresh-line"></i> Update status
+                </button>
+            </form>
+        </div>
+
+        <!-- ============== PAYMENT ============== -->
+        <div class="dash-panel">
+            <div class="dash-panel__head"><h2>Payment</h2></div>
+            <table class="dash-table">
+                <tbody>
+                    <tr><td style="color:var(--dash-muted);">Method</td><td>{{ order.get_payment_method_display }}</td></tr>
+                    <tr><td style="color:var(--dash-muted);">Currency</td><td>{{ order.currency }}</td></tr>
+                    {% if order.fawaterk_invoice_id %}
+                    <tr><td style="color:var(--dash-muted);">Invoice ID</td><td>{{ order.fawaterk_invoice_id }}</td></tr>
+                    {% endif %}
+                    {% if order.paid_at %}
+                    <tr><td style="color:var(--dash-muted);">Paid at</td><td>{{ order.paid_at|date:"d M Y, H:i" }}</td></tr>
+                    {% endif %}
+                    <tr><td style="color:var(--dash-muted);">Placed</td><td>{{ order.created_at|date:"d M Y, H:i" }}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

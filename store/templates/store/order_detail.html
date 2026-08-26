@@ -1,0 +1,96 @@
+{% extends "store/base_store.html" %}
+{% load store_extras %}
+
+{% block title %}Order {{ order.order_number }}{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container shop-receipt">
+
+        <div class="shop-result">
+
+            <div class="shop-result__mark {% if order.is_paid %}shop-result__mark--success{% elif order.payment_status == 'pending' %}shop-result__mark--pending{% else %}shop-result__mark--failed{% endif %}">
+                {% if order.is_paid %}
+                <i class="ri-check-line" aria-hidden="true"></i>
+                {% elif order.payment_status == 'pending' %}
+                <i class="ri-time-line" aria-hidden="true"></i>
+                {% else %}
+                <i class="ri-close-line" aria-hidden="true"></i>
+                {% endif %}
+            </div>
+
+            {% if order.payment_method == 'cash' %}
+            <h1 data-lang="shoporderplaced">Order placed</h1>
+            <p data-lang="shopcodconfirm">
+                We have your order and we will call you on {{ order.phone }} to confirm
+                before it ships. Pay the courier when it arrives.
+            </p>
+            {% elif order.is_paid %}
+            <h1 data-lang="shoppaymentreceived">Payment received</h1>
+            <p data-lang="shoppaidconfirm">
+                Thank you. Your payment went through and your order is confirmed.
+                We will be in touch about delivery.
+            </p>
+            {% else %}
+            <h1 data-lang="shoporderplaced">Order placed</h1>
+            <p>
+                Your order is saved but the payment has not completed yet.
+                You can finish paying below.
+            </p>
+            {% endif %}
+
+            <p class="shop-result__ref">
+                <span data-lang="shoporderno">Order number</span>
+                <strong>{{ order.order_number }}</strong>
+            </p>
+
+            {# Purchase event, browser side. Uses the id stored on the order, so #}
+            {# it deduplicates against the server-side CompletePayment.          #}
+            {% if order.is_paid and order.tiktok_event_id %}
+            <span hidden
+                  data-tt-event="CompletePayment"
+                  data-tt-event-id="{{ order.tiktok_event_id }}"
+                  data-tt-properties='{"currency": "{{ order.currency|escapejs }}", "value": {{ order.total_price }}, "content_type": "product", "order_id": "{{ order.order_number|escapejs }}"}'
+                  data-fb-event="Purchase"
+                  data-fb-dedupe-key="{{ order.order_number|escapejs }}"
+                  data-fb-properties='{"currency": "{{ order.currency|escapejs }}", "value": {{ order.total_price }}, "content_type": "product"}'></span>
+            {% endif %}
+
+            <div class="shop-result__actions">
+                {% if order.requires_payment %}
+                <form method="post"
+                      action="{% url 'retry_payment' order.order_number order.access_token %}">
+                    {% csrf_token %}
+                    <button type="submit" class="shop-btn shop-btn--primary">
+                        <i class="ri-bank-card-line" aria-hidden="true"></i>
+                        <span data-lang="shoppaynow">Pay now</span>
+                    </button>
+                </form>
+                {% endif %}
+
+                <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Order%20{{ order.order_number }}"
+                   target="_blank" rel="noopener" class="shop-btn shop-btn--ghost">
+                    <i class="ri-whatsapp-line" aria-hidden="true"></i>
+                    <span data-lang="shopcontactus">Contact us</span>
+                </a>
+
+                <a href="{% url 'store' %}" class="shop-btn shop-btn--ghost">
+                    <span data-lang="shopkeep">Keep shopping</span>
+                </a>
+            </div>
+
+        </div>
+
+        {% include "store/_receipt_body.html" %}
+
+        <p style="text-align:center;margin-top:1.5rem;font-size:var(--small-font-size);color:var(--shop-muted);">
+            <i class="ri-bookmark-line" aria-hidden="true"></i>
+            Save this page to check your order later.
+        </p>
+
+    </div>
+</section>
+
+{% endblock %}

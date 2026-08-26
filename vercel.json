@@ -1,0 +1,24 @@
+{
+  "builds": [
+    {
+      "src": "test_project/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.12",
+        "includeFiles": [
+          "accounts/static/**",
+          "accounts/templates/**",
+          "meals/static/**",
+          "meals/templates/**",
+          "store/templates/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "test_project/wsgi.py"
+    }
+  ]
+}

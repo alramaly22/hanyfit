@@ -1,0 +1,1259 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/testo/logo.png' %}"
+      type="image/x-icon"
+    />
+    <!--=============== REMIXICONS ===============-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css"
+    />
+
+    <!--=============== SWIPER CSS ===============-->
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/cancel.css' %}" />
+
+    <title>آلة حاسبة لبدائل الطعام للبروتين</title>
+    <script>
+      function calculate(
+        originalAmountId,
+        originalFoodId,
+        replacementFoodId,
+        resultId,
+        resultInputId,
+      ) {
+        // الكمية اللي المستخدم دخلها
+        const originalAmount = parseFloat(
+          document.getElementById(originalAmountId).value,
+        );
+
+        // قيمة البروتين/العنصر للطعام الأصلي
+        const originalFoodValue = parseFloat(
+          document.getElementById(originalFoodId).value,
+        );
+
+        // قيمة البروتين/العنصر للبديل
+        const replacementFoodValue = parseFloat(
+          document.getElementById(replacementFoodId).value,
+        );
+
+        // التحقق من الإدخال
+        if (
+          isNaN(originalAmount) ||
+          isNaN(originalFoodValue) ||
+          isNaN(replacementFoodValue) ||
+          replacementFoodValue === 0
+        ) {
+          alert("من فضلك أدخل بيانات صحيحة");
+          return;
+        }
+
+        // حساب كمية البديل
+        const replacementAmount =
+          (originalAmount * originalFoodValue) / replacementFoodValue;
+
+        // عرض النتيجة
+        document.getElementById(resultInputId).value =
+          `${replacementAmount.toFixed(2)} جم`;
+
+        document.getElementById(resultInputId).style.display = "inline-block";
+      }
+
+      function showCalculator(type) {
+        const calculators = [
+          "protein",
+          "carbohydrate",
+          "healthyfats",
+          "snack",
+          "fruits",
+          "vegetables",
+          "dairyproducts",
+          "legumes",
+        ];
+
+        // إخفاء كل الحاسبات
+        calculators.forEach((calc) => {
+          const element = document.getElementById(calc);
+
+          if (element) {
+            element.style.display = "none";
+          }
+        });
+
+        // إظهار الحاسبة المطلوبة
+        const selectedCalculator = document.getElementById(type);
+
+        if (selectedCalculator) {
+          selectedCalculator.style.display = "block";
+        }
+      }
+
+      function resetCalculator() {
+        // مسح كل حقول الإدخال
+        document.querySelectorAll('input[type="number"]').forEach((input) => {
+          input.value = "";
+        });
+
+        // إعادة النتائج
+        document.querySelectorAll("input[readonly]").forEach((input) => {
+          input.value = "";
+          input.style.display = "none";
+        });
+
+        // إعادة الـ select لأول اختيار
+        document.querySelectorAll("select").forEach((select) => {
+          select.selectedIndex = 0;
+        });
+
+        // مسح النصوص
+        const results = [
+          "resultProtein",
+          "resultCarbohydrate",
+          "resultHealthyFats",
+          "resultSnack",
+          "resultFruits",
+          "resultVegetables",
+          "resultDairy",
+          "resultLegumes",
+        ];
+
+        results.forEach((resultId) => {
+          const resultElement = document.getElementById(resultId);
+
+          if (resultElement) {
+            resultElement.innerText = "";
+          }
+        });
+
+        // إظهار البروتين افتراضياً
+        showCalculator("protein");
+      }
+
+      // تشغيل البروتين تلقائي أول ما الصفحة تفتح
+      window.onload = function () {
+        showCalculator("protein");
+      };
+    </script>
+    <script>
+      function addUnit(input) {
+        const value = input.value.replace(/[^0-9.]/g, ""); // Remove any non-numeric characters
+        input.value = value ? value + "g" : ""; // Append "جم" only if there's a value
+      }
+    </script>
+
+    <style>
+      .equation-container {
+        background-color: #000000;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        margin-top: 5rem;
+        font-family: "Arial", sans-serif;
+      }
+
+      .equation-container h2 {
+        color: #007bff;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .equation-container p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #ffffff;
+        margin-bottom: 15px;
+      }
+
+      .equation {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 15px;
+        background-color: #35353580;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .equation-part {
+        flex: 1;
+      }
+
+      .calculation {
+        flex: 1;
+        text-align: center;
+        background-color: #ffffff2e;
+        border: 1px solid #c3e6cb;
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .formula {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #28a745;
+      }
+
+      .equation-part span,
+      .formula span {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--==================== HEADER ====================-->
+
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="{% url 'index' %}" class="logo">
+          <img src="{% static 'images/testo/logo.png' %}" alt="" />
+        </a>
+
+        {% comment %}
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a href="#home" class="nav__link" data-lang="home"> Home </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#about" class="nav__link" data-lang="about"> About </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#tranding" class="nav__link" data-lang="transformation">
+                Transformation
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="#pricing" class="nav__link" data-lang="pricing">
+                Pricing
+              </a>
+            </li>
+
+            <li class="nav__item nav__item--books">
+              <a href="{% url 'book' %}" class="nav__link nav__link--books">
+                <i class="ri-book-open-fill"></i>
+
+                <p data-lang="booksnav">Books</p>
+              </a>
+            </li>
+          </ul>
+
+          <div class="nav__social">
+            <a
+              href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-facebook-circle-fill"></i>
+            </a>
+
+            <a
+              href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+
+            <!--
+                    <a href="https://www.youtube.com/@Hany_hassan"
+                        target="_blank"
+                        class="nav__social-link">
+
+                        <i class="ri-youtube-fill"></i>
+
+                    </a>
+                    -->
+
+            <a
+              href="https://snapchat.com/t/gi7bdu8B"
+              target="_blank"
+              class="nav__social-link"
+            >
+              <i class="ri-snapchat-fill"></i>
+            </a>
+          </div>
+
+          <!--   CLOSE BUTTON  -->
+
+          <div class="nav__close" id="nav-close">
+            <i class="ri-eye-close-fill"></i>
+          </div>
+        </div>
+        {% endcomment %}
+
+        <!--   Toggle button  -->
+
+        <div class="nav__buttons">
+          <!-- <i class="ri-moon-fill change-theme" id="theme-button"></i> -->
+
+          {% comment %}
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-apps-2-fill"></i>
+          </div>
+          {% endcomment %} {% comment %}
+          <select name="" id="language-selector">
+            <option value="en" selected>En</option>
+
+            <option value="ar">Ar</option>
+          </select>
+          {% endcomment %}
+        </div>
+      </nav>
+    </header>
+    <!--==================== MAIN ====================-->
+    <main class="main">
+      <!-- <div class="equation-container container">
+            <h2>كيف تستخدم البدائل؟</h2>
+            <p>
+                لنفترض أني كاتبلك 60 جم رز في النظام بتاعك، وانت عاوز تبدله ببطاطس. هنروح لجدول البدائل ونلاقي أن 60 جم رز = 260 جم بطاطس.
+            </p>
+            <p>
+                طب لو مكتوبلك 100 جم رز مش 60 جم؟ وانت عاوز تبدلهم ببطاطس. هنا هنعمل عملية حسابية بسيطة بطريقتين عشان نعرف محتاجين بطاطس قد إيه:
+            </p>
+            <div class="equation">
+                <div class="equation-part">
+                    <p>كمية البطاطس من جدول البدائل = <span>260 جم</span></p>
+                    <p>كمية الرز من جدول البدائل = <span>60 جم</span></p>
+                </div>
+                <div class="calculation">
+                    <p>كمية البطاطس المطلوبة معرفتها:</p>
+                    <p class="formula" style="color: rgb(0, 0, 0)">
+                        260 &times; 100 / 60 = <span>435 جم</span>
+                    </p>
+                </div>
+            </div>
+        </div>  -->
+
+      <div class="section calc2">
+        <h1>آلة حاسبة لبدائل الطعام للبروتين</h1>
+        <div class="somebutton">
+          <button onclick="showCalculator('protein')">بروتين</button>
+          <button onclick="showCalculator('carbohydrate')">كربوهيدرات</button>
+          <button onclick="showCalculator('healthyfats')">دهون صحية</button>
+          <button onclick="showCalculator('fruits')">فواكه</button>
+          <button onclick="showCalculator('vegetables')">خضروات</button>
+          <button onclick="showCalculator('dairyproducts')">
+            منتجات ألبان
+          </button>
+          <button onclick="showCalculator('legumes')">بقوليات</button>
+          <button onclick="showCalculator('snack')">وجبات خفيفة</button>
+        </div>
+        <!-- <button onclick="resetCalculator()">إعادة تعيين</button> -->
+
+        <!-- جدول البروتين -->
+        <div class="calculator food-table" id="protein" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل البروتين</h2>
+
+            <label for="originalFoodProtein">الطعام الأصلي:</label>
+            <select id="originalFoodProtein">
+              <option value="25">Beef</option>
+              <option value="27">Cooked Ground Beef</option>
+              <option value="26">Kofta</option>
+              <option value="33">Beef Shank</option>
+              <option value="23">Cooked Ribs</option>
+              <option value="24.5">Beef Shawarma</option>
+              <option value="10">Sausage / Hot Dog</option>
+              <option value="18">Cooked Sausage</option>
+              <option value="17.4">Smoked Turkey Luncheon</option>
+              <option value="18">Luncheon Meat</option>
+              <option value="23">Pepperoni</option>
+              <option value="22">Salami</option>
+              <option value="22.7">Basturma</option>
+              <option value="30">Cooked Chicken Breast</option>
+              <option value="21.7">Fried Chicken Breast</option>
+              <option value="2">Chicken Soup</option>
+              <option value="23.68">Cooked Chicken Thigh</option>
+              <option value="17.5">Chicken Kebab</option>
+              <option value="16">Chicken Shawarma</option>
+              <option value="26.5">Cooked Chicken Hearts</option>
+              <option value="30.1">Cooked Chicken Gizzards</option>
+              <option value="24.5">Cooked Chicken Liver</option>
+              <option value="26.22">Cooked Duck Breast</option>
+              <option value="29.1">Cooked Duck Thigh</option>
+              <option value="30">Cooked Turkey Breast</option>
+              <option value="17">Cooked Turkey Thigh</option>
+              <option value="27">Cooked Turkey Wing</option>
+              <option value="21.8">Cooked Pigeon</option>
+              <option value="29">Cooked Rabbit Meat</option>
+              <option value="29">Cooked Liver</option>
+              <option value="12.58">Boiled Eggs</option>
+              <option value="10">Egg Whites</option>
+              <option value="29">Tuna in Oil (Drained)</option>
+              <option value="20.8">Tuna in Oil</option>
+              <option value="26">Tuna in Water (Drained)</option>
+              <option value="28.89">Canned Anchovies</option>
+              <option value="20.5">Canned Salmon</option>
+              <option value="17">White Seabream Fish</option>
+              <option value="21">Basa Fish Fillet</option>
+              <option value="20">Grilled Sea Bream</option>
+              <option value="24.81">Cooked Mullet Fish</option>
+              <option value="26">Cooked Tilapia</option>
+              <option value="24">Cooked Salmon</option>
+              <option value="24.47">Cooked Shrimp</option>
+              <option value="17.9">Cooked Squid</option>
+              <option value="17">Crab</option>
+              <option value="14">Smoked Herring</option>
+              <option value="24">Canned Sardines (Drained)</option>
+              <option value="19">Canned Sardines (Undrained)</option>
+              <option value="24">Cooked Sardines</option>
+              <option value="25">Caviar (Fish Roe)</option>
+              <option value="28.03">Peanuts</option>
+              <option value="25.09">Peanut Butter</option>
+              <option value="21.26">Almonds</option>
+              <option value="20.61">Pistachios</option>
+              <option value="21">Sunflower Seeds</option>
+            </select>
+
+            <label for="originalAmountProtein"
+              >كمية الطعام المكتوبة في النظام الغذائي (جم):</label
+            >
+            <div style="position: relative; display: inline-block">
+              <input
+                class="nun"
+                type="number"
+                id="originalAmountProtein"
+                placeholder="ادخل الكمية المكتوبة بالجرام"
+                required
+              />
+              <!-- <span style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">جم</span> -->
+            </div>
+
+            <label for="replacementFoodProtein">البديل المطلوب:</label>
+            <select id="replacementFoodProtein">
+              <option value="25">Beef</option>
+              <option value="27">Cooked Ground Beef</option>
+              <option value="26">Kofta</option>
+              <option value="33">Beef Shank</option>
+              <option value="23">Cooked Ribs</option>
+              <option value="24.5">Beef Shawarma</option>
+              <option value="10">Sausage / Hot Dog</option>
+              <option value="18">Cooked Sausage</option>
+              <option value="17.4">Smoked Turkey Luncheon</option>
+              <option value="18">Luncheon Meat</option>
+              <option value="23">Pepperoni</option>
+              <option value="22">Salami</option>
+              <option value="22.7">Basturma</option>
+              <option value="30">Cooked Chicken Breast</option>
+              <option value="21.7">Fried Chicken Breast</option>
+              <option value="2">Chicken Soup</option>
+              <option value="23.68">Cooked Chicken Thigh</option>
+              <option value="17.5">Chicken Kebab</option>
+              <option value="16">Chicken Shawarma</option>
+              <option value="26.5">Cooked Chicken Hearts</option>
+              <option value="30.1">Cooked Chicken Gizzards</option>
+              <option value="24.5">Cooked Chicken Liver</option>
+              <option value="26.22">Cooked Duck Breast</option>
+              <option value="29.1">Cooked Duck Thigh</option>
+              <option value="30">Cooked Turkey Breast</option>
+              <option value="17">Cooked Turkey Thigh</option>
+              <option value="27">Cooked Turkey Wing</option>
+              <option value="21.8">Cooked Pigeon</option>
+              <option value="29">Cooked Rabbit Meat</option>
+              <option value="29">Cooked Liver</option>
+              <option value="12.58">Boiled Eggs</option>
+              <option value="10">Egg Whites</option>
+              <option value="29">Tuna in Oil (Drained)</option>
+              <option value="20.8">Tuna in Oil</option>
+              <option value="26">Tuna in Water (Drained)</option>
+              <option value="28.89">Canned Anchovies</option>
+              <option value="20.5">Canned Salmon</option>
+              <option value="17">White Seabream Fish</option>
+              <option value="21">Basa Fish Fillet</option>
+              <option value="20">Grilled Sea Bream</option>
+              <option value="24.81">Cooked Mullet Fish</option>
+              <option value="26">Cooked Tilapia</option>
+              <option value="24">Cooked Salmon</option>
+              <option value="24.47">Cooked Shrimp</option>
+              <option value="17.9">Cooked Squid</option>
+              <option value="17">Crab</option>
+              <option value="14">Smoked Herring</option>
+              <option value="24">Canned Sardines (Drained)</option>
+              <option value="19">Canned Sardines (Undrained)</option>
+              <option value="24">Cooked Sardines</option>
+              <option value="25">Caviar (Fish Roe)</option>
+              <option value="28.03">Peanuts</option>
+              <option value="25.09">Peanut Butter</option>
+              <option value="21.26">Almonds</option>
+              <option value="20.61">Pistachios</option>
+              <option value="21">Sunflower Seeds</option>
+            </select>
+
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountProtein',
+                  'originalFoodProtein',
+                  'replacementFoodProtein',
+                  'resultProtein',
+                  'resultInputProtein',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputProtein"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultProtein"></p>
+          </div>
+        </div>
+
+        <!-- جدول الكربوهيدرات -->
+        <div
+          class="calculator food-table"
+          id="carbohydrate"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الكربوهيدرات</h2>
+
+            <label for="originalFoodCarbohydrate">الطعام الأصلي:</label>
+            <select id="originalFoodCarbohydrate">
+              <option value="2.66">Boiled White Rice</option>
+              <option value="3.52">Boiled Basmati Rice</option>
+              <option value="6">Boiled Pasta</option>
+              <option value="14">Oats</option>
+              <option value="12">Granola</option>
+              <option value="3.1">Boiled Bulgur</option>
+              <option value="3.8">Boiled Couscous</option>
+              <option value="4.5">Instant Noodles</option>
+              <option value="9">Brown Bread</option>
+              <option value="8.1">Whole Wheat Bread</option>
+              <option value="8">Healthy Bread</option>
+              <option value="9.1">White Bread</option>
+              <option value="8">Plain Croissant or Puff Pastry</option>
+              <option value="13.35">Bread Crumbs</option>
+              <option value="10">White Flour</option>
+              <option value="1.37">Cooked Sweet Potato</option>
+              <option value="1.81">Boiled Potatoes</option>
+              <option value="2.3">Baked Potatoes</option>
+              <option value="6.56">Potato Chips</option>
+              <option value="4">French Fries</option>
+              <option value="3.22">Boiled Corn</option>
+              <option value="3.3">Charcoal Grilled Corn</option>
+              <option value="1.5">Taro</option>
+              <option value="5">Peas</option>
+            </select>
+            <!-- <label for="originalAmountCarbohydrate">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountCarbohydrate"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodCarbohydrate">البديل المطلوب:</label>
+            <select id="replacementFoodCarbohydrate">
+              <option value="2.66">Boiled White Rice</option>
+              <option value="3.52">Boiled Basmati Rice</option>
+              <option value="6">Boiled Pasta</option>
+              <option value="14">Oats</option>
+              <option value="12">Granola</option>
+              <option value="3.1">Boiled Bulgur</option>
+              <option value="3.8">Boiled Couscous</option>
+              <option value="4.5">Instant Noodles</option>
+              <option value="9">Brown Bread</option>
+              <option value="8.1">Whole Wheat Bread</option>
+              <option value="8">Healthy Bread</option>
+              <option value="9.1">White Bread</option>
+              <option value="8">Plain Croissant or Puff Pastry</option>
+              <option value="13.35">Bread Crumbs</option>
+              <option value="10">White Flour</option>
+              <option value="1.37">Cooked Sweet Potato</option>
+              <option value="1.81">Boiled Potatoes</option>
+              <option value="2.3">Baked Potatoes</option>
+              <option value="6.56">Potato Chips</option>
+              <option value="4">French Fries</option>
+              <option value="3.22">Boiled Corn</option>
+              <option value="3.3">Charcoal Grilled Corn</option>
+              <option value="1.5">Taro</option>
+              <option value="5">Peas</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountCarbohydrate',
+                  'originalFoodCarbohydrate',
+                  'replacementFoodCarbohydrate',
+                  'resultCarbohydrate',
+                  'resultInputCarbohydrate',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputCarbohydrate"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultCarbohydrate"></p>
+          </div>
+        </div>
+
+        <!-- جدول الدهون الصحية -->
+        <div
+          class="calculator food-table"
+          id="healthyfats"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الدهون الصحية</h2>
+
+            <label for="originalFoodHealthyFats">الطعام الأصلي:</label>
+            <select id="originalFoodHealthyFats">
+              <option value="0">Thousand Island</option>
+              <option value="1.1">Mayonnaise</option>
+              <option value="0.88">Light Mayonnaise</option>
+              <option value="0">Olive Oil</option>
+              <option value="0">Corn Oil</option>
+              <option value="0">Fish Oil</option>
+              <option value="0">Sunflower Oil</option>
+              <option value="0.85">Butter</option>
+              <option value="0">Light Butter</option>
+
+              <!-- Group 2 -->
+              <option value="2">Cooking Cream</option>
+              <option value="2.1">Cream</option>
+              <option value="28.03">Peanuts</option>
+              <option value="18">Flax Seeds</option>
+
+              <!-- Group 3 -->
+              <option value="16">Chia Seeds</option>
+              <option value="19">Mixed Seeds</option>
+              <option value="21">Sunflower Seeds</option>
+
+              <!-- Group 4 -->
+              <option value="20.61">Pistachios</option>
+              <option value="18.22">Cashews</option>
+              <option value="15.23">Walnuts</option>
+
+              <!-- Group 5 -->
+              <option value="7">Coconut</option>
+              <option value="21.26">Almonds</option>
+              <option value="18">Sesame Seeds</option>
+
+              <!-- Group 6 -->
+              <option value="25.09">Peanut Butter</option>
+              <option value="19">Pistachio Butter</option>
+              <option value="17">Tahini</option>
+
+              <!-- Group 7 -->
+              <option value="11">Halawa Tahiniya</option>
+              <option value="0.8">Olives</option>
+              <option value="2">Avocado</option>
+
+              <!-- Add more foods based on your available table -->
+            </select>
+
+            <!-- <label for="originalAmountHealthyFats">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountHealthyFats"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodHealthyFats">البديل المطلوب:</label>
+            <select id="replacementFoodHealthyFats">
+              <option value="0">Thousand Island</option>
+              <option value="1.1">Mayonnaise</option>
+              <option value="0.88">Light Mayonnaise</option>
+              <option value="0">Olive Oil</option>
+              <option value="0">Corn Oil</option>
+              <option value="0">Fish Oil</option>
+              <option value="0">Sunflower Oil</option>
+              <option value="0.85">Butter</option>
+              <option value="0">Light Butter</option>
+
+              <!-- Group 2 -->
+              <option value="2">Cooking Cream</option>
+              <option value="2.1">Cream</option>
+              <option value="28.03">Peanuts</option>
+              <option value="18">Flax Seeds</option>
+
+              <!-- Group 3 -->
+              <option value="16">Chia Seeds</option>
+              <option value="19">Mixed Seeds</option>
+              <option value="21">Sunflower Seeds</option>
+
+              <!-- Group 4 -->
+              <option value="20.61">Pistachios</option>
+              <option value="18.22">Cashews</option>
+              <option value="15.23">Walnuts</option>
+
+              <!-- Group 5 -->
+              <option value="7">Coconut</option>
+              <option value="21.26">Almonds</option>
+              <option value="18">Sesame Seeds</option>
+
+              <!-- Group 6 -->
+              <option value="25.09">Peanut Butter</option>
+              <option value="19">Pistachio Butter</option>
+              <option value="17">Tahini</option>
+
+              <!-- Group 7 -->
+              <option value="11">Halawa Tahiniya</option>
+              <option value="0.8">Olives</option>
+              <option value="2">Avocado</option>
+
+              <!-- أضف المزيد من الأطعمة حسب الجدول المتوفر لديك -->
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountHealthyFats',
+                  'originalFoodHealthyFats',
+                  'replacementFoodHealthyFats',
+                  'resultHealthyFats',
+                  'resultInputHealthyFats',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputHealthyFats"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultHealthyFats"></p>
+          </div>
+        </div>
+
+        <!-- جدول الوجبات الخفيفة (snack) -->
+
+        <!-- جدول الفواكه -->
+        <div class="calculator food-table" id="fruits" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الفواكه</h2>
+
+            <label for="originalFoodFruits">الطعام الأصلي:</label>
+            <select id="originalFoodFruits">
+              <option value="0.72">Grapes</option>
+              <option value="1.09">Banana</option>
+              <option value="1.6">Custard Apple</option>
+              <option value="0.94">Orange</option>
+              <option value="0.26">Apple</option>
+              <option value="0.61">Watermelon</option>
+              <option value="0.54">Melon</option>
+              <option value="0.84">Cantaloupe</option>
+              <option value="0.7">Prickly Pear</option>
+              <option value="0.8">Fig</option>
+              <option value="0.91">Peach</option>
+              <option value="0.7">Plum</option>
+              <option value="1.4">Apricot</option>
+              <option value="0.81">Mandarin</option>
+              <option value="1">Cherry</option>
+              <option value="1.4">Berries</option>
+              <option value="0.51">Mango</option>
+              <option value="2.45">Dates</option>
+              <option value="0.58">Persimmon</option>
+              <option value="0.67">Strawberry</option>
+              <option value="1.14">Kiwi</option>
+              <option value="0.95">Pomegranate</option>
+              <option value="0.54">Pineapple</option>
+              <option value="2.55">Guava</option>
+              <option value="0.38">Pear</option>
+              <option value="3.07">Raisins</option>
+              <option value="3.4">Dried Apricot</option>
+              <option value="3.3">Dried Fig</option>
+              <option value="3.4">Raw Qamar El Din</option>
+              <option value="5">Raw Carob</option>
+              <option value="2.8">Raw Tamarind</option>
+              <option value="2">Avocado</option>
+            </select>
+
+            <!-- <label for="originalAmountFruits">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountFruits"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodFruits">البديل المطلوب:</label>
+            <select id="replacementFoodFruits">
+              <option value="0.72">Grapes</option>
+              <option value="1.09">Banana</option>
+              <option value="1.6">Custard Apple</option>
+              <option value="0.94">Orange</option>
+              <option value="0.26">Apple</option>
+              <option value="0.61">Watermelon</option>
+              <option value="0.54">Melon</option>
+              <option value="0.84">Cantaloupe</option>
+              <option value="0.7">Prickly Pear</option>
+              <option value="0.8">Fig</option>
+              <option value="0.91">Peach</option>
+              <option value="0.7">Plum</option>
+              <option value="1.4">Apricot</option>
+              <option value="0.81">Mandarin</option>
+              <option value="1">Cherry</option>
+              <option value="1.4">Berries</option>
+              <option value="0.51">Mango</option>
+              <option value="2.45">Dates</option>
+              <option value="0.58">Persimmon</option>
+              <option value="0.67">Strawberry</option>
+              <option value="1.14">Kiwi</option>
+              <option value="0.95">Pomegranate</option>
+              <option value="0.54">Pineapple</option>
+              <option value="2.55">Guava</option>
+              <option value="0.38">Pear</option>
+              <option value="3.07">Raisins</option>
+              <option value="3.4">Dried Apricot</option>
+              <option value="3.3">Dried Fig</option>
+              <option value="3.4">Raw Qamar El Din</option>
+              <option value="5">Raw Carob</option>
+              <option value="2.8">Raw Tamarind</option>
+              <option value="2">Avocado</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountFruits',
+                  'originalFoodFruits',
+                  'replacementFoodFruits',
+                  'resultFruits',
+                  'resultInputFruits',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputFruits"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultFruits"></p>
+          </div>
+        </div>
+
+        <!-- جدول الخضروات -->
+        <div
+          class="calculator food-table"
+          id="vegetables"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الخضروات</h2>
+
+            <label for="originalFoodVegetables">الطعام الأصلي:</label>
+            <select id="originalFoodVegetables">
+              <option value="0.65">Cucumber</option>
+              <option value="0.88">Tomato</option>
+              <option value="2.9">Cooked Artichoke</option>
+              <option value="0.7">Radish</option>
+              <option value="2.97">Parsley</option>
+              <option value="1.1">Onion</option>
+              <option value="1">Pumpkin</option>
+              <option value="1.5">Leek</option>
+              <option value="4.8">Molokhia</option>
+              <option value="2.3">Arugula</option>
+              <option value="0.69">Celery</option>
+              <option value="1.44">Cabbage</option>
+              <option value="2.82">Broccoli</option>
+              <option value="0.9">Lettuce</option>
+              <option value="2.9">Spinach</option>
+              <option value="1.8">Green Beans</option>
+              <option value="1.6">Beetroot</option>
+              <option value="0.93">Carrot</option>
+              <option value="0.99">Pepper</option>
+              <option value="1.2">Zucchini</option>
+              <option value="1.9">Okra</option>
+              <option value="1">Eggplant</option>
+              <option value="1.98">Cauliflower</option>
+              <option value="3.09">Mushroom</option>
+              <option value="6">Garlic</option>
+              <option value="1.5">Taro</option>
+              <option value="5">Peas</option>
+            </select>
+
+            <!-- <label for="originalAmountVegetables">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountVegetables"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodVegetables">البديل المطلوب:</label>
+            <select id="replacementFoodVegetables">
+              <option value="0.65">Cucumber</option>
+              <option value="0.88">Tomato</option>
+              <option value="2.9">Cooked Artichoke</option>
+              <option value="0.7">Radish</option>
+              <option value="2.97">Parsley</option>
+              <option value="1.1">Onion</option>
+              <option value="1">Pumpkin</option>
+              <option value="1.5">Leek</option>
+              <option value="4.8">Molokhia</option>
+              <option value="2.3">Arugula</option>
+              <option value="0.69">Celery</option>
+              <option value="1.44">Cabbage</option>
+              <option value="2.82">Broccoli</option>
+              <option value="0.9">Lettuce</option>
+              <option value="2.9">Spinach</option>
+              <option value="1.8">Green Beans</option>
+              <option value="1.6">Beetroot</option>
+              <option value="0.93">Carrot</option>
+              <option value="0.99">Pepper</option>
+              <option value="1.2">Zucchini</option>
+              <option value="1.9">Okra</option>
+              <option value="1">Eggplant</option>
+              <option value="1.98">Cauliflower</option>
+              <option value="3.09">Mushroom</option>
+              <option value="6">Garlic</option>
+              <option value="1.5">Taro</option>
+              <option value="5">Peas</option>
+            </select>
+
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountVegetables',
+                  'originalFoodVegetables',
+                  'replacementFoodVegetables',
+                  'resultVegetables',
+                  'resultInputVegetables',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputVegetables"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+          </div>
+        </div>
+
+        <!-- جدول منتجات الألبان -->
+        <div
+          class="calculator food-table"
+          id="dairyproducts"
+          style="display: none"
+        >
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل منتجات الألبان</h2>
+
+            <label for="originalFoodDairy">الطعام الأصلي:</label>
+            <select id="originalFoodDairy">
+              <option value="3">Whole Milk</option>
+              <option value="3.3">Semi-Skimmed Milk</option>
+              <option value="3">Skimmed Milk</option>
+              <option value="3">Buttermilk</option>
+              <option value="21.6">Full Fat Mozzarella Cheese</option>
+              <option value="24.26">Low Fat Mozzarella Cheese</option>
+              <option value="25">Roumy Cheese</option>
+              <option value="24.9">Cheddar Cheese</option>
+              <option value="25">Flamenco Cheese</option>
+              <option value="14.21">Feta Cheese</option>
+              <option value="15.1">Low Fat Feta Cheese</option>
+              <option value="12.49">Cottage Cheese</option>
+              <option value="7.55">Processed Triangle Cheese</option>
+              <option value="9.4">Light Triangle Cheese</option>
+              <option value="7">Greek Yogurt</option>
+              <option value="11">Fat Free Greek Yogurt</option>
+              <option value="2.9">Full Fat Yogurt</option>
+              <option value="5">Low Fat Yogurt</option>
+              <option value="2.7">Light Cream</option>
+              <option value="6.9">Sweetened Condensed Milk</option>
+              <option value="6.9">Unsweetened Condensed Milk</option>
+              <option value="26">Diluted Powdered Milk</option>
+              <option value="5.73">Fat Free Yogurt</option>
+              <option value="4.8">Coffee Creamer</option>
+              <option value="2.1">Cream</option>
+              <option value="2">Cooking Cream</option>
+              <option value="0.85">Butter</option>
+              <option value="0">Light Butter</option>
+            </select>
+
+            <!-- <label for="originalAmountDairy">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountDairy"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodDairy">البديل المطلوب:</label>
+            <select id="replacementFoodDairy">
+              <option value="3">Whole Milk</option>
+              <option value="3.3">Semi-Skimmed Milk</option>
+              <option value="3">Skimmed Milk</option>
+              <option value="3">Buttermilk</option>
+              <option value="21.6">Full Fat Mozzarella Cheese</option>
+              <option value="24.26">Low Fat Mozzarella Cheese</option>
+              <option value="25">Roumy Cheese</option>
+              <option value="24.9">Cheddar Cheese</option>
+              <option value="25">Flamenco Cheese</option>
+              <option value="14.21">Feta Cheese</option>
+              <option value="15.1">Low Fat Feta Cheese</option>
+              <option value="12.49">Cottage Cheese</option>
+              <option value="7.55">Processed Triangle Cheese</option>
+              <option value="9.4">Light Triangle Cheese</option>
+              <option value="7">Greek Yogurt</option>
+              <option value="11">Fat Free Greek Yogurt</option>
+              <option value="2.9">Full Fat Yogurt</option>
+              <option value="5">Low Fat Yogurt</option>
+              <option value="2.7">Light Cream</option>
+              <option value="6.9">Sweetened Condensed Milk</option>
+              <option value="6.9">Unsweetened Condensed Milk</option>
+              <option value="26">Diluted Powdered Milk</option>
+              <option value="5.73">Fat Free Yogurt</option>
+              <option value="4.8">Coffee Creamer</option>
+              <option value="2.1">Cream</option>
+              <option value="2">Cooking Cream</option>
+              <option value="0.85">Butter</option>
+              <option value="0">Light Butter</option>
+            </select>
+
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountDairy',
+                  'originalFoodDairy',
+                  'replacementFoodDairy',
+                  'resultDairy',
+                  'resultInputDairy',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputDairy"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultDairy"></p>
+          </div>
+        </div>
+
+        <!-- جدول البقوليات -->
+        <div class="calculator food-table" id="legumes" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل البقوليات</h2>
+
+            <label for="originalFoodLegumes">الطعام الأصلي:</label>
+            <select id="originalFoodLegumes">
+              <option value="16">Boiled Lupin Beans</option>
+              <option value="17">Boiled Soybeans</option>
+              <option value="8">Dry Green Cowpeas</option>
+              <option value="3">Dry Cowpeas</option>
+              <option value="7.6">Boiled Fava Beans</option>
+              <option value="5">Canned Red Beans (Drained)</option>
+              <option value="8.9">Boiled Chickpeas</option>
+              <option value="9">Boiled Lentils</option>
+              <option value="5">Peas</option>
+            </select>
+
+            <!-- <label for="originalAmountLegumes">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountLegumes"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodLegumes">البديل المطلوب:</label>
+            <select id="replacementFoodLegumes">
+              <option value="16">Boiled Lupin Beans</option>
+              <option value="17">Boiled Soybeans</option>
+              <option value="8">Dry Green Cowpeas</option>
+              <option value="3">Dry Cowpeas</option>
+              <option value="7.6">Boiled Fava Beans</option>
+              <option value="5">Canned Red Beans (Drained)</option>
+              <option value="8.9">Boiled Chickpeas</option>
+              <option value="9">Boiled Lentils</option>
+              <option value="5">Peas</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountLegumes',
+                  'originalFoodLegumes',
+                  'replacementFoodLegumes',
+                  'resultLegumes',
+                  'resultInputLegumes',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputLegumes"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultLegumes"></p>
+          </div>
+        </div>
+
+        <div class="calculator food-table" id="snack" style="display: none">
+          <div class="testo">
+            <h2>آلة حاسبة لبدائل الوجبات الخفيفة</h2>
+
+            <label for="originalFoodSnack">الطعام الأصلي:</label>
+            <select id="originalFoodSnack">
+              <option value="60">High Protein Coffee</option>
+              <option value="75">Whey Protein</option>
+              <option value="6">Cheesecake</option>
+              <option value="1">Eastern Kunafa</option>
+              <option value="3.5">Ice Cream</option>
+              <option value="2.1">Danette Chocolate Pudding</option>
+              <option value="6.1">Custard</option>
+              <option value="5">Classic Cinnamon Roll</option>
+              <option value="5.2">Cake</option>
+              <option value="6.8">Pancakes</option>
+              <option value="7.3">Nutella</option>
+              <option value="7">Snickers Chocolate</option>
+              <option value="8">Dark Chocolate (70%)</option>
+              <option value="10">Dark Chocolate (90%)</option>
+              <option value="4.8">Corona Dark Chocolate</option>
+              <option value="8">Mars Chocolate</option>
+              <option value="6">Plain Biscuits</option>
+              <option value="7.3">Digestive Biscuits</option>
+              <option value="14">Popcorn</option>
+              <option value="7.24">Corn Flakes</option>
+              <option value="8">Rice Cakes</option>
+              <option value="12">Breadsticks</option>
+              <option value="0.4">Jam</option>
+              <option value="0">Light Jam</option>
+              <option value="0.4">Jelly</option>
+              <option value="0.3">Honey</option>
+              <option value="0">Black Honey</option>
+              <option value="0">Date Molasses</option>
+              <option value="8.3">Maltesers</option>
+              <option value="0.1">Unsweetened Iced Tea</option>
+            </select>
+
+            <!-- <label for="originalAmountSnack">كمية الطعام المكتوبة في النظام الغذائي (جم):</label> -->
+            <input
+              class="nun"
+              type="number"
+              id="originalAmountSnack"
+              placeholder="ادخل الكمية المكتوبة بالجرام"
+              required
+            />
+
+            <label for="replacementFoodSnack">البديل المطلوب:</label>
+            <select id="replacementFoodSnack">
+              <option value="60">High Protein Coffee</option>
+              <option value="75">Whey Protein</option>
+              <option value="6">Cheesecake</option>
+              <option value="1">Eastern Kunafa</option>
+              <option value="3.5">Ice Cream</option>
+              <option value="2.1">Danette Chocolate Pudding</option>
+              <option value="6.1">Custard</option>
+              <option value="5">Classic Cinnamon Roll</option>
+              <option value="5.2">Cake</option>
+              <option value="6.8">Pancakes</option>
+              <option value="7.3">Nutella</option>
+              <option value="7">Snickers Chocolate</option>
+              <option value="8">Dark Chocolate (70%)</option>
+              <option value="10">Dark Chocolate (90%)</option>
+              <option value="4.8">Corona Dark Chocolate</option>
+              <option value="8">Mars Chocolate</option>
+              <option value="6">Plain Biscuits</option>
+              <option value="7.3">Digestive Biscuits</option>
+              <option value="14">Popcorn</option>
+              <option value="7.24">Corn Flakes</option>
+              <option value="8">Rice Cakes</option>
+              <option value="12">Breadsticks</option>
+              <option value="0.4">Jam</option>
+              <option value="0">Light Jam</option>
+              <option value="0.4">Jelly</option>
+              <option value="0.3">Honey</option>
+              <option value="0">Black Honey</option>
+              <option value="0">Date Molasses</option>
+              <option value="8.3">Maltesers</option>
+              <option value="0.1">Unsweetened Iced Tea</option>
+            </select>
+            <button
+              style="margin-top: 15px"
+              onclick="
+                calculate(
+                  'originalAmountSnack',
+                  'originalFoodSnack',
+                  'replacementFoodSnack',
+                  'resultSnack',
+                  'resultInputSnack',
+                )
+              "
+            >
+              احسب كمية البديل
+            </button>
+
+            <p>دي الكمية اللي هتاكلها بالجرام:</p>
+            <input
+              type="text"
+              id="resultInputSnack"
+              readonly
+              style="display: none; font-weight: bold"
+            />
+            <p id="resultSnack"></p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--=============== MAIN JS ===============-->
+    <script src="{% static 'js/naves.js' %}"></script>
+  <script src="{% static 'js/language.js' %}"></script>
+</body>
+</html>

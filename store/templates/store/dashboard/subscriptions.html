@@ -1,0 +1,70 @@
+{% extends "store/dashboard/base.html" %}
+{% block title %}Subscriptions{% endblock %}
+
+{% block content %}
+<div class="dash-panel" style="margin-top:0;">
+    <form method="get" class="dash-filters">
+        <input type="text" name="q" value="{{ q }}" placeholder="Name or phone" style="min-width:220px;">
+        <select name="status">
+            <option value="" data-lang="dashsuball">All statuses</option>
+            {% for value, label in status_choices %}
+            <option value="{{ value }}" data-lang="dashsub{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <select name="plan_type">
+            <option value="" data-lang="dashsuball">All plans</option>
+            <option value="weekly" data-lang="mealsweeklycta" {% if plan_type == "weekly" %}selected{% endif %}>Weekly</option>
+            <option value="monthly" data-lang="mealsmonthlycta" {% if plan_type == "monthly" %}selected{% endif %}>Monthly</option>
+        </select>
+        <button type="submit" class="dash-btn dash-btn--primary"><i class="ri-search-line"></i> <span data-lang="dashsubfilter">Filter</span></button>
+        {% if q or status or plan_type %}
+        <a href="{% url 'dashboard_subscriptions' %}" class="dash-btn" data-lang="mealsclear">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="dash-panel">
+    <div class="dash-panel__head"><h2><span data-lang="dashsubtitle">Subscriptions</span> ({{ page_obj.paginator.count }})</h2></div>
+
+    {% if page_obj.object_list %}
+    <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th data-lang="dashsubcustomer">Customer</th><th data-lang="dashsubplan">Plan</th><th data-lang="dashsubgoal">Goal</th><th data-lang="mealsmealsperday">Meals/day</th>
+                    <th data-lang="dashsubstart">Start</th><th data-lang="dashsubend">End</th><th>Price</th><th data-lang="dashsubpayment">Payment</th><th data-lang="dashsubstatus">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sub in page_obj.object_list %}
+                <tr onclick="window.location='{% url 'dashboard_subscription_detail' sub.pk %}'" style="cursor:pointer;">
+                    <td>{{ sub.full_name }}<br><span style="color:var(--dash-muted);font-size:.76rem;">{{ sub.phone }}</span></td>
+                    <td>{{ sub.get_plan_type_display }}</td>
+                    <td>{{ sub.get_goal_display }}</td>
+                    <td>{{ sub.meals_per_day }}</td>
+                    <td>{{ sub.start_date|date:"d M" }}</td>
+                    <td>{{ sub.end_date|date:"d M" }}</td>
+                    <td>{{ sub.total_price }} EGP</td>
+                    <td><span class="dash-badge dash-badge--{{ sub.payment_status }}">{{ sub.get_payment_status_display }}</span></td>
+                    <td><span class="dash-badge dash-badge--{{ sub.status }}">{{ sub.get_status_display }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="dash-pagination">
+        {% if page_obj.has_previous %}
+        <a class="dash-btn" href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}"><i class="ri-arrow-left-line"></i></a>
+        {% endif %}
+        <span class="dash-btn" style="pointer-events:none;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+        <a class="dash-btn" href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}"><i class="ri-arrow-right-line"></i></a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="dash-empty"><i class="ri-repeat-line"></i><p data-lang="dashsubnoresults">No subscriptions match these filters.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

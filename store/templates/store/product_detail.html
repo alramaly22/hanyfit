@@ -1,0 +1,253 @@
+{% extends "store/base_store.html" %}
+{% load static store_extras %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block meta_description %}{{ product.description|default:product.name|striptags|truncatewords:25 }}{% endblock %}
+
+{% block og_image %}
+{% if product.front_image_url %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.front_image_url }}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<section class="shop-section shop-detail-page">
+    <div class="shop-container">
+
+        <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'store' %}" data-lang="shopnav">Shop</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <span aria-current="page">{{ product.name }}</span>
+        </nav>
+
+        {# Fires the browser-side ViewContent using the same id as the server event. #}
+        <span hidden
+              data-tt-event="ViewContent"
+              data-tt-event-id="{{ view_content_event_id }}"
+              data-tt-properties='{"currency": "{{ currency_label|escapejs }}", "value": {{ display_price }}, "content_type": "product", "contents": [{"content_id": "{{ product.slug|escapejs }}", "content_type": "product", "content_name": "{{ product.name|escapejs }}", "quantity": 1, "price": {{ display_price }}}]}'
+              data-fb-event="ViewContent"
+              data-fb-properties='{"currency": "{{ currency_label|escapejs }}", "value": {{ display_price }}, "content_type": "product", "content_ids": ["{{ product.slug|escapejs }}"], "content_name": "{{ product.name|escapejs }}"}'></span>
+
+        <div class="shop-detail">
+
+            <!-- ============== GALLERY ============== -->
+            <div class="shop-gallery" data-gallery>
+
+                <div class="shop-gallery__stage">
+                    <img src="{{ product.front_image_url }}"
+                         alt="{{ product.name }}, front"
+                         class="is-active"
+                         data-gallery-slide
+                         fetchpriority="high"
+                         decoding="async">
+                    {% if product.back_image_url %}
+                    <img src="{{ product.back_image_url }}"
+                         alt="{{ product.name }}, back"
+                         data-gallery-slide
+                         loading="lazy"
+                         decoding="async">
+                    {% endif %}
+                </div>
+
+                {% if product.back_image_url %}
+                <div class="shop-gallery__thumbs" role="tablist" aria-label="Product images">
+                    <button type="button" class="shop-thumb is-active" data-gallery-thumb
+                            role="tab" aria-selected="true">
+                        <img src="{{ product.front_image_url }}" alt="Front view">
+                    </button>
+                    <button type="button" class="shop-thumb" data-gallery-thumb
+                            role="tab" aria-selected="false">
+                        <img src="{{ product.back_image_url }}" alt="Back view">
+                    </button>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- ============== BUY PANEL ============== -->
+            <div class="shop-buy">
+
+                <h1 class="shop-buy__name">{{ product.name }}</h1>
+
+                <p class="shop-price shop-buy__price">
+                    <span class="shop-price__now">{{ display_price|money:currency_label }}</span>
+                    {% if product.is_on_sale %}
+                    <span class="shop-price__was">{{ product.compare_at_price|convert_currency:store_country|money:currency_label }}</span>
+                    <span class="shop-badge shop-badge--sale">
+                        Save {{ product.discount_percent }}%
+                    </span>
+                    {% endif %}
+                </p>
+
+                {% if product.description %}
+                <div class="shop-buy__desc">{{ product.description }}</div>
+                {% endif %}
+
+                {% if variants %}
+
+                <form method="post"
+                      action="{% url 'cart_add' %}"
+                      data-slug="{{ product.slug }}"
+                      data-name="{{ product.name }}"
+                      data-price="{{ display_price }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="slug" value="{{ product.slug }}">
+
+                    <div class="shop-field">
+                        <div class="shop-field__head">
+                            <span class="shop-field__label" data-lang="shopsize">Size</span>
+                            <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" target="_blank"
+                               rel="noopener" class="shop-link-quiet" data-lang="shopsizehelp">
+                                Not sure? Ask us
+                            </a>
+                        </div>
+
+                        <div class="shop-sizes">
+                            {% for variant in variants %}
+                            <label class="shop-size">
+                                <input type="radio"
+                                       name="size"
+                                       value="{{ variant.size }}"
+                                       {% if forloop.first %}checked{% endif %}>
+                                <span class="shop-size__box">{{ variant.get_size_display }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+
+                        {% with lowest=variants|first %}
+                        {% if lowest.stock <= 5 %}
+                        <p class="shop-buy__note">
+                            <i class="ri-fire-line" aria-hidden="true"></i>
+                            Only {{ lowest.stock }} left in {{ lowest.get_size_display }}.
+                        </p>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="shop-field">
+                        <div class="shop-field__head">
+                            <span class="shop-field__label" data-lang="shopqty">Quantity</span>
+                        </div>
+
+                        <div class="shop-stepper" data-stepper>
+                            <button type="button" data-step="down" aria-label="Decrease quantity">
+                                <i class="ri-subtract-line" aria-hidden="true"></i>
+                            </button>
+                            <input type="number"
+                                   name="quantity"
+                                   value="1"
+                                   min="1"
+                                   max="{{ max_quantity|default:10 }}"
+                                   aria-label="Quantity">
+                            <button type="button" data-step="up" aria-label="Increase quantity">
+                                <i class="ri-add-line" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="shop-btn shop-btn--primary shop-btn--block shop-btn--lg"
+                            data-add-to-bag>
+                        <i class="ri-shopping-bag-3-line" aria-hidden="true"></i>
+                        <span data-lang="shopadd">Add to bag</span>
+                    </button>
+
+                    <p class="shop-inline-error" role="alert"></p>
+
+                    <p class="shop-buy__note">
+                        <i class="ri-truck-line" aria-hidden="true"></i>
+                        <span>
+                            Delivered in 2 to 5 days. Pay cash on delivery or by card.
+                        </span>
+                    </p>
+
+                </form>
+
+                {% else %}
+
+                <p class="shop-badge shop-badge--sold-out">Sold out</p>
+                <p class="shop-buy__note">
+                    <i class="ri-information-line" aria-hidden="true"></i>
+                    <span>
+                        This one has gone. Message us on WhatsApp and we will tell you
+                        when it is back.
+                    </span>
+                </p>
+                <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" target="_blank" rel="noopener"
+                   class="shop-btn shop-btn--ghost shop-btn--block">
+                    <i class="ri-whatsapp-line" aria-hidden="true"></i>
+                    Ask about restock
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% if related_products %}
+        <section class="shop-section">
+            <h2 class="shop-h2" data-lang="shopmore">More from the collection</h2>
+            <div class="shop-grid">
+                {% for related in related_products %}
+                <article class="shop-card">
+                    <a href="{{ related.get_absolute_url }}" class="shop-card__media"
+                       aria-label="{{ related.name }}">
+                        <img class="shop-card__img shop-card__img--front"
+                             src="{{ related.front_image_url }}"
+                             alt="{{ related.name }}" loading="lazy" decoding="async">
+                        {% if related.back_image_url %}
+                        <img class="shop-card__img shop-card__img--back"
+                             src="{{ related.back_image_url }}"
+                             alt="{{ related.name }}, back" loading="lazy" decoding="async">
+                        {% endif %}
+                    </a>
+                    <div class="shop-card__body">
+                        <h3 class="shop-card__name">
+                            <a href="{{ related.get_absolute_url }}">{{ related.name }}</a>
+                        </h3>
+                        <p class="shop-price">
+                            <span class="shop-price__now">{{ related.price|convert_currency:store_country|money:currency_label }}</span>
+                        </p>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+    </div>
+</section>
+
+{% if variants %}
+<!-- Sticky action bar, mobile only -->
+<div class="shop-mobile-bar">
+    <div class="shop-mobile-bar__price">
+        <span data-lang="shopprice">Price</span>
+        <strong>{{ display_price|money:currency_label }}</strong>
+    </div>
+    <button type="button" class="shop-btn shop-btn--primary" data-mobile-add>
+        <i class="ri-shopping-bag-3-line" aria-hidden="true"></i>
+        <span data-lang="shopadd">Add to bag</span>
+    </button>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // The mobile bar drives the same form as the panel above, so there is one
+    // source of truth for the selected size and quantity.
+    (function () {
+        var proxy = document.querySelector("[data-mobile-add]");
+        var real = document.querySelector("[data-add-to-bag]");
+        if (proxy && real) {
+            proxy.addEventListener("click", function () {
+                real.click();
+            });
+        }
+    })();
+</script>
+{% endblock %}

@@ -1,0 +1,339 @@
+{% extends "store/base_store.html" %}
+{% load store_extras %}
+
+{% block title %}Checkout{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+
+<section class="shop-section">
+    <div class="shop-container">
+
+        <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'store' %}" data-lang="shopnav">Shop</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <a href="{% url 'cart' %}" data-lang="shopbag">Your bag</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <span aria-current="page" data-lang="shopcheckout">Checkout</span>
+        </nav>
+
+        <h1 class="shop-h2" data-lang="shopcheckout">Checkout</h1>
+
+        {% if checkout_event_id %}
+        <span hidden
+              data-tt-event="InitiateCheckout"
+              data-tt-event-id="{{ checkout_event_id }}"
+              data-tt-properties='{"currency": "{{ currency_label|escapejs }}", "value": {{ total }}, "content_type": "product", "contents": {{ tiktok_contents|json_script_safe }}}'
+              data-fb-event="InitiateCheckout"
+              data-fb-properties='{"currency": "{{ currency_label|escapejs }}", "value": {{ total }}, "content_type": "product", "contents": {{ fb_content_ids|json_script_safe }}}'></span>
+        {% endif %}
+
+        <form method="post" data-guard-submit style="margin-top:2rem;">
+            {% csrf_token %}
+
+            <div class="shop-checkout">
+
+                <!-- ============== LEFT: DETAILS ============== -->
+                <div>
+
+                    {% if form.errors %}
+                    <div class="shop-errors-top" role="alert">
+                        <p data-lang="shopfixfields">
+                            Please check the highlighted fields below and try again.
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <div class="shop-panel">
+
+                        <div class="shop-panel__head">
+                            <span class="shop-panel__step">1</span>
+                            <h2 class="shop-h3" data-lang="shopdelivdetails">Delivery details</h2>
+                        </div>
+
+                        <div class="shop-form-grid">
+
+                            <div class="shop-input-group shop-input-group--full {% if form.full_name.errors %}has-error{% endif %}">
+                                <label for="{{ form.full_name.id_for_label }}">
+                                    {{ form.full_name.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.full_name }}
+                                {% for error in form.full_name.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="shop-input-group {% if form.phone.errors %}has-error{% endif %}">
+                                <label for="{{ form.phone.id_for_label }}">
+                                    {{ form.phone.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.phone }}
+                                {% for error in form.phone.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="shop-input-group {% if form.email.errors %}has-error{% endif %}"
+                                 data-email-group>
+                                <label for="{{ form.email.id_for_label }}">
+                                    {{ form.email.label }}
+                                    <span class="shop-req" data-email-required hidden>*</span>
+                                </label>
+                                {{ form.email }}
+                                {% for error in form.email.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="shop-input-group shop-input-group--full" style="display:flex;align-items:center;gap:.5rem;padding:.6rem .85rem;background:rgba(214,106,31,.08);border:1px solid rgba(214,106,31,.25);border-radius:10px;">
+                                <i class="ri-map-pin-line" aria-hidden="true"></i>
+                                <span style="font-size:.85rem;">
+                                    Delivering to <strong>{{ store_country_label }}</strong> ({{ currency_label }}).
+                                    Wrong country? Use the selector in the header to switch it.
+                                </span>
+                            </div>
+
+                            {% if store_has_regions %}
+                            <div class="shop-input-group {% if form.governorate.errors %}has-error{% endif %}">
+                                <label for="{{ form.governorate.id_for_label }}">
+                                    {{ form.governorate.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.governorate }}
+                                {% for error in form.governorate.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.governorate }}
+                            {% endif %}
+
+                            <div class="shop-input-group {% if form.city.errors %}has-error{% endif %}">
+                                <label for="{{ form.city.id_for_label }}">
+                                    {{ form.city.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.city }}
+                                {% for error in form.city.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="shop-input-group shop-input-group--full {% if form.address.errors %}has-error{% endif %}">
+                                <label for="{{ form.address.id_for_label }}">
+                                    {{ form.address.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.address }}
+                                {% for error in form.address.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                                {% if not store_has_regions %}
+                                <p class="shop-hint">Include city, district, street and building/apartment number.</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="shop-input-group shop-input-group--full">
+                                <label for="{{ form.notes.id_for_label }}">{{ form.notes.label }}</label>
+                                {{ form.notes }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% if requires_delivery %}
+                    <div class="shop-panel">
+
+                        <div class="shop-panel__head">
+                            <span class="shop-panel__step">2</span>
+                            <h2 class="shop-h3">HanyFit Meals delivery</h2>
+                        </div>
+
+                        <div class="shop-form-grid">
+
+                            <div class="shop-input-group {% if form.delivery_date.errors %}has-error{% endif %}">
+                                <label for="{{ form.delivery_date.id_for_label }}">
+                                    {{ form.delivery_date.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.delivery_date }}
+                                {% for error in form.delivery_date.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="shop-input-group {% if form.delivery_slot.errors %}has-error{% endif %}">
+                                <label for="{{ form.delivery_slot.id_for_label }}">
+                                    {{ form.delivery_slot.label }} <span class="shop-req">*</span>
+                                </label>
+                                {{ form.delivery_slot }}
+                                {% for error in form.delivery_slot.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                            <div class="shop-input-group shop-input-group--full">
+                                <label for="{{ form.coupon_code.id_for_label }}">Coupon code</label>
+                                {{ form.coupon_code }}
+                                {% for error in form.coupon_code.errors %}
+                                <p class="shop-error">
+                                    <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% else %}
+                    {{ form.delivery_date }}
+                    {{ form.delivery_slot }}
+                    {% endif %}
+
+                    <div class="shop-panel">
+
+                        <div class="shop-panel__head">
+                            <span class="shop-panel__step">{% if requires_delivery %}3{% else %}2{% endif %}</span>
+                            <h2 class="shop-h3" data-lang="shoppayment">Payment</h2>
+                        </div>
+
+                        {% if form.payment.errors %}
+                        {% for error in form.payment.errors %}
+                        <p class="shop-error" style="margin-bottom:1rem;">
+                            <i class="ri-error-warning-line" aria-hidden="true"></i>{{ error }}
+                        </p>
+                        {% endfor %}
+                        {% endif %}
+
+                        <div class="shop-pay-options">
+
+                            <label class="shop-pay">
+                                <input type="radio" name="payment" value="cash"
+                                       {% if form.payment.value != 'online' %}checked{% endif %}>
+                                <span class="shop-pay__box">
+                                    <span class="shop-pay__icon">
+                                        <i class="ri-hand-coin-line" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="shop-pay__text">
+                                        <h4 data-lang="shopcodtitle">Cash on delivery</h4>
+                                        <p data-lang="shopcodbody">
+                                            Pay the courier when your order arrives.
+                                        </p>
+                                    </span>
+                                </span>
+                            </label>
+
+                            <label class="shop-pay {% if not online_payment_available %}shop-pay--disabled{% endif %}">
+                                <input type="radio" name="payment" value="online"
+                                       {% if form.payment.value == 'online' %}checked{% endif %}
+                                       {% if not online_payment_available %}disabled{% endif %}>
+                                <span class="shop-pay__box">
+                                    <span class="shop-pay__icon">
+                                        <i class="ri-bank-card-line" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="shop-pay__text">
+                                        <h4 data-lang="shopcardtitle">Pay now by card</h4>
+                                        <p>
+                                            {% if online_payment_available %}
+                                            <span data-lang="shopcardbody">
+                                                Card, Fawry, Aman or wallet through Fawaterk.
+                                            </span>
+                                            {% else %}
+                                            Temporarily unavailable. Choose cash on delivery.
+                                            {% endif %}
+                                        </p>
+                                    </span>
+                                </span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ============== RIGHT: SUMMARY ============== -->
+                <aside class="shop-summary">
+
+                    <h2 class="shop-summary__title" data-lang="shopsummary">Order summary</h2>
+
+                    <div class="shop-mini-lines">
+                        {% for line in cart %}
+                        <div class="shop-mini">
+                            <div class="shop-mini__media">
+                                <img src="{{ line.image_url }}" alt="{% if line.kind == 'meal' %}{{ line.meal.name }}{% else %}{{ line.product.name }}{% endif %}"
+                                     loading="lazy" decoding="async">
+                            </div>
+                            <div>
+                                <p class="shop-mini__name">{% if line.kind == 'meal' %}{{ line.meal.name }}{% else %}{{ line.product.name }}{% endif %}</p>
+                                <p class="shop-mini__meta">
+                                    {% if line.kind == 'meal' %}HanyFit Meals{% else %}Size {{ line.size }}{% endif %} · Qty {{ line.quantity }}
+                                </p>
+                            </div>
+                            <p class="shop-mini__price">{{ line.line_total|money:currency_label }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="shop-summary__row">
+                        <span data-lang="shopsubtotal">Subtotal</span>
+                        <strong>{{ subtotal|money:currency_label }}</strong>
+                    </div>
+
+                    <div class="shop-summary__row {% if not shipping %}shop-summary__row--free{% endif %}">
+                        <span data-lang="shopshippingrow">Delivery</span>
+                        <strong>{% if shipping %}{{ shipping|money:currency_label }}{% else %}Free{% endif %}</strong>
+                    </div>
+
+                    {% if coupon %}
+                    <div class="shop-summary__row">
+                        <span>Coupon ({{ coupon.code }})</span>
+                        <strong>-{{ discount|money:currency_label }}</strong>
+                    </div>
+                    {% endif %}
+
+                    <div class="shop-summary__total">
+                        <span data-lang="shoptotal">Total</span>
+                        <strong>{{ total|money:currency_label }}</strong>
+                    </div>
+
+                    <button type="submit"
+                            class="shop-btn shop-btn--primary shop-btn--block shop-btn--lg">
+                        <i class="ri-check-double-line" aria-hidden="true"></i>
+                        <span data-lang="shopplaceorder">Place order</span>
+                    </button>
+
+                    <p class="shop-secure-note">
+                        <i class="ri-lock-line" aria-hidden="true"></i>
+                        <span data-lang="shopsecurenote">Secure checkout</span>
+                    </p>
+
+                    <p style="text-align:center;margin-top:.85rem;">
+                        <a href="{% url 'cart' %}" class="shop-link-quiet" data-lang="shopeditbag">
+                            Edit your bag
+                        </a>
+                    </p>
+
+                </aside>
+
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

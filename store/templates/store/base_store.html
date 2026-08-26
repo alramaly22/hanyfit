@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{{ page_title|default:"HANY APPAREL" }}{% endblock %} | HANY APPAREL</title>
+
+    <link rel="shortcut icon" href="{% static 'images/testo/logo.png' %}" type="image/x-icon">
+
+    <meta name="description"
+        content="{% block meta_description %}Premium gym wear by Coach Hany Masoud. Built for training, cut for the gym floor. Delivery across Egypt with cash on delivery or secure card payment.{% endblock %}">
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}{{ page_title|default:"HANY APPAREL" }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Premium gym wear designed for champions.{% endblock %}">
+    {% block og_image %}{% endblock %}
+
+    <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
+
+    <!--=============== TRACKING (TikTok pixel) ===============-->
+    {% include "partials/tracking.html" %}
+
+    <!--=============== ICONS ===============-->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="{% static 'css/store.css' %}">
+    <style>
+
+        #language-selector {
+
+            appearance: none;
+
+            font-weight: bolder;
+
+            -webkit-appearance: none;
+
+            -moz-appearance: none;
+
+            background-size: cover;
+
+            background-position: center;
+
+            color: var(--body-color);
+
+            border: none;
+
+            background: var(--first-color);
+
+            padding: 10px;
+
+            border-radius: 1rem 0;
+
+            cursor: pointer;
+
+            outline: none;
+
+        }
+
+        #language-selector option {
+
+            color: #000;
+
+        }
+
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="shop-body" data-currency="{{ currency_label }}">
+
+    {# Guarantees a CSRF token is available to fetch() on pages with no form. #}
+    <form id="csrf-holder" hidden>{% csrf_token %}</form>
+
+    <!--==================== HEADER ====================-->
+    <header class="header shop-header" id="header">
+
+        <nav class="nav container">
+
+            <a href="{% url 'index' %}" class="logo" aria-label="HANY home">
+                <img src="{% static 'images/testo/logo.png' %}" alt="HANY">
+            </a>
+
+            <div class="nav__menu" id="nav-menu">
+
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="{% url 'index' %}#home" class="nav__link" data-lang="home">Home</a>
+                    </li>
+                    <li class="nav__item nav__item--meals">
+                        <a href="{% url 'meals:home' %}" class="nav__link nav__link--meals">
+                            <i class="ri-restaurant-2-fill"></i>
+                            <p data-lang="mealsnav">HanyFit Meals</p>
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{% url 'about' %}" class="nav__link" data-lang="about">About</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{% url 'index' %}#pricing" class="nav__link" data-lang="pricing">Pricing</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="{% url 'store' %}" class="nav__link" data-lang="shopnav">Shop</a>
+                    </li>
+                    <li class="nav__item nav__item--books">
+                        <a href="{% url 'book' %}" class="nav__link nav__link--books">
+                            <i class="ri-book-open-fill"></i>
+                            <p data-lang="booksnav">Books</p>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav__social">
+                    <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr" target="_blank"
+                        rel="noopener" class="nav__social-link" aria-label="Facebook">
+                        <i class="ri-facebook-circle-fill"></i>
+                    </a>
+                    <a href="https://www.instagram.com/hany.masoud43" target="_blank"
+                        rel="noopener" class="nav__social-link" aria-label="Instagram">
+                        <i class="ri-instagram-fill"></i>
+                    </a>
+                    <a href="https://snapchat.com/t/gi7bdu8B" target="_blank"
+                        rel="noopener" class="nav__social-link" aria-label="Snapchat">
+                        <i class="ri-snapchat-fill"></i>
+                    </a>
+                </div>
+
+                <div class="nav__close" id="nav-close" role="button" tabindex="0" aria-label="Close menu">
+                    <i class="ri-close-line"></i>
+                </div>
+
+            </div>
+
+            <div class="nav__buttons">
+
+                <!-- Bag: the count comes from the session cart on every page. -->
+                <a href="{% url 'cart' %}" class="shop-bag-button" id="bag-button"
+                   aria-label="Your bag">
+                    <i class="ri-shopping-bag-3-line"></i>
+                    <span class="shop-bag-count {% if not cart_count %}is-empty{% endif %}"
+                          id="bag-count"
+                          data-count="{{ cart_count|default:0 }}">{{ cart_count|default:0 }}</span>
+                </a>
+
+                <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Open menu">
+                    <i class="ri-apps-2-fill"></i>
+                </div>
+
+                <select id="language-selector" aria-label="Language">
+                    <option value="en" selected>En</option>
+                    <option value="ar">Ar</option>
+                </select>
+
+{# Delivery-country switcher. Posts to the server (store/geo.py) #}
+{# so every price on every page -- not just this one -- updates #}
+{# from the same session value the backend uses for checkout. #}
+
+<form action="{% url 'set_country' %}"
+      method="post"
+      class="shop-country-form">
+
+    {% csrf_token %}
+
+    <input type="hidden"
+           name="next"
+           value="{{ request.path }}">
+
+    <select name="country"
+            id="country-selector"
+            class="shop-country-select"
+            aria-label="Delivery country"
+            onchange="this.form.submit()">
+
+        {% for code, config in store_countries %}
+            <option value="{{ code }}"
+                    {% if code == store_country %}selected{% endif %}>
+                {% if code == "EG" %}
+                    🇪🇬
+                {% elif code == "SA" %}
+                    🇸🇦
+                {% endif %}
+                {{ config.label }} — {{ config.currency }}
+            </option>
+        {% endfor %}
+
+    </select>
+</form>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <!--==================== MESSAGES ====================-->
+    {% if messages %}
+    <div class="shop-flash" role="status" aria-live="polite">
+        {% for message in messages %}
+        <div class="shop-flash__item shop-flash__item--{{ message.tags|default:'info' }}">
+            <i class="ri-information-line" aria-hidden="true"></i>
+            <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!--==================== MAIN ====================-->
+    <main class="main shop-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="footer shop-footer" id="footer">
+
+        <div class="row">
+
+            <div class="col">
+                <a href="{% url 'index' %}#home">
+                    <img src="{% static 'images/testo/logo.png' %}" alt="HANY" class="logo">
+                </a>
+                <p data-lang="footerp">
+                    Coach Hany Masoud — Transforming bodies through expert coaching,
+                    smart nutrition, and real results.
+                </p>
+            </div>
+
+            <div class="col">
+                <h3 data-lang="footerh31">
+                    Main Menu
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a data-lang="home" href="{% url 'index' %}#home">Home</a></li>
+                    <li><a data-lang="mealsnav" href="{% url 'meals:home' %}">HanyFit Meals</a></li>
+                    <li><a data-lang="shopnav" href="{% url 'store' %}">Shop</a></li>
+                    <li><a data-lang="pricing" href="{% url 'index' %}#pricing">Pricing</a></li>
+                    <li><a data-lang="contact" href="{% url 'index' %}#footer">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h3 data-lang="footerh32">
+                    Information
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a data-lang="about" href="{% url 'about' %}">About</a></li>
+                    <li><a data-lang="accordion" href="{% url 'index' %}#accordion">FAQs</a></li>
+                    <li><a data-lang="shipping" href="{% url 'store' %}#shipping">Shipping &amp; returns</a></li>
+                    <li><a data-lang="contact" href="{% url 'about' %}#footer">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h3 data-lang="footerh33">
+                    Social Media
+                    <div class="underline"><span></span></div>
+                </h3>
+                <div class="contact__social-links">
+                    <a href="https://www.instagram.com/hany.masoud43" target="_blank" rel="noopener"
+                        class="contact__social-link" aria-label="Instagram">
+                        <i class="ri-instagram-fill"></i>
+                    </a>
+                    <a href="https://snapchat.com/t/gi7bdu8B" target="_blank" rel="noopener"
+                        class="contact__social-link" aria-label="Snapchat">
+                        <i class="ri-snapchat-fill"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr" target="_blank"
+                        rel="noopener" class="contact__social-link" aria-label="Facebook">
+                        <i class="ri-facebook-circle-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p class="copyright">
+            Created By
+            <a href="https://wa.me/201012872008" class="moalramly">MOAlramaly</a>
+            © 2026 - All Rights Reserved
+        </p>
+
+    </footer>
+
+    <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" class="whatsapp" target="_blank" rel="noopener"
+       aria-label="Chat on WhatsApp">
+        <i class="ri-whatsapp-fill"></i>
+    </a>
+
+    <!-- Toast host for cart feedback -->
+    <div class="shop-toast-host" id="toast-host" aria-live="polite" aria-atomic="true"></div>
+
+    <!--========== SCRIPTS ==========-->
+    {# Nav + language switching. main.js is deliberately not loaded here: it #}
+    {# drives a full-screen intro loader that would delay the product pages, #}
+    {# and its animation dependencies are not needed by the store.           #}
+    <script src="{% static 'js/nav.js' %}"></script>
+    <script src="{% static 'js/language.js' %}"></script>
+    <script src="{% static 'js/store.js' %}"></script>
+
+    {% block extra_scripts %}{% endblock %}
+
+</body>
+
+</html>
