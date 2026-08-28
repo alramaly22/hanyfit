@@ -239,7 +239,7 @@ class CheckoutTests(TestCase):
             "full_name": "Ahmed Hassan",
             "phone": "01012345678",
             "email": "ahmed@example.com",
-            "governorate": "Cairo",
+            "governorate": "Smouha",
             "city": "Nasr City",
             "address": "12 Abbas El Akkad Street, floor 3, apartment 7",
             "notes": "",
@@ -432,7 +432,7 @@ class OrderAccessTests(TestCase):
         self.order = Order.objects.create(
             full_name="Ahmed Hassan",
             phone="01012345678",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="cash",
@@ -465,7 +465,7 @@ class FawaterkClientTests(TestCase):
             full_name="Ahmed Hassan Ali",
             phone="01012345678",
             email="ahmed@example.com",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="online",
@@ -602,7 +602,7 @@ class WebhookTests(TestCase):
             full_name="Ahmed Hassan",
             phone="01012345678",
             email="ahmed@example.com",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="online",
@@ -778,7 +778,7 @@ class PaymentReturnTests(TestCase):
         self.order = Order.objects.create(
             full_name="Ahmed Hassan",
             phone="01012345678",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="online",
@@ -878,7 +878,7 @@ class TikTokTests(TestCase):
         order = Order.objects.create(
             full_name="Ahmed Hassan",
             phone="01012345678",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="online",
@@ -906,7 +906,7 @@ class ModelTests(TestCase):
         order = Order.objects.create(
             full_name="Ahmed Hassan",
             phone="01012345678",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="cash",
@@ -1074,7 +1074,7 @@ class PurchaseJourneyTests(TestCase):
                 "full_name": "Ahmed Hassan",
                 "phone": "01012345678",
                 "email": "ahmed@example.com",
-                "governorate": "Cairo",
+                "governorate": "Smouha",
                 "city": "Nasr City",
                 "address": "12 Abbas El Akkad Street, floor 3, apartment 7",
                 "notes": "",
@@ -1158,7 +1158,7 @@ class PurchaseJourneyTests(TestCase):
                 "full_name": "Ahmed Hassan",
                 "phone": "01012345678",
                 "email": "ahmed@example.com",
-                "governorate": "Cairo",
+                "governorate": "Smouha",
                 "city": "Nasr City",
                 "address": "12 Abbas El Akkad Street, floor 3, apartment 7",
                 "payment": "online",
@@ -1270,7 +1270,7 @@ class FawaterkAuthTests(TestCase):
         product = make_product()
         order = Order.objects.create(
             full_name="Ahmed Hassan", phone="01012345678",
-            governorate="Cairo", city="Nasr City",
+            governorate="Smouha", city="Nasr City",
             address="12 Abbas El Akkad Street", payment_method="online",
             subtotal=Decimal("450.00"), total_price=Decimal("450.00"),
         )
@@ -1309,7 +1309,7 @@ class FawaterkAuthTests(TestCase):
         product = make_product()
         order = Order.objects.create(
             full_name="Ahmed Hassan", phone="01012345678",
-            governorate="Cairo", city="Nasr City",
+            governorate="Smouha", city="Nasr City",
             address="12 Abbas El Akkad Street", payment_method="online",
             subtotal=Decimal("450.00"), total_price=Decimal("450.00"),
         )
@@ -1355,7 +1355,7 @@ class FawaterkAuthTests(TestCase):
     def test_webhook_secret_is_the_hash_key_not_the_oauth_token(self):
         """Signatures must be verifiable with a value that does not rotate."""
         order = Order.objects.create(
-            full_name="A B", phone="01012345678", governorate="Cairo",
+            full_name="A B", phone="01012345678", governorate="Smouha",
             city="Nasr City", address="12 Street", payment_method="online",
             total_price=Decimal("100.00"),
         )
@@ -1368,7 +1368,7 @@ class FawaterkAuthTests(TestCase):
         product = make_product()
         order = Order.objects.create(
             full_name="Ahmed Hassan", phone="01012345678",
-            governorate="Cairo", city="Nasr City",
+            governorate="Smouha", city="Nasr City",
             address="12 Abbas El Akkad Street", payment_method="online",
             subtotal=Decimal("450.00"), total_price=Decimal("450.00"),
         )
@@ -1502,7 +1502,7 @@ class OrderEmailTests(TestCase):
                          {"slug": self.product.slug, "size": "L", "quantity": 1})
         self.client.post(reverse("checkout"), {
             "full_name": "Mona Samir", "phone": "01112223334",
-            "email": "", "governorate": "Giza", "city": "Dokki",
+            "email": "", "governorate": "Roushdy", "city": "Dokki",
             "address": "5 Tahrir Street, building 2, apartment 9",
             "notes": "", "payment": "cash",
         })
@@ -1517,7 +1517,7 @@ class OrderEmailTests(TestCase):
                          {"slug": self.product.slug, "size": "L", "quantity": 1})
         self.client.post(reverse("checkout"), {
             "full_name": "Mona Samir", "phone": "01112223334",
-            "email": "", "governorate": "Giza", "city": "Dokki",
+            "email": "", "governorate": "Roushdy", "city": "Dokki",
             "address": "5 Tahrir Street, building 2, apartment 9",
             "notes": "", "payment": "cash",
         })

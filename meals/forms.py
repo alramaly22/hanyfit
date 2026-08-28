@@ -84,7 +84,7 @@ class SubscriptionForm(forms.Form):
     )
 
     governorate = forms.ChoiceField(
-        choices=[("", "Select your governorate")] + [(g, g) for g in GOVERNORATES],
+        choices=[("", "Select your area in Alexandria")] + [(g, g) for g in GOVERNORATES],
     )
     city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={"placeholder": "City or district"}))
     address = forms.CharField(widget=forms.Textarea(attrs={"rows": 3, "placeholder": "Street, building, floor, apartment"}))
@@ -213,7 +213,7 @@ class AddressChangeForm(forms.Form):
     """Used from the subscription self-service page -- see
     meals/views.py::subscription_change_address."""
 
-    governorate = forms.ChoiceField(choices=[("", "Select your governorate")] + [(g, g) for g in GOVERNORATES])
+    governorate = forms.ChoiceField(choices=[("", "Select your area in Alexandria")] + [(g, g) for g in GOVERNORATES])
     city = forms.CharField(max_length=100)
     address = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
 

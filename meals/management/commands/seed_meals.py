@@ -180,17 +180,16 @@ MEALS = [
 
 # Demo subscription pricing -- edit for real in the admin/dashboard.
 PLAN_PRICES = [
-    # Weekly -- real prices, given directly: 1 meal/day = 1800 EGP,
-    # 2 meals/day = 3000 EGP (a deal vs. 2x1800, on purpose, to make the
-    # 2-meal plan the more attractive option). Same price across all three
+    # Weekly -- real prices, given directly: 1 meal/day = 1299 EGP,
+    # 2 meals/day = 2299 EGP. Same price across all three
     # goals -- adjust per-goal in the admin (Subscription plan prices) if
     # that ever needs to differ.
-    (PlanType.WEEKLY, Goal.MUSCLE_GAIN, 1, "1800.00"),
-    (PlanType.WEEKLY, Goal.MUSCLE_GAIN, 2, "3000.00"),
-    (PlanType.WEEKLY, Goal.FAT_LOSS, 1, "1800.00"),
-    (PlanType.WEEKLY, Goal.FAT_LOSS, 2, "3000.00"),
-    (PlanType.WEEKLY, Goal.MAINTAIN, 1, "1800.00"),
-    (PlanType.WEEKLY, Goal.MAINTAIN, 2, "3000.00"),
+    (PlanType.WEEKLY, Goal.MUSCLE_GAIN, 1, "1299.00"),
+    (PlanType.WEEKLY, Goal.MUSCLE_GAIN, 2, "2299.00"),
+    (PlanType.WEEKLY, Goal.FAT_LOSS, 1, "1299.00"),
+    (PlanType.WEEKLY, Goal.FAT_LOSS, 2, "2299.00"),
+    (PlanType.WEEKLY, Goal.MAINTAIN, 1, "1299.00"),
+    (PlanType.WEEKLY, Goal.MAINTAIN, 2, "2299.00"),
     # Weekly, 3 meals/day -- kept but INACTIVE by default. The "meals per
     # day" choices shown to customers are read live from whichever of these
     # rows have is_active=True (see SubscriptionForm._available_meals_per_day
@@ -200,16 +199,13 @@ PLAN_PRICES = [
     (PlanType.WEEKLY, Goal.FAT_LOSS, 3, "4000.00"),
     (PlanType.WEEKLY, Goal.MAINTAIN, 3, "4000.00"),
 
-    # Monthly -- 1 meal/day priced directly below. 2 meals/day is a
-    # PLACEHOLDER (~30/7 x the weekly 2-meal deal, rounded): no monthly
-    # figure was given, so treat this number as provisional and set the
-    # real one in the admin before launch.
-    (PlanType.MONTHLY, Goal.MUSCLE_GAIN, 1, "7000.00"),
-    (PlanType.MONTHLY, Goal.FAT_LOSS, 1, "7000.00"),
-    (PlanType.MONTHLY, Goal.MAINTAIN, 1, "7000.00"),
-    (PlanType.MONTHLY, Goal.MUSCLE_GAIN, 2, "12000.00"),
-    (PlanType.MONTHLY, Goal.FAT_LOSS, 2, "12000.00"),
-    (PlanType.MONTHLY, Goal.MAINTAIN, 2, "12000.00"),
+    # Monthly -- 1 meal/day = 4999 EGP, 2 meals/day = 8499 EGP.
+    (PlanType.MONTHLY, Goal.MUSCLE_GAIN, 1, "4999.00"),
+    (PlanType.MONTHLY, Goal.FAT_LOSS, 1, "4999.00"),
+    (PlanType.MONTHLY, Goal.MAINTAIN, 1, "4999.00"),
+    (PlanType.MONTHLY, Goal.MUSCLE_GAIN, 2, "8499.00"),
+    (PlanType.MONTHLY, Goal.FAT_LOSS, 2, "8499.00"),
+    (PlanType.MONTHLY, Goal.MAINTAIN, 2, "8499.00"),
 ]
 
 # Rows here are seeded is_active=True by default except these -- see the

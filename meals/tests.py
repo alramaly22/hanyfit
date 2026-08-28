@@ -237,7 +237,7 @@ class CheckoutTests(TestCase):
             "full_name": "Ahmed Hassan",
             "phone": "01012345678",
             "email": "ahmed@example.com",
-            "governorate": "Cairo",
+            "governorate": "Smouha",
             "city": "Nasr City",
             "address": "123 Test street, building 5, floor 2",
             "notes": "",
@@ -338,7 +338,7 @@ class CouponTests(TestCase):
         self.client.post(reverse("cart_add_meal"), {"slug": meal.slug, "quantity": 1})
         payload = {
             "full_name": "Ahmed Hassan", "phone": "01012345678", "email": "a@a.com",
-            "governorate": "Cairo", "city": "Nasr City",
+            "governorate": "Smouha", "city": "Nasr City",
             "address": "123 Test street, building 5, floor 2", "notes": "",
             "payment": "cash", "delivery_date": date.isoformat(), "delivery_slot": slot.pk,
             "coupon_code": "SAVE10",
@@ -372,7 +372,7 @@ class SubscriptionTests(TestCase):
     def test_create_weekly_subscription_builds_full_schedule(self):
         subscription = subscriptions_service.create_subscription(
             full_name="Sara Ali", phone="01011112222", email="",
-            governorate="Giza", city="Dokki", address="10 Test Ave, building 2",
+            governorate="Roushdy", city="Dokki", address="10 Test Ave, building 2",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=timezone.localdate() + timedelta(days=1), delivery_slot=self.slot,
             payment_method=Subscription.PaymentMethod.CASH,
@@ -386,7 +386,7 @@ class SubscriptionTests(TestCase):
     def test_create_monthly_subscription_builds_30_days(self):
         subscription = subscriptions_service.create_subscription(
             full_name="Omar", phone="01022223333", email="",
-            governorate="Giza", city="Dokki", address="10 Test Ave, building 2",
+            governorate="Roushdy", city="Dokki", address="10 Test Ave, building 2",
             notes="", plan_type=PlanType.MONTHLY, goal=Goal.MUSCLE_GAIN, meals_per_day=1,
             start_date=timezone.localdate() + timedelta(days=1), delivery_slot=self.slot,
             payment_method=Subscription.PaymentMethod.CASH,
@@ -397,7 +397,7 @@ class SubscriptionTests(TestCase):
         with self.assertRaises(subscriptions_service.SubscriptionError):
             subscriptions_service.create_subscription(
                 full_name="X", phone="01000000000", email="",
-                governorate="Giza", city="Dokki", address="10 Test Ave, building 2",
+                governorate="Roushdy", city="Dokki", address="10 Test Ave, building 2",
                 notes="", plan_type=PlanType.MONTHLY, goal=Goal.FAT_LOSS, meals_per_day=1,
                 start_date=timezone.localdate() + timedelta(days=1), delivery_slot=self.slot,
                 payment_method=Subscription.PaymentMethod.CASH,
@@ -406,7 +406,7 @@ class SubscriptionTests(TestCase):
     def test_status_change_skips_remaining_deliveries(self):
         subscription = subscriptions_service.create_subscription(
             full_name="Sara Ali", phone="01011112222", email="",
-            governorate="Giza", city="Dokki", address="10 Test Ave, building 2",
+            governorate="Roushdy", city="Dokki", address="10 Test Ave, building 2",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=timezone.localdate() + timedelta(days=1), delivery_slot=self.slot,
             payment_method=Subscription.PaymentMethod.CASH,
@@ -422,7 +422,7 @@ class SubscriptionTests(TestCase):
             "full_name": "Sara Ali", "phone": "01011112222", "email": "",
             "goal": Goal.FAT_LOSS, "meals_per_day": "1",
             "start_date": date.isoformat(), "delivery_slot": slot.pk,
-            "governorate": "Giza", "city": "Dokki", "address": "10 Test Ave, building 2",
+            "governorate": "Roushdy", "city": "Dokki", "address": "10 Test Ave, building 2",
             "notes": "", "payment_method": "cash", "coupon_code": "",
         }
         response = self.client.post(reverse("meals:subscribe", kwargs={"plan_type": "weekly"}), payload)
@@ -444,7 +444,7 @@ class SubscriptionTests(TestCase):
             "full_name": "Nour", "phone": "01033334444", "email": "",
             "goal": Goal.FAT_LOSS, "meals_per_day": "1",
             "start_date": start_date.isoformat(), "delivery_slot": weekday_slot.pk,
-            "governorate": "Giza", "city": "Dokki", "address": "10 Test Ave, building 2",
+            "governorate": "Roushdy", "city": "Dokki", "address": "10 Test Ave, building 2",
             "notes": "", "payment_method": "cash", "coupon_code": "",
         }
         response = self.client.post(reverse("meals:subscribe", kwargs={"plan_type": "weekly"}), payload)
@@ -513,7 +513,7 @@ class SubscriptionPreferencesAndWeekdayTests(TestCase):
         chosen = [0, 2, 4]
         subscription = subscriptions_service.create_subscription(
             full_name="X", phone="01000000001", email="",
-            governorate="Cairo", city="Nasr City", address="1 test street building 1",
+            governorate="Smouha", city="Nasr City", address="1 test street building 1",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=start, delivery_slot=self.slot, payment_method=Subscription.PaymentMethod.CASH,
             delivery_weekdays=chosen,
@@ -525,7 +525,7 @@ class SubscriptionPreferencesAndWeekdayTests(TestCase):
         start = timezone.localdate() + timedelta(days=1)
         subscription = subscriptions_service.create_subscription(
             full_name="X", phone="01000000002", email="",
-            governorate="Cairo", city="Nasr City", address="1 test street building 1",
+            governorate="Smouha", city="Nasr City", address="1 test street building 1",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=start, delivery_slot=self.slot, payment_method=Subscription.PaymentMethod.CASH,
         )
@@ -536,7 +536,7 @@ class SubscriptionPreferencesAndWeekdayTests(TestCase):
         DeliveryClosedDate.objects.create(date=start + timedelta(days=2))
         subscription = subscriptions_service.create_subscription(
             full_name="X", phone="01000000003", email="",
-            governorate="Cairo", city="Nasr City", address="1 test street building 1",
+            governorate="Smouha", city="Nasr City", address="1 test street building 1",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=start, delivery_slot=self.slot, payment_method=Subscription.PaymentMethod.CASH,
         )
@@ -546,7 +546,7 @@ class SubscriptionPreferencesAndWeekdayTests(TestCase):
         start = timezone.localdate() + timedelta(days=1)
         subscription = subscriptions_service.create_subscription(
             full_name="X", phone="01000000004", email="",
-            governorate="Cairo", city="Nasr City", address="1 test street building 1",
+            governorate="Smouha", city="Nasr City", address="1 test street building 1",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=start, delivery_slot=self.slot, payment_method=Subscription.PaymentMethod.CASH,
             allergies="peanuts", disliked_foods="mushrooms", dietary_notes="low sodium",
@@ -566,7 +566,7 @@ class SubscriptionSelfServiceTests(TestCase):
         self.slot = make_slot()
         self.subscription = subscriptions_service.create_subscription(
             full_name="Nour", phone="01000000005", email="",
-            governorate="Cairo", city="Nasr City", address="1 test street building 1",
+            governorate="Smouha", city="Nasr City", address="1 test street building 1",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=timezone.localdate() + timedelta(days=1), delivery_slot=self.slot,
             payment_method=Subscription.PaymentMethod.CASH,
@@ -625,7 +625,7 @@ class SubscriptionSelfServiceTests(TestCase):
 
     def test_change_address_updates_fields(self):
         subscriptions_service.change_address(
-            self.subscription, governorate="Giza", city="Dokki", address="New address here",
+            self.subscription, governorate="Roushdy", city="Dokki", address="New address here",
         )
         self.subscription.refresh_from_db()
         self.assertEqual(self.subscription.city, "Dokki")
@@ -642,7 +642,7 @@ class SubscriptionSelfServiceTests(TestCase):
     def test_customer_a_cannot_reach_customer_bs_subscription(self):
         other = subscriptions_service.create_subscription(
             full_name="Other", phone="01000000009", email="",
-            governorate="Cairo", city="Nasr City", address="9 other street building 1",
+            governorate="Smouha", city="Nasr City", address="9 other street building 1",
             notes="", plan_type=PlanType.WEEKLY, goal=Goal.FAT_LOSS, meals_per_day=1,
             start_date=timezone.localdate() + timedelta(days=1), delivery_slot=self.slot,
             payment_method=Subscription.PaymentMethod.CASH,
@@ -684,7 +684,7 @@ class ReviewTests(TestCase):
         self.client.post(reverse("cart_add_meal"), {"slug": self.meal.slug, "quantity": 1})
         payload = {
             "full_name": "Reviewer", "phone": "01000000010", "email": "r@r.com",
-            "governorate": "Cairo", "city": "Nasr City", "address": "1 review street building 1",
+            "governorate": "Smouha", "city": "Nasr City", "address": "1 review street building 1",
             "notes": "", "payment": "cash", "delivery_date": date.isoformat(), "delivery_slot": slot.pk,
             "coupon_code": "",
         }
@@ -699,7 +699,7 @@ class ReviewTests(TestCase):
         self.client.post(reverse("cart_add_meal"), {"slug": self.meal.slug, "quantity": 1})
         payload = {
             "full_name": "Reviewer", "phone": "01000000011", "email": "",
-            "governorate": "Cairo", "city": "Nasr City", "address": "1 review street building 1",
+            "governorate": "Smouha", "city": "Nasr City", "address": "1 review street building 1",
             "notes": "", "payment": "cash", "delivery_date": date.isoformat(), "delivery_slot": slot.pk,
             "coupon_code": "",
         }
@@ -787,7 +787,7 @@ class DeliveryClosedDateTests(TestCase):
         self.client.post(reverse("cart_add_meal"), {"slug": meal.slug, "quantity": 1})
         payload = {
             "full_name": "Ahmed Hassan", "phone": "01000000020", "email": "",
-            "governorate": "Cairo", "city": "Nasr City", "address": "1 test street building 1",
+            "governorate": "Smouha", "city": "Nasr City", "address": "1 test street building 1",
             "notes": "", "payment": "cash", "delivery_date": date.isoformat(), "delivery_slot": slot.pk,
             "coupon_code": "",
         }
@@ -832,7 +832,7 @@ class AnalyticsServiceTests(TestCase):
         self.client.post(reverse("cart_add_meal"), {"slug": meal.slug, "quantity": 3})
         payload = {
             "full_name": "Ahmed Hassan", "phone": "01000000030", "email": "",
-            "governorate": "Cairo", "city": "Nasr City", "address": "1 test street building 1",
+            "governorate": "Smouha", "city": "Nasr City", "address": "1 test street building 1",
             "notes": "", "payment": "cash", "delivery_date": date.isoformat(), "delivery_slot": slot.pk,
             "coupon_code": "",
         }

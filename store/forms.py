@@ -17,36 +17,37 @@ from . import geo
 from .models import Order
 from meals.services import availability as meal_availability
 
-# Egypt's 27 governorates. A select rather than a free text field: typo-free
-# values make delivery zones and shipping reports possible later.
+# We currently deliver within Alexandria only, so the old 27-governorate list
+# is replaced with a select of Alexandria's own districts/areas. A select
+# rather than free text keeps values typo-free for delivery zone reporting.
 GOVERNORATES = [
-    "Cairo",
-    "Giza",
-    "Alexandria",
-    "Dakahlia",
-    "Red Sea",
-    "Beheira",
-    "Fayoum",
-    "Gharbia",
-    "Ismailia",
-    "Menofia",
-    "Minya",
-    "Qalyubia",
-    "New Valley",
-    "Suez",
-    "Aswan",
-    "Assiut",
-    "Beni Suef",
-    "Port Said",
-    "Damietta",
-    "Sharkia",
-    "South Sinai",
-    "Kafr El Sheikh",
-    "Matrouh",
-    "Luxor",
-    "Qena",
-    "North Sinai",
-    "Sohag",
+    "Smouha",
+    "Sidi Gaber",
+    "Stanley",
+    "Roushdy",
+    "Miami",
+    "Gleem",
+    "Sporting",
+    "Louran",
+    "San Stefano",
+    "Kafr Abdo",
+    "Bolkly",
+    "Camp Caesar",
+    "Mansheya (Downtown)",
+    "Moharam Bek",
+    "Al-Ibrahimiya",
+    "Cleopatra",
+    "Sidi Bishr",
+    "Asafra",
+    "Mandara",
+    "Montaza",
+    "Mamoura",
+    "Agami",
+    "Bahary",
+    "Karmouz",
+    "Amreya",
+    "Borg El Arab",
+    "Sidi Kerir",
 ]
 
 # Accepts 01XXXXXXXXX, 201XXXXXXXXX, +201XXXXXXXXX and also allows other
@@ -103,7 +104,7 @@ class CheckoutForm(forms.ModelForm):
                 }
             ),
             "governorate": forms.Select(
-                choices=[("", "Select your governorate")]
+                choices=[("", "Select your area in Alexandria")]
                 + [(g, g) for g in GOVERNORATES]
             ),
             "city": forms.TextInput(
@@ -128,7 +129,7 @@ class CheckoutForm(forms.ModelForm):
             "full_name": "Full name",
             "phone": "Phone number",
             "email": "Email",
-            "governorate": "Governorate",
+            "governorate": "Area (Alexandria)",
             "city": "City",
             "address": "Address",
             "notes": "Delivery notes",
@@ -138,7 +139,7 @@ class CheckoutForm(forms.ModelForm):
         error_messages = {
             "full_name": {"required": "We need a name for the delivery."},
             "phone": {"required": "We need a phone number to arrange delivery."},
-            "governorate": {"required": "Select your governorate."},
+            "governorate": {"required": "Select your area in Alexandria."},
             "city": {"required": "Enter your city."},
             "address": {"required": "Enter the full address."},
         }
@@ -226,7 +227,7 @@ class CheckoutForm(forms.ModelForm):
             # Saudi Arabia etc: not asked for, not validated, not stored.
             return ""
         if governorate not in GOVERNORATES:
-            raise forms.ValidationError("Select your governorate from the list.")
+            raise forms.ValidationError("Select your area from the list.")
         return governorate
 
     def clean(self):

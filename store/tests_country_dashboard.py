@@ -146,7 +146,7 @@ class CountryCheckoutTests(TestCase):
             "full_name": "Ahmed Hassan",
             "phone": "01012345678",
             "email": "",
-            "governorate": "Cairo",
+            "governorate": "Smouha",
             "city": "Nasr City",
             "address": "12 Abbas El Akkad Street, floor 3, apartment 7",
             "notes": "",
@@ -213,7 +213,7 @@ class CountryCheckoutTests(TestCase):
 
         self.client.post(
             reverse("checkout"),
-            self.valid_form(governorate="Cairo", city="Riyadh", address="Some address here"),
+            self.valid_form(governorate="Smouha", city="Riyadh", address="Some address here"),
         )
         order = Order.objects.get()
         self.assertEqual(order.country, "SA")
@@ -316,7 +316,7 @@ class RefundWebhookTests(TestCase):
         self.order = Order.objects.create(
             full_name="Ahmed Hassan",
             phone="01012345678",
-            governorate="Cairo",
+            governorate="Smouha",
             city="Nasr City",
             address="12 Abbas El Akkad Street",
             payment_method="online",
@@ -380,7 +380,7 @@ class DashboardAccessTests(TestCase):
         self.client_user.groups.add(self.group)
 
         self.order = Order.objects.create(
-            full_name="Ahmed Hassan", phone="01012345678", governorate="Cairo",
+            full_name="Ahmed Hassan", phone="01012345678", governorate="Smouha",
             city="Nasr City", address="12 Abbas El Akkad Street",
             payment_method="cash", total_price=Decimal("100.00"),
         )
