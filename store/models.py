@@ -15,9 +15,9 @@ ZERO = Decimal("0.00")
 def resolve_image(value):
     """Turn a stored image reference into a usable URL.
 
-    Accepts an absolute URL (``https://cdn.example.com/tee.png``), a root
-    relative path (``/media/tee.png``) or a path inside the static directory
-    (``images/store/tee.png``). This lets imagery live in the repo during
+    Accepts an absolute URL (``https://cdn.example.com/tee.webp``), a root
+    relative path (``/media/tee.webp``) or a path inside the static directory
+    (``images/store/tee.webp``). This lets imagery live in the repo during
     development and move to a CDN later without a migration, which matters
     because Vercel's runtime filesystem is read-only.
     """
@@ -73,7 +73,7 @@ class Product(models.Model):
 
     front_image = models.CharField(
         max_length=500,
-        help_text="Static path (images/store/tee-front.png) or full https:// URL.",
+        help_text="Static path (images/store/tee-front.webp) or full https:// URL.",
     )
     back_image = models.CharField(
         max_length=500,

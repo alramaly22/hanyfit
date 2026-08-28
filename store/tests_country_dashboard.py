@@ -50,8 +50,8 @@ def make_product(slug="tee", price="100.00", stock=5, sizes=("S", "M", "L")):
         slug=slug,
         description="A test garment.",
         price=Decimal(price),
-        front_image="images/store/front.png",
-        back_image="images/store/back.png",
+        front_image="images/store/front.webp",
+        back_image="images/store/back.webp",
     )
     for size in sizes:
         ProductVariant.objects.create(product=product, size=size, stock=stock)

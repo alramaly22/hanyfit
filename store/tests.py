@@ -56,8 +56,8 @@ def make_product(slug="tee", price="450.00", stock=5, sizes=("S", "M", "L")):
         slug=slug,
         description="A test garment.",
         price=Decimal(price),
-        front_image="images/store/front.png",
-        back_image="images/store/back.png",
+        front_image="images/store/front.webp",
+        back_image="images/store/back.webp",
     )
     for size in sizes:
         ProductVariant.objects.create(product=product, size=size, stock=stock)
@@ -937,10 +937,10 @@ class ModelTests(TestCase):
 
     def test_image_reference_accepts_a_path_or_a_url(self):
         product = make_product()
-        self.assertTrue(product.front_image_url.endswith("images/store/front.png"))
+        self.assertTrue(product.front_image_url.endswith("images/store/front.webp"))
 
-        product.front_image = "https://cdn.example.com/tee.png"
-        self.assertEqual(product.front_image_url, "https://cdn.example.com/tee.png")
+        product.front_image = "https://cdn.example.com/tee.webp"
+        self.assertEqual(product.front_image_url, "https://cdn.example.com/tee.webp")
 
     def test_sale_percentage(self):
         product = make_product(price="400.00")

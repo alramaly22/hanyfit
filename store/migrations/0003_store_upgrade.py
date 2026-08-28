@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
             model_name="product",
             name="front_image",
             field=models.CharField(
-                help_text="Static path (images/store/tee-front.png) or full https:// URL.",
+                help_text="Static path (images/store/tee-front.webp) or full https:// URL.",
                 max_length=500,
             ),
         ),

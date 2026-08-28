@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('slug', models.SlugField(max_length=220, unique=True)),
                 ('description', models.TextField(blank=True)),
-                ('image', models.CharField(blank=True, help_text='Static path (images/meals/chicken-rice.jpg) or full https:// URL.', max_length=500)),
+                ('image', models.CharField(blank=True, help_text='Static path (images/meals/chicken-rice.webp) or full https:// URL.', max_length=500)),
                 ('price', models.DecimalField(decimal_places=2, help_text='Price in EGP. Meals are Egypt-only in this phase.', max_digits=10, validators=[django.core.validators.MinValueValidator(Decimal('0.00'))])),
                 ('calories', models.PositiveIntegerField()),
                 ('protein_g', models.DecimalField(decimal_places=1, max_digits=6)),

@@ -28,8 +28,8 @@ PRODUCTS = [
             "that stays put through pressing and pulling. Ribbed collar that will "
             "not stretch out, and a print that survives the wash."
         ),
-        "front_image": "images/store/black-front.png",
-        "back_image": "images/store/black-back.png",
+        "front_image": "images/store/black-front.webp",
+        "back_image": "images/store/black-back.webp",
         "display_order": 1,
         "is_featured": True,
     },
@@ -43,8 +43,8 @@ PRODUCTS = [
             "not go transparent under gym lighting. Pre-shrunk, so the size you "
             "order is the size you keep."
         ),
-        "front_image": "images/store/white-front.png",
-        "back_image": "images/store/white-back.png",
+        "front_image": "images/store/white-front.webp",
+        "back_image": "images/store/white-back.webp",
         "display_order": 2,
         "is_featured": False,
     },

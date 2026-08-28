@@ -126,7 +126,7 @@
             }
             
             body {
-                background-image: linear-gradient(rgb(4 9 30 / 31%), rgb(4 9 30 / 18%)), url(../images/testo/calories.jpeg);
+                background-image: linear-gradient(rgb(4 9 30 / 31%), rgb(4 9 30 / 18%)), url(../images/testo/calories.webp);
                 background-size: cover;
                 background-repeat: no-repeat;
                 /* background-attachment: fixed; */
@@ -512,7 +512,7 @@
                 }
                 .home2 {
                     /* background-attachment: fixed; */
-                    background-image: url(../img/Untitled\ design\ \(13\).png);
+                    background-image: url(../img/Untitled\ design\ \(13\).webp);
                     background-size: cover;
                     background-position: center top;
                     background-repeat: no-repeat;
@@ -643,7 +643,7 @@
                 border-radius: 12px;
                 text-align: center;
                 /* الخلفية */
-                background-image: linear-gradient(rgb(0 0 0 / 80%), rgb(0 0 0 / 85%)), url(../images/testo/calories.jpeg);
+                background-image: linear-gradient(rgb(0 0 0 / 80%), rgb(0 0 0 / 85%)), url(../images/testo/calories.webp);
                 background-size: cover;
                 background-position: center;
                 /* border متوهج */
@@ -954,7 +954,7 @@
             
             @media screen and (max-width: 768px) {
                 body {
-                    background-image: linear-gradient(rgb(4 9 30 / 31%), rgb(4 9 30 / 18%)), url(../images/testo/protien2.png);
+                    background-image: linear-gradient(rgb(4 9 30 / 31%), rgb(4 9 30 / 18%)), url(../images/testo/protien2.webp);
                     background-size: cover;
                     background-position: center;
                     background-repeat: no-repeat;

@@ -17,14 +17,14 @@ Every image in `accounts/static/images/` is a generated placeholder stamped
 | File | Used by |
 |---|---|
 | `images/testo/logo.png` | Header and footer of every page |
-| `images/store/black-front.png` / `black-back.png` | Black tee |
-| `images/store/white-front.png` / `white-back.png` | White tee |
+| `images/store/black-front.webp` / `black-back.webp` | Black tee |
+| `images/store/white-front.webp` / `white-back.webp` | White tee |
 
 Keep the same filenames and they drop straight in. Product images work best at
 a 4:5 ratio (for example 1000×1250).
 
 For products added later, the admin's image fields accept either a static path
-(`images/store/name.png`) or a full `https://` CDN URL. **Vercel's filesystem is
+(`images/store/name.webp`) or a full `https://` CDN URL. **Vercel's filesystem is
 read-only at runtime, so file uploads cannot be stored there** — images must be
 committed to the repo or hosted externally (Cloudinary, S3, Bunny).
 

@@ -276,7 +276,7 @@ html::-webkit-scrollbar {
         width: 100%;
         padding-block: 4.5rem 3.5rem;
         transition: top .4s;
-        /* background: linear-gradient(rgb(0 0 0 / 70%), rgba(0, 0, 0, 0.7)), url(../images/testo/logo.webp) no-repeat;
+        /* background: linear-gradient(rgb(0 0 0 / 70%), rgba(0, 0, 0, 0.7)), url(../images/testo/logo.png) no-repeat;
         background-attachment: fixed;
         background-size: contain;
         background-position: center; */
@@ -432,6 +432,8 @@ html::-webkit-scrollbar {
 
 
 /*========== MEALS NAV SPECIAL ==========*/
+
+
 /* Same prominence/treatment as the Books pill above (brand consistency --
    one accent color site-wide), different icon so the two are still told
    apart at a glance. */
@@ -1242,13 +1244,15 @@ span.text {
     background-repeat: no-repeat;
     object-fit: cover;
 }
-.article41{
-      background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/subebook.webp);
+
+.article41 {
+    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/subebook.webp);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
     object-fit: cover;
 }
+
 .article21 {
     background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/last1.webp);
     background-size: cover;

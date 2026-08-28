@@ -40,7 +40,7 @@ class ProductAdmin(admin.ModelAdmin):
             {
                 "fields": ("front_image", "back_image", "image_preview"),
                 "description": (
-                    "Use a path inside static (images/store/tee-front.png) or a "
+                    "Use a path inside static (images/store/tee-front.webp) or a "
                     "full https:// URL. Vercel cannot store uploaded files, so "
                     "images must be committed to the repo or hosted on a CDN."
                 ),

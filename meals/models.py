@@ -95,7 +95,7 @@ class Meal(models.Model):
     image = models.CharField(
         max_length=500,
         blank=True,
-        help_text="Static path (images/meals/chicken-rice.jpg) or full https:// URL.",
+        help_text="Static path (images/meals/chicken-rice.webp) or full https:// URL.",
     )
 
     price = models.DecimalField(
