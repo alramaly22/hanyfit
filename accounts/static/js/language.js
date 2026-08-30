@@ -33,6 +33,11 @@ let lang = {
         pricingtitle3: "تدريب أونلاين لمدة 3 أشهر",
         pricingpackage3: "3 أشهر / 1,499 جنيه 🔥 الأفضل قيمة",
 
+        // 🟢 PRICING (خارج مصر -- بالريال السعودي)
+        pricingpackage1_intl: "شهر واحد / 199 ريال",
+        pricingpackage2_intl: "شهران / 299 ريال ⭐",
+        pricingpackage3_intl: "3 أشهر / 399 ريال 🔥 الأفضل قيمة",
+
         button3: "اشترك الآن",
 
         // ===== PACKAGE 1 =====
@@ -587,6 +592,11 @@ book5li5: "معرفة مصممة لحماية تقدمك ومستقبلك",
 
         pricingtitle3: "3 MONTHS ONLINE COACHING",
         pricingpackage3: "3 Months / 1,499 EGP 🔥 Best Value",
+
+        // 🟢 PRICING (outside Egypt -- Saudi Riyal)
+        pricingpackage1_intl: "1 Month / 199 SAR",
+        pricingpackage2_intl: "2 Months / 299 SAR ⭐",
+        pricingpackage3_intl: "3 Months / 399 SAR 🔥 Best Value",
 
         button3: "Purchase Now",
 

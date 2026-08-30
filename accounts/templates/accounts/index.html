@@ -519,8 +519,8 @@
                         1 MONTH ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="pricingpackage1" class="pricing__number">
-                        1 Month / 599 EGP
+                    <h2 data-lang="{% if is_egypt %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
+                        {% if is_egypt %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -557,8 +557,9 @@
                 </ul>
 
                 <div class="mk">
+                    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                     <a data-lang="button3"
-                       href="https://app.fawaterk.com/paymentRequest/show/40582"
+                       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrak-shhr1{% else %}{{ coaching_link_1 }}{% endif %}"
                        target="_blank"
                        class="button button__flex pricing__button">
                         Purchase Now
@@ -578,8 +579,8 @@
                         2 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="pricingpackage2" class="pricing__number">
-                        2 Months / 1,099 EGP ⭐
+                    <h2 data-lang="{% if is_egypt %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
+                        {% if is_egypt %}2 Months / 1,099 EGP ⭐{% else %}2 Months / 299 SAR ⭐{% endif %}
                     </h2>
                 </header>
 
@@ -623,8 +624,9 @@
                 </ul>
 
                 <div class="mk">
+                    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                     <a data-lang="button3"
-                       href="https://app.fawaterk.com/paymentRequest/show/40530"
+                       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrk-shhryn-2{% else %}{{ coaching_link_2 }}{% endif %}"
                        target="_blank"
                        class="button button__flex pricing__button">
                         Purchase Now
@@ -644,8 +646,8 @@
                         3 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="pricingpackage3" class="pricing__number">
-                        3 Months / 1,499 EGP 🔥 Best Value
+                    <h2 data-lang="{% if is_egypt %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
+                        {% if is_egypt %}3 Months / 1,499 EGP 🔥 Best Value{% else %}3 Months / 399 SAR 🔥 Best Value{% endif %}
                     </h2>
                 </header>
 
@@ -709,8 +711,9 @@
 
                 </ul>
 
+                <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                 <a data-lang="button3"
-                   href="https://app.fawaterk.com/paymentRequest/show/40531"
+                   href="{% if is_egypt %}https://app.fawaterk.com/paymentRequest/show/40531{% else %}{{ coaching_link_3 }}{% endif %}"
                    target="_blank"
                    class="button button__flex pricing__button">
                     Purchase Now

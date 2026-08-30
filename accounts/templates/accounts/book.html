@@ -613,7 +613,7 @@
 
                     <h2 class="pricing__number">
 
-                        149 EGP
+                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -686,8 +686,8 @@
                         data-book="Recipe Mastery Book"
                         data-description-ar="اختر اللغة العربية أو الإنجليزية واحصل فورًا على كتاب احتراف الوصفات الصحية بعد إتمام عملية الدفع."
                         data-description-en="Choose Arabic or English and instantly receive the Recipe Mastery Book after completing your payment."
-                        data-ar="https://app.fawaterk.com/paymentRequest/show/40533"
-                        data-en="https://app.fawaterk.com/paymentRequest/show/40532"
+                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-osfat{% else %}{{ book_link_recipe_ar }}{% endif %}"
+                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/healthy-recipes-book{% else %}{{ book_link_recipe_en }}{% endif %}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now
@@ -731,7 +731,7 @@
 
                     <h2 class="pricing__number">
 
-                        149 EGP
+                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -804,8 +804,8 @@
                         data-book="Ultimate Supplements Guide"
                         data-description-ar="اختر اللغة العربية أو الإنجليزية واحصل فورًا على الدليل الشامل للمكملات الغذائية بعد إتمام عملية الدفع."
                         data-description-en="Choose Arabic or English and instantly receive the Ultimate Supplements Guide after completing your payment."
-                        data-ar="https://app.fawaterk.com/paymentRequest/show/40534"
-                        data-en="https://app.fawaterk.com/paymentRequest/show/40535"
+                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-mkmlat{% else %}{{ book_link_supplements_ar }}{% endif %}"
+                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/supplements-1{% else %}{{ book_link_supplements_en }}{% endif %}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now
@@ -847,7 +847,7 @@
 
                     <h2 class="pricing__number">
 
-                        149 EGP
+                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -920,8 +920,8 @@
                         data-book="Exercise Training Guide"
                         data-description-ar="تعلّم أساسيات التدريب الفعّال، وافهم نظام Full Body، وابنِ قاعدة عضلية قوية لتحقيق تقدم مستمر."
                         data-description-en="Learn the fundamentals of effective training, understand the Full Body system, and build a strong foundation for long-term progress."
-                        data-ar="https://app.fawaterk.com/paymentRequest/show/45418"
-                        data-en="https://app.fawaterk.com/paymentRequest/show/45419"
+                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-tmryn0{% else %}{{ book_link_exercise_ar }}{% endif %}"
+                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/workout-guide{% else %}{{ book_link_exercise_en }}{% endif %}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now
@@ -964,7 +964,7 @@
 
                     <h2 class="pricing__number">
 
-                        149 EGP
+                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -1037,8 +1037,8 @@
                         data-book="Substances: Risks & Consequences"
                         data-description-ar="دليل تعليمي يشرح المخاطر والعواقب والتأثيرات طويلة المدى المرتبطة بالمواد المؤثرة على الأداء."
                         data-description-en="An educational guide explaining the risks, consequences, and long-term effects associated with performance-enhancing substances."
-                        data-ar="https://app.fawaterk.com/paymentRequest/show/45421"
-                        data-en="https://app.fawaterk.com/paymentRequest/show/45422"
+                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-almoad-almhsn1{% else %}{{ book_link_substances_ar }}{% endif %}"
+                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/performance-enhancing-substances-book1{% else %}{{ book_link_substances_en }}{% endif %}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now

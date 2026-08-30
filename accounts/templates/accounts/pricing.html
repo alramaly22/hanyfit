@@ -259,11 +259,11 @@
                     </div>
 
                     <h1 data-lang="pricingtitle1" class="pricing__title">
-                        STARTER PACKAGE
+                        1 MONTH ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="pricingpackage1" class="pricing__number">
-                        Month / $50
+                    <h2 data-lang="{% if is_egypt %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
+                        {% if is_egypt %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -292,9 +292,9 @@
                 </ul>
 
                 <div class="mk">
-                    <!-- ضع لينك فواتيرك هنا -->
+                    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                      <a data-lang="button3"
-       href="https://app.fawaterk.com/paymentRequest/show/40582"
+       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrak-shhr1{% else %}{{ coaching_link_1 }}{% endif %}"
        target="_blank"
        class="button button__flex pricing__button">
         Purchase Now
@@ -309,11 +309,11 @@
                     </div>
 
                     <h1 data-lang="pricingtitle2" class="pricing__title">
-                        TRANSFORMATION PACKAGE
+                        2 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="pricingpackage2" class="pricing__number">
-                        3 Months / $100
+                    <h2 data-lang="{% if is_egypt %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
+                        {% if is_egypt %}2 Months / 1,099 EGP{% else %}2 Months / 299 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -347,8 +347,9 @@
                 </ul>
 
                <div class="mk">
+    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
     <a data-lang="button3"
-       href="https://app.fawaterk.com/paymentRequest/show/40530"
+       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrk-shhryn-2{% else %}{{ coaching_link_2 }}{% endif %}"
        target="_blank"
        class="button button__flex pricing__button">
         Purchase Now
@@ -363,56 +364,51 @@
                     </div>
 
                     <h1 data-lang="pricingtitle3" class="pricing__title">
-                        PERSONAL COACHING
+                        3 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="pricingpackage3" class="pricing__number">
-                        1500 SAR / Month
+                    <h2 data-lang="{% if is_egypt %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
+                        {% if is_egypt %}3 Months / 1,499 EGP{% else %}3 Months / 399 SAR{% endif %}
                     </h2>
                 </header>
 
                 <ul class="pricing__list">
                     <li class="pricing__item">
                         <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli31">Home or Gym Training</p>
+                        <p data-lang="pricinglli31">Personalized Workout Program</p>
                     </li>
 
                     <li class="pricing__item">
                         <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli2289">12 Sessions / Month</p>
+                        <p data-lang="pricinglli32">Customized Nutrition Plan</p>
                     </li>
 
                     <li class="pricing__item">
                         <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli33">1-on-1 Coaching</p>
+                        <p data-lang="pricinglli33">Weekly Progress Check-ins</p>
                     </li>
 
                     <li class="pricing__item">
                         <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli4">Full Nutrition Plan</p>
+                        <p data-lang="pricinglli34">Daily WhatsApp Support</p>
                     </li>
 
                     <li class="pricing__item">
                         <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli5">Daily Support</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli51">
-                            <b>Body Tracking</b>
+                        <p data-lang="pricinglli35">
+                            <b>Form & Technique Review</b>
                         </p>
                     </li>
 
                     <li class="pricing__item">
                         <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli52">Free Trial Session</p>
+                        <p data-lang="pricinglli36">Unlimited Plan Adjustments</p>
                     </li>
                 </ul>
 
-                <!-- ضع لينك فواتيرك هنا -->
+                <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                <a data-lang="button3"
-   href="https://app.fawaterk.com/paymentRequest/show/40531"
+   href="{% if is_egypt %}https://app.fawaterk.com/paymentRequest/show/40531{% else %}{{ coaching_link_3 }}{% endif %}"
    target="_blank"
    class="button button__flex pricing__button">
     Purchase Now
