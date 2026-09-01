@@ -7,6 +7,7 @@ is now a single implementation in store.views.fawaterk_webhook.
 """
 
 from django.shortcuts import render
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
 
 from . import international_links as intl
@@ -14,6 +15,7 @@ from .geo import is_egypt
 
 
 @require_GET
+@never_cache
 def index(request):
     return render(
         request,
@@ -33,6 +35,7 @@ def about(request):
 
 
 @require_GET
+@never_cache
 def pricing(request):
     return render(
         request,
@@ -52,6 +55,7 @@ def second(request):
 
 
 @require_GET
+@never_cache
 def book(request):
     return render(
         request,
