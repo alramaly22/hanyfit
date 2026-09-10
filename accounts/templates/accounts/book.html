@@ -17,18 +17,21 @@
     />
 <meta
   name="description"
-  content="Hanyfit by Coach Hany Masoud offers professional online bodybuilding and fitness coaching with customized workout plans, smart nutrition systems, daily support, and real body transformation results. With over 8 years of coaching experience and 500+ successful client transformations in Riyadh, Saudi Arabia, Coach Hany helps clients build muscle, burn fat, improve performance, and achieve their best physique."
+  content="Digital training and nutrition books by Coach Hany Masoud: workout systems and recipe guides to help you build muscle, burn fat and eat healthy, delivered instantly after purchase."
 />
 
 <meta
   property="og:title"
-  content="Hanyfit | Coach Hany Masoud - Online Fitness & Bodybuilding Coaching"
+  content="Fitness & Nutrition Training Books | HanyFit"
 />
 
 <meta
   property="og:description"
-  content="Transform your body with Coach Hany Masoud’s professional online coaching. Customized training systems, nutrition planning, daily follow-up, and proven transformation strategies designed for your body, lifestyle, and fitness goals."
+  content="Digital training and nutrition books by Coach Hany Masoud: workout systems and recipe guides to help you build muscle, burn fat and eat healthy, delivered instantly after purchase."
 />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ SITE_URL }}{% static 'images/testo/healthy_recipes.webp' %}" />
+<link rel="canonical" href="{{ SITE_URL }}{{ request.path }}" />
     <!--=============== REMIXICONS ===============-->
     <link
       rel="stylesheet"
@@ -68,7 +71,7 @@
       }
     </style>
 
-    <title>Book Hany</title>
+    <title>Fitness &amp; Nutrition Training Books | HanyFit</title>
   </head>
 
   <body>
@@ -98,6 +101,7 @@
       <nav class="nav container">
         <a href="{% url 'index' %}" class="logo">
           <img src="{% static 'images/testo/logo.png' %}" alt="" />
+          <span class="logo__wordmark">Hanyfit</span>
         </a>
 
         <div class="nav__menu" id="nav-menu">
@@ -199,6 +203,8 @@
             <option value="en">En</option>
             <option value="ar">Ar</option>
           </select>
+
+          {% include "core/_currency_switcher.html" %}
         </div>
       </nav>
     </header>
@@ -230,8 +236,8 @@
           </div>
 
           <div class="home__images66">
-            <img src="{% static 'images/testo/last1.webp' %}" alt="" />
-            <img src="{% static 'images/testo/blackpp4.webp' %}" alt="" />
+            <img src="{% static 'images/ebook/healthy_recipes.webp' %}" alt="" />
+            <img src="{% static 'images/ebook/supplements.webp' %}" alt="" />
           </div>
         </div>
       </section>
@@ -374,7 +380,7 @@
                 <article class="featured__card swiper-slide">
 
                     <img
-                        src="{% static 'images/testo/blackpp2.webp' %}"
+                        src="{% static 'images/ebook/healthy_recipes.webp' %}"
                         class="featured__img"
                         alt="Recipe Mastery Book"
                     />
@@ -413,7 +419,7 @@
                 <article class="featured__card swiper-slide">
 
                     <img
-                        src="{% static 'images/testo/last1.webp' %}"
+                        src="{% static 'images/ebook/supplements.webp' %}"
                         class="featured__img"
                         alt="Ultimate Supplements Guide"
                     />
@@ -452,7 +458,7 @@
                 <article class="featured__card swiper-slide">
 
                     <img
-                        src="{% static 'images/testo/exerebook.webp' %}"
+                        src="{% static 'images/ebook/exercise_training.webp' %}"
                         class="featured__img"
                         alt="Exercise Training Guide"
                     />
@@ -491,7 +497,7 @@
                 <article class="featured__card swiper-slide">
 
                     <img
-                        src="{% static 'images/testo/subebook.webp' %}"
+                        src="{% static 'images/ebook/subtances.webp' %}"
                         class="featured__img"
                         alt="Substances Risks & Consequences"
                     />
@@ -613,7 +619,7 @@
 
                     <h2 class="pricing__number">
 
-                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
+                        {% if selected_currency == 'EGP' %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -686,8 +692,8 @@
                         data-book="Recipe Mastery Book"
                         data-description-ar="اختر اللغة العربية أو الإنجليزية واحصل فورًا على كتاب احتراف الوصفات الصحية بعد إتمام عملية الدفع."
                         data-description-en="Choose Arabic or English and instantly receive the Recipe Mastery Book after completing your payment."
-                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-osfat{% else %}{{ book_link_recipe_ar }}{% endif %}"
-                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/healthy-recipes-book{% else %}{{ book_link_recipe_en }}{% endif %}"
+                        data-ar="{{ book_link_recipe_ar }}"
+                        data-en="{{ book_link_recipe_en }}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now
@@ -731,7 +737,7 @@
 
                     <h2 class="pricing__number">
 
-                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
+                        {% if selected_currency == 'EGP' %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -804,8 +810,8 @@
                         data-book="Ultimate Supplements Guide"
                         data-description-ar="اختر اللغة العربية أو الإنجليزية واحصل فورًا على الدليل الشامل للمكملات الغذائية بعد إتمام عملية الدفع."
                         data-description-en="Choose Arabic or English and instantly receive the Ultimate Supplements Guide after completing your payment."
-                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-mkmlat{% else %}{{ book_link_supplements_ar }}{% endif %}"
-                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/supplements-1{% else %}{{ book_link_supplements_en }}{% endif %}"
+                        data-ar="{{ book_link_supplements_ar }}"
+                        data-en="{{ book_link_supplements_en }}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now
@@ -847,7 +853,7 @@
 
                     <h2 class="pricing__number">
 
-                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
+                        {% if selected_currency == 'EGP' %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -920,8 +926,8 @@
                         data-book="Exercise Training Guide"
                         data-description-ar="تعلّم أساسيات التدريب الفعّال، وافهم نظام Full Body، وابنِ قاعدة عضلية قوية لتحقيق تقدم مستمر."
                         data-description-en="Learn the fundamentals of effective training, understand the Full Body system, and build a strong foundation for long-term progress."
-                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-tmryn0{% else %}{{ book_link_exercise_ar }}{% endif %}"
-                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/workout-guide{% else %}{{ book_link_exercise_en }}{% endif %}"
+                        data-ar="{{ book_link_exercise_ar }}"
+                        data-en="{{ book_link_exercise_en }}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now
@@ -964,7 +970,7 @@
 
                     <h2 class="pricing__number">
 
-                        {% if is_egypt %}149 EGP{% else %}50 SAR{% endif %}
+                        {% if selected_currency == 'EGP' %}149 EGP{% else %}50 SAR{% endif %}
                     </h2>
 
                 </header>
@@ -1037,8 +1043,8 @@
                         data-book="Substances: Risks & Consequences"
                         data-description-ar="دليل تعليمي يشرح المخاطر والعواقب والتأثيرات طويلة المدى المرتبطة بالمواد المؤثرة على الأداء."
                         data-description-en="An educational guide explaining the risks, consequences, and long-term effects associated with performance-enhancing substances."
-                        data-ar="{% if is_egypt %}https://app.fawaterk.com/pg/ktab-almoad-almhsn1{% else %}{{ book_link_substances_ar }}{% endif %}"
-                        data-en="{% if is_egypt %}https://app.fawaterk.com/pg/performance-enhancing-substances-book1{% else %}{{ book_link_substances_en }}{% endif %}"
+                        data-ar="{{ book_link_substances_ar }}"
+                        data-en="{{ book_link_substances_en }}"
                         data-lang="purchaseBtn"
                     >
                         Purchase Now

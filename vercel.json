@@ -1,24 +1,35 @@
 {
-  "builds": [
-    {
-      "src": "test_project/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.12",
-        "includeFiles": [
-          "accounts/static/**",
-          "accounts/templates/**",
-          "meals/static/**",
-          "meals/templates/**",
-          "store/templates/**"
-        ]
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "test_project/wsgi.py"
-    }
-  ]
+    "builds": [{
+            "src": "build_files.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles_build"
+            }
+        },
+        {
+            "src": "test_project/wsgi.py",
+            "use": "@vercel/python",
+            "config": {
+                "runtime": "python3.12",
+                "includeFiles": [
+                    "accounts/templates/**",
+                    "core/templates/**",
+                    "meals/templates/**",
+                    "store/templates/**"
+                ]
+            }
+        }
+    ],
+    "routes": [{
+            "src": "/static/(.*)",
+            "headers": {
+                "cache-control": "public, max-age=604800, stale-while-revalidate=86400"
+            },
+            "dest": "/static/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "test_project/wsgi.py"
+        }
+    ]
 }

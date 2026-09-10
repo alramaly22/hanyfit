@@ -105,6 +105,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Centralized country/currency/pricing resolution shared by every app
+    # below -- see core/currency.py. Listed first because accounts, store
+    # and meals all depend on it; it depends on none of them.
+    "core",
     "accounts",
     "store",
     "meals",
@@ -144,6 +148,9 @@ TEMPLATES = [
                 # template, so the header badge and the pixel work site-wide.
                 "store.context_processors.cart",
                 "store.context_processors.tracking",
+                # Exposes the resolved country/currency (core/currency.py) to
+                # every template, e.g. for a currency switcher in the header.
+                "core.context_processors.currency_context",
             ],
         },
     },
@@ -208,11 +215,21 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "accounts" / "static",
-]
+# accounts/static/ used to also be listed explicitly in STATICFILES_DIRS.
+# That was redundant -- Django's default AppDirectoriesFinder already picks
+# up every installed app's own static/ folder (accounts/, meals/) -- and it
+# made collectstatic log a "Found another file ... it will be ignored"
+# warning for every single file in accounts/static/ (180 of them) since the
+# same path was being discovered twice. No behaviour change: removing it
+# collects the exact same files from the exact same directory, just once.
+STATICFILES_DIRS = []
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# Matches vercel.json's "distDir": "staticfiles_build" for the
+# @vercel/static-build step (see build_files.sh) -- collectstatic writes
+# here, and Vercel deploys the whole directory as a static build served
+# directly from the Edge Network, completely separate from the Python
+# function. Locally / off Vercel this is just an ordinary STATIC_ROOT.
+STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 
 STORAGES = {
     "default": {
@@ -354,6 +371,28 @@ STORE_COUNTRIES = {
         "has_regions": False,
     },
 }
+
+
+# ---------------------------------------------------------------------------
+# Centralized country/currency resolution (core app)
+# ---------------------------------------------------------------------------
+# The whitelist a manually-selected currency (core.currency.set_currency_override)
+# is checked against -- nothing outside this list can ever be written to a
+# session, no matter what a request sends. Currently the same two currencies
+# STORE_COUNTRIES already prices in; add a currency here (and to
+# STORE_COUNTRIES / core/payment_links.py as needed) together, not here alone.
+SUPPORTED_CURRENCIES = [STORE_COUNTRIES["EG"]["currency"], STORE_COUNTRIES["SA"]["currency"]]
+
+# Bump this whenever core/currency.py's resolution logic changes in a way
+# that makes an old stored value unsafe to trust (e.g. the whitelist
+# changes, or the priority rules change). Any session carrying an older (or
+# missing) version is treated as if it had no manual override at all, and
+# the currency is re-resolved from the detected country -- see
+# core.currency.get_currency_override. This is what keeps a visitor who
+# opened the site before this system existed from being stuck on a stale
+# currency after a deployment, with no dependency on them clearing
+# anything themselves.
+CURRENCY_CONTEXT_VERSION = 1
 
 
 # ---------------------------------------------------------------------------

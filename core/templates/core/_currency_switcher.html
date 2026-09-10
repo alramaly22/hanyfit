@@ -1,0 +1,34 @@
+{# Site-wide currency switcher (core.currency). Posts to the server so #}
+{# every price and payment link on every page -- not just this one --  #}
+{# updates from the same session value core.currency.resolve_currency  #}
+{# reads everywhere. Changing currency here never changes the detected #}
+{# or selected country (see core/currency.py). Styling lives in        #}
+{# accounts/static/css/master.css (.currency-switcher*) so it matches  #}
+{# the site's own theme instead of a bolted-on inline style.           #}
+<form action="{% url 'set_currency' %}"
+      method="post"
+      class="currency-switcher-form">
+
+    {% csrf_token %}
+
+    <input type="hidden" name="next" value="{{ request.path }}">
+
+    <label class="currency-switcher" for="currency-selector">
+
+        <i class="ri-exchange-dollar-line currency-switcher__icon" aria-hidden="true"></i>
+
+        <select name="currency"
+                id="currency-selector"
+                class="currency-switcher__select"
+                aria-label="Currency"
+                onchange="this.form.submit()">
+
+            {% for code in supported_currencies %}
+                <option value="{{ code }}" {% if code == selected_currency %}selected{% endif %}>
+                    {{ code }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </label>
+</form>

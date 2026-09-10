@@ -19,6 +19,7 @@ from . import geo
 from .cart import get_cart
 from .forms import CheckoutForm
 from .models import Order, OrderItem, Product, ProductVariant, WebhookEvent
+from core import currency as core_currency
 from meals.models import Meal
 from meals.services import availability as meal_availability
 from meals.services import coupons as coupons_service
@@ -180,9 +181,20 @@ def set_country(request):
     Only ever changes the session; it never touches an existing order, so a
     customer cannot alter the price of something they already bought by
     flipping this after the fact.
+
+    Also syncs the site-wide selected currency (core.currency) to this
+    country's default, so a visitor who has not separately overridden the
+    currency elsewhere (Coaching/Books) sees a consistent one everywhere
+    right after picking a delivery country here. This is one-directional on
+    purpose -- changing currency on a Coaching/Books page never touches
+    this delivery-country session value, since currency and delivery
+    country are independent concepts everywhere except Store/Meals (see
+    core/currency.py's module docstring).
     """
     code = (request.POST.get("country") or "").strip().upper()
     ok = geo.set_country(request, code)
+    if ok:
+        core_currency.set_currency_override(request, core_currency.get_default_currency(code))
     next_url = request.POST.get("next") or reverse("store")
     # Only ever redirect back into this site, never to an attacker-supplied
     # off-site URL.

@@ -26,7 +26,16 @@
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="{% static 'css/cancel.css' %}" />
 
-    <title>آلة حاسبة لبدائل الطعام سعرات حراريه</title>
+    <meta
+      name="description"
+      content="Free calorie food substitution calculator: swap between foods with the exact same calorie count, quickly and easily, from HanyFit."
+    />
+    <link rel="canonical" href="{{ SITE_URL }}{% url 'caloriesen' %}" />
+    <link rel="alternate" hreflang="en" href="{{ SITE_URL }}{% url 'caloriesen' %}" />
+    <link rel="alternate" hreflang="ar" href="{{ SITE_URL }}{% url 'calories' %}" />
+    <link rel="alternate" hreflang="x-default" href="{{ SITE_URL }}{% url 'calories' %}" />
+
+    <title>Free Calorie Food Substitution Calculator | HanyFit</title>
     <script>
       function calculate(
         originalAmountId,

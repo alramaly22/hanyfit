@@ -1238,7 +1238,7 @@ span.text {
 }
 
 .article11 {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/blackpp2.webp);
+    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/ebook/healthy_recipes.webp);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -1246,7 +1246,7 @@ span.text {
 }
 
 .article41 {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/subebook.webp);
+    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/ebook/subtances.webp);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -1254,7 +1254,7 @@ span.text {
 }
 
 .article21 {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/last1.webp);
+    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/ebook/supplements.webp);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -1262,7 +1262,7 @@ span.text {
 }
 
 .article31 {
-    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/testo/exerebook.webp);
+    background-image: linear-gradient(rgba(4, 9, 30, 0.8), rgba(0, 0, 0, 0.788)), url(../images/ebook/exercise_training.webp);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -2380,7 +2380,7 @@ hr {
     color: var(--first-color);
     transition: border .4s background-color;
     position: absolute;
-    top: 31rem;
+    top: 26rem;
 }
 
 
@@ -3511,71 +3511,6 @@ hr {
     }
 }
 
-.payment-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.payment-box {
-    background: #111;
-    padding: 2rem;
-    border-radius: 1rem;
-    text-align: center;
-    width: 300px;
-}
-
-.payment-box h3 {
-    color: #fff;
-    margin-bottom: 1.5rem;
-}
-
-.payment-box button {
-    display: block;
-    width: 100%;
-    margin: .5rem 0;
-    padding: .8rem;
-    border: none;
-    border-radius: .5rem;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.payment-box button:first-of-type {
-    background: #ff6b00;
-    color: #fff;
-}
-
-.payment-box button:last-of-type {
-    background: rgba(114, 118, 139, .16);
-    color: #fff;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    font-size: 22px;
-    color: #fff;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: var(--first-color);
-    transition: 0.3s;
-}
-
-.close:hover {
-    background: rgba(255, 255, 255, 0.25);
-}
-
 .liop {
     display: flex;
     align-items: baseline;
@@ -3753,4 +3688,93 @@ hr {
 
 .show-scroll {
     bottom: 5rem;
+}
+
+
+/*=============== SITE WORDMARK (small screens) ===============*/
+
+
+/* The raster logo gets illegible on small screens, so a styled text
+   wordmark takes over below the same 576px breakpoint already used
+   elsewhere in this file. Uses the site's own fire gradient so it reads
+   as the same brand, not a bolted-on placeholder. */
+
+.logo__wordmark {
+    display: none;
+    font-family: var(--body-font);
+    font-weight: var(--font-bold);
+    font-size: 1.35rem;
+    letter-spacing: .5px;
+    color: var(--first-color);
+    background: var(--gradient-color2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@media screen and (max-width: 576px) {
+    .logo img {
+        display: none;
+    }
+    .logo__wordmark {
+        display: inline-block;
+    }
+}
+
+
+/*=============== CURRENCY SWITCHER ===============*/
+
+
+/* Styled to match the language selector and the .nav__link--books pill
+   next to it: same asymmetric corner-cut radius and fire-orange accent
+   the rest of the header already uses, so it reads as native chrome. */
+
+.currency-switcher-form {
+    display: inline-flex;
+}
+
+.currency-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .5rem .9rem;
+    border-radius: 1rem 0;
+    background: var(--container-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 12px rgba(214, 106, 31, .12);
+    cursor: pointer;
+    transition: box-shadow .3s ease, transform .3s ease, border-color .3s ease;
+}
+
+.currency-switcher:hover,
+.currency-switcher:focus-within {
+    border-color: var(--first-color);
+    box-shadow: 0 0 18px rgba(214, 106, 31, .3);
+    transform: translateY(-2px);
+}
+
+.currency-switcher__icon {
+    font-size: .95rem;
+    color: var(--first-color);
+    line-height: 1;
+}
+
+.currency-switcher__select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--title-color);
+    font-family: var(--body-font);
+    font-weight: var(--font-bold);
+    font-size: var(--small-font-size);
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.currency-switcher__select option {
+    color: #000;
+    background: #fff;
 }

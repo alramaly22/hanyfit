@@ -48,7 +48,17 @@
   "url": "{{ SITE_URL }}/",
   "image": "{{ SITE_URL }}{% static 'images/testo/logo.png' %}",
   "description": "Online bodybuilding and fitness coaching, healthy meal subscriptions (HanyFit Meals), and gym apparel by Coach Hany Masoud.",
-  "areaServed": ["Egypt", "Saudi Arabia"],
+  "areaServed": [
+    {"@type": "Country", "name": "Egypt"},
+    {"@type": "City", "name": "Alexandria"},
+    {"@type": "City", "name": "Cairo"},
+    {"@type": "Country", "name": "Saudi Arabia"}
+  ],
+  "sameAs": [
+    "https://www.instagram.com/hany.masoud43",
+    "https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr",
+    "https://snapchat.com/t/gi7bdu8B"
+  ],
   "makesOffer": [
     {
       "@type": "Offer",
@@ -139,7 +149,15 @@
 
     </style>
 
-    <title>HANY</title>
+    <title>HanyFit | Online Coaching, Healthy Meals &amp; Gym Wear in Egypt</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ SITE_URL }}{% static 'images/testo/logo.png' %}">
+    <meta property="og:url" content="{{ SITE_URL }}{{ request.path }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hanyfit | Coach Hany Masoud - Online Fitness &amp; Bodybuilding Coaching">
+    <meta name="twitter:description" content="Online bodybuilding and fitness coaching, healthy meal subscriptions (HanyFit Meals), and gym apparel by Coach Hany Masoud.">
+    <meta name="twitter:image" content="{{ SITE_URL }}{% static 'images/testo/logo.png' %}">
 
 </head>
 
@@ -192,7 +210,9 @@
                 class="logo">
 
                 <img src="{% static 'images/testo/logo.png' %}"
-                    alt="">
+                    alt="Hanyfit" fetchpriority="high" decoding="async">
+
+                <span class="logo__wordmark">Hanyfit</span>
 
             </a>
 
@@ -368,6 +388,9 @@
 
                 </select>
 
+                {% include "core/_currency_switcher.html" %}
+
+
             </div>
 
         </nav>
@@ -519,8 +542,8 @@
                         1 MONTH ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="{% if is_egypt %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
-                        {% if is_egypt %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
+                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
+                        {% if selected_currency == 'EGP' %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -557,9 +580,9 @@
                 </ul>
 
                 <div class="mk">
-                    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
+                    <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
                     <a data-lang="button3"
-                       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrak-shhr1{% else %}{{ coaching_link_1 }}{% endif %}"
+                       href="{{ coaching_link_1 }}"
                        target="_blank"
                        class="button button__flex pricing__button">
                         Purchase Now
@@ -579,8 +602,8 @@
                         2 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="{% if is_egypt %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
-                        {% if is_egypt %}2 Months / 1,099 EGP ⭐{% else %}2 Months / 299 SAR ⭐{% endif %}
+                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
+                        {% if selected_currency == 'EGP' %}2 Months / 1,099 EGP ⭐{% else %}2 Months / 299 SAR ⭐{% endif %}
                     </h2>
                 </header>
 
@@ -626,7 +649,7 @@
                 <div class="mk">
                     <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                     <a data-lang="button3"
-                       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrk-shhryn-2{% else %}{{ coaching_link_2 }}{% endif %}"
+                       href="{{ coaching_link_2 }}"
                        target="_blank"
                        class="button button__flex pricing__button">
                         Purchase Now
@@ -646,8 +669,8 @@
                         3 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="{% if is_egypt %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
-                        {% if is_egypt %}3 Months / 1,499 EGP 🔥 Best Value{% else %}3 Months / 399 SAR 🔥 Best Value{% endif %}
+                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
+                        {% if selected_currency == 'EGP' %}3 Months / 1,499 EGP 🔥 Best Value{% else %}3 Months / 399 SAR 🔥 Best Value{% endif %}
                     </h2>
                 </header>
 
@@ -713,7 +736,7 @@
 
                 <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
                 <a data-lang="button3"
-                   href="{% if is_egypt %}https://app.fawaterk.com/paymentRequest/show/40531{% else %}{{ coaching_link_3 }}{% endif %}"
+                   href="{{ coaching_link_3 }}"
                    target="_blank"
                    class="button button__flex pricing__button">
                     Purchase Now
@@ -751,7 +774,7 @@
                     <div class="tranding-slide-img">
 
                         <img src="{% static 'images/testo/test6.webp' %}"
-                            alt="Tranding">
+                            alt="Client body transformation result after HanyFit online coaching" loading="lazy" decoding="async">
 
                     </div>
 
@@ -769,7 +792,7 @@
                     <div class="tranding-slide-img">
 
                         <img src="{% static 'images/testo/test7.webp' %}"
-                            alt="Tranding">
+                            alt="Before and after physique transformation with Coach Hany Masoud" loading="lazy" decoding="async">
 
                     </div>
 
@@ -787,7 +810,7 @@
                     <div class="tranding-slide-img">
 
                         <img src="{% static 'images/testo/test8.webp' %}"
-                            alt="Tranding">
+                            alt="Muscle gain and fat loss transformation, HanyFit coaching client" loading="lazy" decoding="async">
 
                     </div>
 
@@ -805,7 +828,7 @@
                     <div class="tranding-slide-img">
 
                         <img src="{% static 'images/testo/test9.webp' %}"
-                            alt="Tranding">
+                            alt="HanyFit online coaching client transformation photo" loading="lazy" decoding="async">
 
                     </div>
 
@@ -854,9 +877,9 @@
     <section class="nutrantion section container" id="calc">
         <div class="nutrantion__container grid">
 
-            <img src="{% static 'images/testo/bookfinal.webp' %}"
-                 alt=""
-                 class="nutrantion__img">
+            <img src="{% static 'images/ebook/healthy_recipes.webp' %}"
+                 alt="HanyFit training and nutrition book cover"
+                 class="nutrantion__img" loading="lazy" decoding="async">
 
             <div class="nutrantion__data">
 
@@ -961,8 +984,8 @@
         </div>
 
         <img src="{% static 'images/testo/test2.webp' %}"
-            alt=""
-            class="about__img">
+            alt="Coach Hany Masoud coaching session"
+            class="about__img" loading="lazy" decoding="async">
 
     </div>
 
@@ -1105,11 +1128,11 @@
             <div class="tools__visuals">
 
                 <div class="tools__img tools__img--1">
-                    <img src="{% static 'images/testo/protiencalc3.webp' %}" alt="">
+                    <img src="{% static 'images/ebook/protiencalc3.png' %}" alt="Protein Replacement Calculator interface preview" loading="lazy" decoding="async">
                 </div>
 
                 <div class="tools__img tools__img--2">
-                    <img src="{% static 'images/testo/protiensectioncalc1.webp' %}" alt="">
+                    <img src="{% static 'images/ebook/protiensectioncalc1.png' %}" alt="Protein Replacement Calculator tool screenshot" loading="lazy" decoding="async">
                 </div>
 
             </div>
@@ -1126,13 +1149,13 @@
                 </div>
 
                 <div class="tool__image">
-                    <img src="{% static 'images/testo/protiensectioncalc1.webp' %}" alt="">
+                    <img src="{% static 'images/testo/protiensectioncalc1.webp' %}" alt="Protein Replacement Calculator tool screenshot" loading="lazy" decoding="async">
                 </div>
 
                 <div class="tool__content">
 
                     <div class="tool__price">
-                        <span>199 EGP</span>
+                        <span data-lang="{% if selected_currency == 'EGP' %}calcPriceEGP{% else %}calcPriceSAR{% endif %}">{% if selected_currency == 'EGP' %}199 EGP{% else %}35 SAR{% endif %}</span>
                     </div>
 
                     <h3 data-lang="proteinTitle">
@@ -1164,9 +1187,8 @@
 
                     </ul>
 
-                   <a href="javascript:void(0)"  data-lang="getAccess"
-   class="tool__button" 
-   onclick="openPaymentModal('protein')">
+                   <a href="{{ protein_calc_link }}" target="_blank" rel="noopener" data-lang="getAccess"
+   class="tool__button">
     Get Access
     {% comment %} <i class="ri-arrow-right-up-line"></i> {% endcomment %}
 </a>
@@ -1183,13 +1205,13 @@
                 </div>
 
                 <div class="tool__image">
-                    <img src="{% static 'images/testo/protiensectioncalc2.webp' %}" alt="">
+                    <img src="{% static 'images/testo/protiensectioncalc2.webp' %}" alt="Calorie Replacement Calculator tool screenshot" loading="lazy" decoding="async">
                 </div>
 
                 <div class="tool__content">
 
                     <div class="tool__price">
-                        <span>35 SAR</span>
+                        <span data-lang="{% if selected_currency == 'EGP' %}calcPriceEGP{% else %}calcPriceSAR{% endif %}">{% if selected_currency == 'EGP' %}199 EGP{% else %}35 SAR{% endif %}</span>
                     </div>
 
                     <h3 data-lang="caloriesTitle">
@@ -1221,9 +1243,8 @@
 
                     </ul>
 
-                    <a href="javascript:void(0)" data-lang="getAccess" 
-   class="tool__button" 
-   onclick="openPaymentModal('calories')">
+                    <a href="{{ calories_calc_link }}" target="_blank" rel="noopener" data-lang="getAccess"
+   class="tool__button">
     Get Access
     {% comment %} <i class="ri-arrow-right-up-line"></i> {% endcomment %}
 </a>
@@ -1404,24 +1425,6 @@
     </p>
 
 </footer>
-<div id="paymentModal" class="payment-modal">
-  <div class="payment-box">
-
-    <span class="close" onclick="closePaymentModal()">×</span>
-
-    <h3>Select Language</h3>
-
-    <button onclick="goToPayment('ar')">
-      🇪🇬 Arabic
-    </button>
-
-    <button onclick="goToPayment('en')">
-      🇬🇧 English
-    </button>
-
-  </div>
-</div>
-
 <a href="https://wa.me/966578079833" class="whatsapp">
     <i class="ri-whatsapp-fill"></i>
 </a>
@@ -1441,33 +1444,6 @@
             progress.style.height = scrolled + "%"
         }
     })
-</script>
-<script>
-let currentProduct = null;
-
-const links = {
-    protein: {
-        ar: "https://app.fawaterk.com/paymentRequest/show/40698",
-        en: "https://app.fawaterk.com/paymentRequest/show/40697"
-    },
-    calories: {
-        ar: "https://app.fawaterk.com/paymentRequest/show/40699",
-        en: "https://app.fawaterk.com/paymentRequest/show/40696"
-    }
-};
-
-function openPaymentModal(product) {
-    currentProduct = product;
-    document.getElementById("paymentModal").style.display = "flex";
-}
-
-function closePaymentModal() {
-    document.getElementById("paymentModal").style.display = "none";
-}
-
-function goToPayment(lang) {
-    window.location.href = links[currentProduct][lang];
-}
 </script>
 <!--========== SCRIPTS ==========-->
 

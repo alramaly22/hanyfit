@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <!--=============== TRACKING (TikTok pixel) ===============-->
@@ -16,6 +16,9 @@
       type="image/x-icon"
     />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {# Not linked from anywhere on the site (legacy/orphan page) -- kept #}
+        {# working as-is, just kept out of search results. #}
+        <meta name="robots" content="noindex, nofollow" />
         <meta
   name="description"
   content="Hanyfit by Coach Hany Masoud offers professional online bodybuilding and fitness coaching with customized workout plans, smart nutrition systems, daily support, and real body transformation results. With over 8 years of coaching experience and 500+ successful client transformations in Riyadh, Saudi Arabia, Coach Hany helps clients build muscle, burn fat, improve performance, and achieve their best physique."
@@ -58,9 +61,9 @@
       
       Ali Saad." /> -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://drive.google.com/file/d/1BmsDNr1wRarnTs_ZRXPmJFjenrDwWIpa/view?usp=sharing" />
-    <!-- <meta property="og:url" content="http://MostafaElaydy.com" /> -->
-    <title>Form</title>
+    <meta property="og:image" content="{{ SITE_URL }}{% static 'images/testo/logo.png' %}" />
+    <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}" />
+    <title>HanyFit</title>
     <!-- <link rel="icon" href="images/favicon-sm.webp" /> -->
     <!-- <link rel="apple-touch-icon" sizes="72x72" href="images/favicon-md.webp" />
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicon-lg.webp" /> -->

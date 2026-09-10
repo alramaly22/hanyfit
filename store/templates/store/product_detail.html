@@ -11,6 +11,25 @@
 {% endif %}
 {% endblock %}
 
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name|escapejs }}",
+  "description": "{{ product.description|default:product.name|striptags|truncatewords:25|escapejs }}",
+  {% if product.front_image_url %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ product.front_image_url }}",{% endif %}
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ SITE_URL }}{{ request.path }}",
+    "priceCurrency": "{{ currency_label }}",
+    "price": "{{ display_price }}",
+    "availability": "{% if variants %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 <section class="shop-section shop-detail-page">

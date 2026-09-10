@@ -32,6 +32,9 @@
   property="og:description"
   content="Transform your body with Coach Hany Masoud’s professional online coaching. Customized training systems, nutrition planning, daily follow-up, and proven transformation strategies designed for your body, lifestyle, and fitness goals."
 />
+<meta property="og:type" content="website">
+<meta property="og:image" content="{{ SITE_URL }}{% static 'images/testo/logo.png' %}">
+<link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/master.css' %}">
@@ -56,7 +59,7 @@
             color: #000;
         }
     </style>
-    <title>Pricing Hany</title>
+    <title>Coaching Packages &amp; Pricing | HanyFit Online Coaching</title>
 </head>
 
 <body>
@@ -68,6 +71,7 @@
 
         <a href="{% url 'index' %}" class="logo">
             <img src="{% static 'images/testo/logo.png' %}" alt="">
+            <span class="logo__wordmark">Hanyfit</span>
         </a>
 
         <div class="nav__menu" id="nav-menu">
@@ -148,6 +152,8 @@
                 <option value="en" selected>En</option>
                 <option value="ar">Ar</option>
             </select>
+
+            {% include "core/_currency_switcher.html" %}
 
         </div>
 
@@ -262,8 +268,8 @@
                         1 MONTH ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="{% if is_egypt %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
-                        {% if is_egypt %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
+                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
+                        {% if selected_currency == 'EGP' %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -292,9 +298,9 @@
                 </ul>
 
                 <div class="mk">
-                    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
+                    <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
                      <a data-lang="button3"
-       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrak-shhr1{% else %}{{ coaching_link_1 }}{% endif %}"
+       href="{{ coaching_link_1 }}"
        target="_blank"
        class="button button__flex pricing__button">
         Purchase Now
@@ -312,8 +318,8 @@
                         2 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="{% if is_egypt %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
-                        {% if is_egypt %}2 Months / 1,099 EGP{% else %}2 Months / 299 SAR{% endif %}
+                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
+                        {% if selected_currency == 'EGP' %}2 Months / 1,099 EGP{% else %}2 Months / 299 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -347,9 +353,9 @@
                 </ul>
 
                <div class="mk">
-    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
+    <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
     <a data-lang="button3"
-       href="{% if is_egypt %}https://app.fawaterk.com/pg/ashtrk-shhryn-2{% else %}{{ coaching_link_2 }}{% endif %}"
+       href="{{ coaching_link_2 }}"
        target="_blank"
        class="button button__flex pricing__button">
         Purchase Now
@@ -367,8 +373,8 @@
                         3 MONTHS ONLINE COACHING
                     </h1>
 
-                    <h2 data-lang="{% if is_egypt %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
-                        {% if is_egypt %}3 Months / 1,499 EGP{% else %}3 Months / 399 SAR{% endif %}
+                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
+                        {% if selected_currency == 'EGP' %}3 Months / 1,499 EGP{% else %}3 Months / 399 SAR{% endif %}
                     </h2>
                 </header>
 
@@ -406,9 +412,9 @@
                     </li>
                 </ul>
 
-                <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
+                <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
                <a data-lang="button3"
-   href="{% if is_egypt %}https://app.fawaterk.com/paymentRequest/show/40531{% else %}{{ coaching_link_3 }}{% endif %}"
+   href="{{ coaching_link_3 }}"
    target="_blank"
    class="button button__flex pricing__button">
     Purchase Now

@@ -38,6 +38,10 @@ let lang = {
         pricingpackage2_intl: "شهران / 299 ريال ⭐",
         pricingpackage3_intl: "3 أشهر / 399 ريال 🔥 الأفضل قيمة",
 
+        // 🟢 CALCULATOR PRICE (Protein / Calories tools, index page)
+        calcPriceEGP: "199 جنيه",
+        calcPriceSAR: "35 ريال",
+
         button3: "اشترك الآن",
 
         // ===== PACKAGE 1 =====
@@ -168,27 +172,23 @@ let lang = {
 
         // ================= FEATURED BOOKS =================
 
-featuredtitle: "الكتب المميزة",
+        featuredtitle: "الكتب المميزة",
 
-featuredbook1: "كتاب احتراف الوصفات الصحية",
-featuredbook2: "الدليل الشامل للمكملات الغذائية",
-featuredbook3: "دليل تدريب التمارين",
-featuredbook4: "مخاطر وعواقب المواد",
+        featuredbook1: "كتاب احتراف الوصفات الصحية",
+        featuredbook2: "الدليل الشامل للمكملات الغذائية",
+        featuredbook3: "دليل تدريب التمارين",
+        featuredbook4: "مخاطر وعواقب المواد",
 
-booklang: "العربية والإنجليزية",
+        booklang: "العربية والإنجليزية",
 
-buynow: "اشترِ الآن",
-book1description:
-    "اختر اللغة العربية أو الإنجليزية واحصل فورًا على كتاب احتراف الوصفات الصحية بعد إتمام عملية الدفع.",
+        buynow: "اشترِ الآن",
+        book1description: "اختر اللغة العربية أو الإنجليزية واحصل فورًا على كتاب احتراف الوصفات الصحية بعد إتمام عملية الدفع.",
 
-book2description:
-    "اختر اللغة العربية أو الإنجليزية واحصل فورًا على الدليل الشامل للمكملات الغذائية بعد إتمام عملية الدفع.",
+        book2description: "اختر اللغة العربية أو الإنجليزية واحصل فورًا على الدليل الشامل للمكملات الغذائية بعد إتمام عملية الدفع.",
 
-book4description:
-    "تعلّم أساسيات التدريب الفعّال، وافهم نظام Full Body، وابنِ قاعدة عضلية قوية لتحقيق تقدم مستمر.",
+        book4description: "تعلّم أساسيات التدريب الفعّال، وافهم نظام Full Body، وابنِ قاعدة عضلية قوية لتحقيق تقدم مستمر.",
 
-book5description:
-    "دليل تعليمي يشرح المخاطر والعواقب والتأثيرات طويلة المدى المرتبطة بالمواد المؤثرة على الأداء.",
+        book5description: "دليل تعليمي يشرح المخاطر والعواقب والتأثيرات طويلة المدى المرتبطة بالمواد المؤثرة على الأداء.",
         // ================= PRICING / BOOKS =================
 
         booksTitle: "اختر تطويرك الرياضي",
@@ -223,30 +223,30 @@ book5description:
 
         // ===== BOOK 3 - EXERCISE TRAINING =====
 
-// ===== BOOK 4 - EXERCISE TRAINING =====
+        // ===== BOOK 4 - EXERCISE TRAINING =====
 
-badge4: "للمبتدئين ⭐",
+        badge4: "للمبتدئين ⭐",
 
-book4title: "دليل تدريب التمارين",
+        book4title: "دليل تدريب التمارين",
 
-book4li1: "تعلّم أساسيات التدريب الفعّال",
-book4li2: "افهم نظام تدريب الجسم بالكامل Full Body",
-book4li3: "مناسب للمبتدئين الذين يتدربون من يومين إلى 3 أيام أسبوعيًا",
-book4li4: "ابنِ قاعدة عضلية قوية باستخدام التمارين الصحيحة",
-book4li5: "تعلّم كيف تتدرب بذكاء بدلًا من مجرد زيادة حجم التدريب",
+        book4li1: "تعلّم أساسيات التدريب الفعّال",
+        book4li2: "افهم نظام تدريب الجسم بالكامل Full Body",
+        book4li3: "مناسب للمبتدئين الذين يتدربون من يومين إلى 3 أيام أسبوعيًا",
+        book4li4: "ابنِ قاعدة عضلية قوية باستخدام التمارين الصحيحة",
+        book4li5: "تعلّم كيف تتدرب بذكاء بدلًا من مجرد زيادة حجم التدريب",
 
 
-// ===== BOOK 5 - SUBSTANCES =====
+        // ===== BOOK 5 - SUBSTANCES =====
 
-badge5: "معلومات مهمة ⚠️",
+        badge5: "معلومات مهمة ⚠️",
 
-book5title: "مخاطر وعواقب المواد",
+        book5title: "مخاطر وعواقب المواد",
 
-book5li1: "افهم المخاطر الحقيقية وراء استخدام المواد المؤثرة على الأداء",
-book5li2: "تعرّف على التأثيرات الجسدية والعواقب طويلة المدى",
-book5li3: "افهم كيف يمكن أن تؤثر هذه المواد على جسمك",
-book5li4: "اتخذ قرارات أكثر وعيًا بشأن صحتك وتدريبك",
-book5li5: "معرفة مصممة لحماية تقدمك ومستقبلك",
+        book5li1: "افهم المخاطر الحقيقية وراء استخدام المواد المؤثرة على الأداء",
+        book5li2: "تعرّف على التأثيرات الجسدية والعواقب طويلة المدى",
+        book5li3: "افهم كيف يمكن أن تؤثر هذه المواد على جسمك",
+        book5li4: "اتخذ قرارات أكثر وعيًا بشأن صحتك وتدريبك",
+        book5li5: "معرفة مصممة لحماية تقدمك ومستقبلك",
 
 
         // ===== BOTTOM CTA =====
@@ -598,6 +598,10 @@ book5li5: "معرفة مصممة لحماية تقدمك ومستقبلك",
         pricingpackage2_intl: "2 Months / 299 SAR ⭐",
         pricingpackage3_intl: "3 Months / 399 SAR 🔥 Best Value",
 
+        // 🟢 CALCULATOR PRICE (Protein / Calories tools, index page)
+        calcPriceEGP: "199 EGP",
+        calcPriceSAR: "35 SAR",
+
         button3: "Purchase Now",
 
         // ===== PACKAGE 1 =====
@@ -738,29 +742,25 @@ book5li5: "معرفة مصممة لحماية تقدمك ومستقبلك",
 
         // ================= FEATURED BOOKS =================
 
-            // ================= FEATURED BOOKS =================
+        // ================= FEATURED BOOKS =================
 
-featuredtitle: "Featured Books",
+        featuredtitle: "Featured Books",
 
-featuredbook1: "Recipe Mastery Book",
-featuredbook2: "Ultimate Supplements Guide",
-featuredbook3: "Exercise Training Guide",
-featuredbook4: "Substances: Risks & Consequences",
+        featuredbook1: "Recipe Mastery Book",
+        featuredbook2: "Ultimate Supplements Guide",
+        featuredbook3: "Exercise Training Guide",
+        featuredbook4: "Substances: Risks & Consequences",
 
-booklang: "Arabic & English",
+        booklang: "Arabic & English",
 
-buynow: "Buy Now",
-book1description:
-    "Choose Arabic or English and instantly receive the Recipe Mastery Book after completing your payment.",
+        buynow: "Buy Now",
+        book1description: "Choose Arabic or English and instantly receive the Recipe Mastery Book after completing your payment.",
 
-book2description:
-    "Choose Arabic or English and instantly receive the Ultimate Supplements Guide after completing your payment.",
+        book2description: "Choose Arabic or English and instantly receive the Ultimate Supplements Guide after completing your payment.",
 
-book4description:
-    "Learn the fundamentals of effective training, understand the Full Body system, and build a strong foundation for long-term progress.",
+        book4description: "Learn the fundamentals of effective training, understand the Full Body system, and build a strong foundation for long-term progress.",
 
-book5description:
-    "An educational guide explaining the risks, consequences, and long-term effects associated with performance-enhancing substances.",
+        book5description: "An educational guide explaining the risks, consequences, and long-term effects associated with performance-enhancing substances.",
         // ================= PRICING / BOOKS =================
 
         booksTitle: "Choose Your Fitness Upgrade",
@@ -794,30 +794,30 @@ book5description:
         book2li5: "Simple Explanations Without Complicated Science",
 
 
-// ===== BOOK 4 - EXERCISE TRAINING =====
+        // ===== BOOK 4 - EXERCISE TRAINING =====
 
-badge4: "FOR BEGINNERS ⭐",
+        badge4: "FOR BEGINNERS ⭐",
 
-book4title: "Exercise Training Guide",
+        book4title: "Exercise Training Guide",
 
-book4li1: "Learn The Fundamentals Of Effective Training",
-book4li2: "Understand The Full Body Training System",
-book4li3: "Perfect For Beginners Training 2–3 Days Per Week",
-book4li4: "Build A Strong Muscular Foundation With The Right Exercises",
-book4li5: "Learn How To Train Smarter Instead Of Simply Training More",
+        book4li1: "Learn The Fundamentals Of Effective Training",
+        book4li2: "Understand The Full Body Training System",
+        book4li3: "Perfect For Beginners Training 2–3 Days Per Week",
+        book4li4: "Build A Strong Muscular Foundation With The Right Exercises",
+        book4li5: "Learn How To Train Smarter Instead Of Simply Training More",
 
 
-// ===== BOOK 5 - SUBSTANCES =====
+        // ===== BOOK 5 - SUBSTANCES =====
 
-badge5: "IMPORTANT KNOWLEDGE ⚠️",
+        badge5: "IMPORTANT KNOWLEDGE ⚠️",
 
-book5title: "Substances: Risks & Consequences",
+        book5title: "Substances: Risks & Consequences",
 
-book5li1: "Understand The Real Risks Behind Performance-Enhancing Substances",
-book5li2: "Learn About The Physical & Long-Term Consequences",
-book5li3: "Understand How These Substances Can Affect Your Body",
-book5li4: "Make More Informed Decisions About Your Health & Training",
-book5li5: "Knowledge Designed To Protect Your Progress And Your Future",
+        book5li1: "Understand The Real Risks Behind Performance-Enhancing Substances",
+        book5li2: "Learn About The Physical & Long-Term Consequences",
+        book5li3: "Understand How These Substances Can Affect Your Body",
+        book5li4: "Make More Informed Decisions About Your Health & Training",
+        book5li5: "Knowledge Designed To Protect Your Progress And Your Future",
 
 
 
@@ -1196,15 +1196,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // اتجاه الصفحة
         document.documentElement.dir =
-            language === 'ar'
-                ? 'rtl'
-                : 'ltr';
+            language === 'ar' ?
+            'rtl' :
+            'ltr';
 
 
         document.body.style.textAlign =
-            language === 'ar'
-                ? 'right'
-                : 'left';
+            language === 'ar' ?
+            'right' :
+            'left';
 
 
         // بعض الأقسام تظل LTR

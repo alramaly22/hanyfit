@@ -28,6 +28,7 @@ urlpatterns = [
 
     path("store/", include("store.urls")),
     path("meals/", include("meals.urls")),
+    path("", include("core.urls")),
 
     # Kept so the webhook URL already registered in the Fawaterk dashboard
     # keeps working. New deployments should point at store/payment/webhook_json/

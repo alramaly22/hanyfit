@@ -1,8 +1,4 @@
-"""Money helpers.
-
-All money is handled as Decimal and rounded to two places at the boundary.
-Floats are deliberately avoided: 0.1 + 0.2 problems in an order total are the
-kind of bug that shows up as a one-piastre mismatch against the gateway.
+"""Store/Meals money helpers.
 
 Multi-country note
 -------------------
@@ -11,25 +7,22 @@ price. For any other country (see settings.STORE_COUNTRIES), the functions
 below convert that base price using a fixed, manually maintained exchange
 rate and apply that country's own shipping fee and free-shipping threshold.
 There is no live FX lookup.
+
+``ZERO``, ``CENTS`` and ``to_money`` used to be defined here. They are
+currency-agnostic (nothing about them is specific to Store or to a
+country), so they now live in ``core/pricing.py`` -- the site-wide,
+centralized pricing module -- and are re-exported below so every existing
+``from .pricing import ZERO, to_money`` elsewhere in this app keeps working
+unchanged. This is the only copy of that rounding rule in the project.
 """
 
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal
 
 from django.conf import settings
 
+from core.pricing import CENTS, ZERO, to_money  # noqa: F401 -- re-exported
+
 from . import geo
-
-ZERO = Decimal("0.00")
-CENTS = Decimal("0.01")
-
-
-def to_money(value):
-    """Coerce anything numeric into a 2dp Decimal."""
-    if value in (None, ""):
-        return ZERO
-    if not isinstance(value, Decimal):
-        value = Decimal(str(value))
-    return value.quantize(CENTS, rounding=ROUND_HALF_UP)
 
 
 # ---------------------------------------------------------------------------
