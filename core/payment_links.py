@@ -80,6 +80,25 @@ BOOK_LINKS = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Calculators -- Protein Replacement Calculator / Calories Replacement
+# Calculator (sold from the index page "Tools" section). One Fawaterk
+# link per currency (no language split -- both calculators are now a
+# single bilingual page, see accounts/templates/accounts/protein.html and
+# calories.html). 199 EGP / 35 SAR for both.
+# ---------------------------------------------------------------------------
+CALCULATOR_LINKS = {
+    "protein": {  # Protein Replacement Calculator -- 199 EGP / 35 SAR
+        "EGP": "https://app.fawaterk.com/paymentRequest/show/40698",
+        "SAR": "https://app.fawaterk.com/paymentRequest/show/40697",
+    },
+    "calories": {  # Calories Replacement Calculator -- 199 EGP / 35 SAR
+        "EGP": "https://app.fawaterk.com/paymentRequest/show/40699",
+        "SAR": "https://app.fawaterk.com/paymentRequest/show/40696",
+    },
+}
+
+
 def _whatsapp_fallback():
     """Shown instead of a blank link, so a button never dead-ends.
 
@@ -101,6 +120,11 @@ def book_link(product_key, currency_code, lang):
     return (by_currency.get(currency_code) or {}).get(lang) or _whatsapp_fallback()
 
 
+def calculator_link(product_key, currency_code):
+    """The payment link for a calculator (Protein/Calories), in this currency."""
+    return (CALCULATOR_LINKS.get(product_key) or {}).get(currency_code) or _whatsapp_fallback()
+
+
 def missing_combinations():
     """(kind, product_key, currency_code[, lang]) tuples with no link yet.
 
@@ -118,4 +142,8 @@ def missing_combinations():
             for lang, link in by_lang.items():
                 if not link:
                     missing.append(("book", key, currency_code, lang))
+    for key, by_currency in CALCULATOR_LINKS.items():
+        for currency_code, link in by_currency.items():
+            if not link:
+                missing.append(("calculator", key, currency_code))
     return missing
