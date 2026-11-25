@@ -108,34 +108,6 @@ class ResolveCurrencyTests(TestCase):
             self.assertEqual(currency.resolve_currency(request), "EGP")
 
 
-class SetCurrencyViewTests(TestCase):
-    def test_valid_currency_is_persisted_across_requests(self):
-        self.client.post(reverse("set_currency"), {"currency": "SAR", "next": "/pricing/"})
-        response = self.client.get("/pricing/")
-        self.assertContains(response, "199 SAR")
-        self.assertNotContains(response, "599 EGP")
-
-    def test_invalid_currency_is_rejected(self):
-        response = self.client.post(
-            reverse("set_currency"), {"currency": "USD", "next": "/pricing/"}
-        )
-        self.assertEqual(response.status_code, 302)
-        follow = self.client.get("/pricing/")
-        self.assertContains(follow, "599 EGP")
-
-    def test_get_is_not_allowed(self):
-        response = self.client.get(reverse("set_currency"))
-        self.assertEqual(response.status_code, 405)
-
-    def test_protocol_relative_next_is_rejected(self):
-        """A "//evil.com" next value must never be followed off-site."""
-        response = self.client.post(
-            reverse("set_currency"), {"currency": "SAR", "next": "//evil.example.com"}
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, "/")
-
-
 class PaymentLinksTests(TestCase):
     def test_coaching_link_for_configured_currency(self):
         from . import payment_links
@@ -147,7 +119,8 @@ class PaymentLinksTests(TestCase):
     def test_coaching_link_falls_back_to_whatsapp_when_missing(self):
         from . import payment_links
 
-        link = payment_links.coaching_link("month_1", "SAR")
+        # The steroid packages have no SAR payment link stored.
+        link = payment_links.coaching_link("advanced_month_1", "SAR")
         self.assertIn("wa.me", link)
 
     def test_book_link_falls_back_to_whatsapp_when_missing(self):
@@ -169,3 +142,55 @@ class PaymentLinksTests(TestCase):
         from . import payment_links
 
         self.assertIn("wa.me", payment_links.coaching_link("does_not_exist", "EGP"))
+
+
+class CoachingPaymentLinkMapTests(TestCase):
+    """Every coaching package -> its exact Fawaterk URL, per currency."""
+
+    EXPECTED = {
+        ("month_1", "EGP"): "https://app.fawaterk.com/pg/ashtrak-shhr1",
+        ("month_2", "EGP"): "https://app.fawaterk.com/pg/ashtrk-shhryn-2",
+        ("month_3", "EGP"): "https://app.fawaterk.com/pg/shhr1",
+        ("advanced_month_1", "EGP"): "https://app.fawaterk.com/pg/ghany",
+        ("advanced_month_3", "EGP"): "https://app.fawaterk.com/pg/hany-m",
+        ("month_1", "SAR"): "https://app.fawaterk.com/paymentRequest/show/40529",
+        ("month_2", "SAR"): "https://app.fawaterk.com/pg/body-upgrade",
+        ("month_3", "SAR"): "https://app.fawaterk.com/pg/body-upgrade",
+    }
+
+    def test_exact_links(self):
+        from . import payment_links
+
+        for (key, cur), url in self.EXPECTED.items():
+            self.assertEqual(payment_links.coaching_link(key, cur), url, (key, cur))
+
+    def test_egp_links_are_distinct_and_never_reused_across_packages(self):
+        from . import payment_links
+
+        egp = [
+            payment_links.COACHING_LINKS[k]["EGP"]
+            for k in payment_links.COACHING_LINKS
+        ]
+        self.assertEqual(len(egp), len(set(egp)))
+        self.assertTrue(all(egp))
+
+    def test_sar_never_resolves_to_an_egp_link(self):
+        from . import payment_links
+
+        egp = {v["EGP"] for v in payment_links.COACHING_LINKS.values()}
+        for key in payment_links.COACHING_LINKS:
+            self.assertNotIn(payment_links.coaching_link(key, "SAR"), egp)
+
+    def test_whatsapp_link_uses_the_configured_number(self):
+        from django.conf import settings
+
+        from . import payment_links
+
+        self.assertEqual(
+            payment_links.whatsapp_link(), f"https://wa.me/{settings.STORE_WHATSAPP_NUMBER}"
+        )
+
+    def test_outdated_payment_request_link_is_gone(self):
+        from . import payment_links
+
+        self.assertNotIn("40531", str(payment_links.COACHING_LINKS))

@@ -1,0 +1,407 @@
+/* ==========================================================================
+   Coaching packages ("tiers"): torn-paper receipt cards.
+   Used by index.html and pricing.html through partials/pricing_tiers.html.
+   Everything inside a card is sized in cqw (1cqw = 1% of the card's width),
+   so the card looks the same at any width, from a phone to a 4-column row.
+   ========================================================================== */
+
+.tiers {
+    --paper: #ece9e4;
+    --paper-edge: #d9d4cc;
+    --ink: #141111;
+    --muted: #756f6a;
+    --soft: #8d8781;
+    --line: #bdb7af;
+    --red: #e0212f;
+    --tear-a: polygon(calc(0.0% + -0.2px) 3.6px, calc(2.9% + -0.1px) 3.3px, calc(5.9% + -1.3px) 3.3px, calc(8.8% + 1.2px) 0.6px, calc(11.8% + -1.6px) 5.3px, calc(14.7% + -1.8px) 6.4px, calc(17.6% + 0.6px) 4.0px, calc(20.6% + -1.9px) 8.4px, calc(23.5% + -1.0px) 0.2px, calc(26.5% + -0.2px) 5.5px, calc(29.4% + 0.6px) 3.2px, calc(32.4% + -0.2px) 1.8px, calc(35.3% + 2.0px) 5.5px, calc(38.2% + -0.7px) 1.5px, calc(41.2% + -1.7px) 5.0px, calc(44.1% + 1.4px) 2.5px, calc(47.1% + 1.4px) 0.0px, calc(50.0% + 1.6px) 3.1px, calc(52.9% + -0.4px) 0.5px, calc(55.9% + 1.1px) 7.4px, calc(58.8% + 1.9px) 10.2px, calc(61.8% + -1.6px) 0.4px, calc(64.7% + -1.3px) 3.6px, calc(67.6% + -1.2px) 4.8px, calc(70.6% + 0.6px) 0.8px, calc(73.5% + -1.1px) 1.8px, calc(76.5% + 1.2px) 2.0px, calc(79.4% + -1.2px) 2.6px, calc(82.4% + 0.6px) 0.7px, calc(85.3% + -1.1px) 1.7px, calc(88.2% + -0.7px) 6.4px, calc(91.2% + 0.3px) 1.6px, calc(94.1% + -0.5px) 2.9px, calc(97.1% + -0.1px) 3.7px, calc(100.0% + -1.3px) 1.0px, calc(100% - 5.3px) calc(2.1% + -1.2px), calc(100% - 4.8px) calc(4.2% + -1.2px), calc(100% - 6.2px) calc(6.2% + 0.4px), calc(100% - 6.9px) calc(8.3% + 1.9px), calc(100% - 1.5px) calc(10.4% + -1.0px), calc(100% - 5.4px) calc(12.5% + -0.8px), calc(100% - 1.1px) calc(14.6% + -1.7px), calc(100% - 1.5px) calc(16.7% + 1.4px), calc(100% - 4.0px) calc(18.8% + 1.7px), calc(100% - 6.7px) calc(20.8% + -0.2px), calc(100% - 0.4px) calc(22.9% + -0.5px), calc(100% - 3.7px) calc(25.0% + -0.6px), calc(100% - 5.8px) calc(27.1% + 0.6px), calc(100% - 4.5px) calc(29.2% + -1.4px), calc(100% - 8.8px) calc(31.2% + 0.8px), calc(100% - 13.4px) calc(33.3% + -0.1px), calc(100% - 4.7px) calc(35.4% + 2.0px), calc(100% - 0.5px) calc(37.5% + 0.9px), calc(100% - 5.9px) calc(39.6% + 0.8px), calc(100% - 5.2px) calc(41.7% + -0.6px), calc(100% - 4.5px) calc(43.8% + 1.5px), calc(100% - 2.7px) calc(45.8% + 1.5px), calc(100% - 3.7px) calc(47.9% + -0.5px), calc(100% - 3.8px) calc(50.0% + -1.7px), calc(100% - 4.2px) calc(52.1% + 1.5px), calc(100% - 4.7px) calc(54.2% + 0.9px), calc(100% - 3.8px) calc(56.2% + 1.4px), calc(100% - 0.5px) calc(58.3% + -1.9px), calc(100% - 3.9px) calc(60.4% + -1.1px), calc(100% - 4.5px) calc(62.5% + 0.5px), calc(100% - 6.0px) calc(64.6% + -2.0px), calc(100% - 2.0px) calc(66.7% + -1.2px), calc(100% - 1.1px) calc(68.8% + 0.6px), calc(100% - 2.9px) calc(70.8% + -0.7px), calc(100% - 4.3px) calc(72.9% + -0.3px), calc(100% - 5.2px) calc(75.0% + 1.5px), calc(100% - 2.5px) calc(77.1% + -0.7px), calc(100% - 0.9px) calc(79.2% + 1.3px), calc(100% - 5.5px) calc(81.2% + 1.8px), calc(100% - 1.8px) calc(83.3% + -0.2px), calc(100% - 1.8px) calc(85.4% + -0.3px), calc(100% - 4.1px) calc(87.5% + -0.7px), calc(100% - 5.5px) calc(89.6% + -0.2px), calc(100% - 8.8px) calc(91.7% + -1.8px), calc(100% - 4.6px) calc(93.8% + -0.8px), calc(100% - 9.8px) calc(95.8% + -0.2px), calc(100% - 0.2px) calc(97.9% + -1.1px), calc(100% - 8.1px) calc(100.0% + -0.2px), calc(97.1% + 0.5px) calc(100% - 4.3px), calc(94.1% + 1.8px) calc(100% - 4.4px), calc(91.2% + -0.1px) calc(100% - 7.5px), calc(88.2% + 0.9px) calc(100% - 1.2px), calc(85.3% + -0.6px) calc(100% - 4.5px), calc(82.4% + 0.5px) calc(100% - 4.9px), calc(79.4% + 1.2px) calc(100% - 14.6px), calc(76.5% + 0.9px) calc(100% - 0.8px), calc(73.5% + 0.5px) calc(100% - 5.9px), calc(70.6% + 0.3px) calc(100% - 5.7px), calc(67.6% + 1.8px) calc(100% - 3.0px), calc(64.7% + -1.2px) calc(100% - 4.7px), calc(61.8% + 0.6px) calc(100% - 4.7px), calc(58.8% + 1.6px) calc(100% - 6.4px), calc(55.9% + 0.1px) calc(100% - 5.1px), calc(52.9% + 1.6px) calc(100% - 5.6px), calc(50.0% + -1.7px) calc(100% - 2.9px), calc(47.1% + 1.1px) calc(100% - 11.2px), calc(44.1% + -1.7px) calc(100% - 5.2px), calc(41.2% + -0.7px) calc(100% - 5.1px), calc(38.2% + -1.4px) calc(100% - 3.4px), calc(35.3% + 1.4px) calc(100% - 4.5px), calc(32.4% + -0.0px) calc(100% - 11.3px), calc(29.4% + 0.1px) calc(100% - 1.9px), calc(26.5% + 0.6px) calc(100% - 3.4px), calc(23.5% + 0.2px) calc(100% - 2.0px), calc(20.6% + 1.4px) calc(100% - 5.9px), calc(17.6% + 1.4px) calc(100% - 6.3px), calc(14.7% + 0.3px) calc(100% - 1.3px), calc(11.8% + 0.0px) calc(100% - 12.8px), calc(8.8% + 0.1px) calc(100% - 2.6px), calc(5.9% + 0.3px) calc(100% - 3.2px), calc(2.9% + -1.7px) calc(100% - 3.5px), calc(0.0% + 1.8px) calc(100% - 6.0px), 3.1px calc(97.9% + -0.3px), 5.3px calc(95.8% + -0.1px), 2.1px calc(93.8% + 0.5px), 6.0px calc(91.7% + 1.1px), 0.1px calc(89.6% + -1.1px), 4.5px calc(87.5% + -0.6px), 11.7px calc(85.4% + -1.5px), 3.3px calc(83.3% + -1.2px), 3.4px calc(81.2% + -0.5px), 2.7px calc(79.2% + -1.4px), 1.3px calc(77.1% + 0.6px), 3.4px calc(75.0% + 0.4px), 5.6px calc(72.9% + 1.0px), 5.3px calc(70.8% + -0.7px), 2.0px calc(68.8% + -1.1px), 6.5px calc(66.7% + -1.5px), 1.6px calc(64.6% + -1.0px), 0.6px calc(62.5% + -0.3px), 5.1px calc(60.4% + -0.4px), 9.5px calc(58.3% + 0.7px), 5.9px calc(56.2% + -1.5px), 3.3px calc(54.2% + 0.0px), 4.5px calc(52.1% + -1.7px), 7.4px calc(50.0% + 0.1px), 3.7px calc(47.9% + -1.3px), 1.3px calc(45.8% + 2.0px), 10.3px calc(43.8% + 1.8px), 3.0px calc(41.7% + -0.7px), 3.0px calc(39.6% + -0.3px), 11.4px calc(37.5% + 1.4px), 1.2px calc(35.4% + 1.0px), 2.6px calc(33.3% + -1.3px), 11.8px calc(31.2% + 1.2px), 4.6px calc(29.2% + 0.5px), 2.6px calc(27.1% + 0.0px), 6.4px calc(25.0% + -1.0px), 5.9px calc(22.9% + 1.1px), 5.3px calc(20.8% + 1.6px), 5.7px calc(18.8% + 1.1px), 5.0px calc(16.7% + 0.9px), 0.5px calc(14.6% + -0.1px), 0.1px calc(12.5% + 0.6px), 4.1px calc(10.4% + 1.8px), 4.3px calc(8.3% + 0.6px), 3.7px calc(6.2% + -0.4px), 6.5px calc(4.2% + 0.8px), 5.0px calc(2.1% + -1.9px));
+    --tear-b: polygon(calc(0.0% + 0.6px) 4.6px, calc(2.9% + -1.2px) 0.4px, calc(5.9% + -0.7px) 2.4px, calc(8.8% + -1.3px) 5.9px, calc(11.8% + -1.7px) 6.0px, calc(14.7% + -1.7px) 5.5px, calc(17.6% + 1.0px) 4.3px, calc(20.6% + -2.0px) 6.3px, calc(23.5% + -1.0px) 4.0px, calc(26.5% + 0.6px) 4.6px, calc(29.4% + -1.6px) 2.5px, calc(32.4% + 1.0px) 6.1px, calc(35.3% + 0.1px) 1.1px, calc(38.2% + -0.9px) 6.5px, calc(41.2% + 1.9px) 0.1px, calc(44.1% + -0.6px) 3.7px, calc(47.1% + -0.8px) 2.8px, calc(50.0% + -0.6px) 2.3px, calc(52.9% + -1.3px) 2.3px, calc(55.9% + 0.1px) 1.1px, calc(58.8% + -0.0px) 0.6px, calc(61.8% + -1.8px) 7.5px, calc(64.7% + 0.2px) 4.5px, calc(67.6% + -0.1px) 3.3px, calc(70.6% + 1.6px) 1.4px, calc(73.5% + 0.2px) 5.8px, calc(76.5% + -2.0px) 0.4px, calc(79.4% + -0.8px) 10.8px, calc(82.4% + -0.4px) 11.5px, calc(85.3% + 1.4px) 4.8px, calc(88.2% + -1.1px) 1.2px, calc(91.2% + -0.7px) 2.5px, calc(94.1% + -0.6px) 6.5px, calc(97.1% + 1.4px) 1.9px, calc(100.0% + -0.2px) 12.3px, calc(100% - 12.0px) calc(2.1% + -0.8px), calc(100% - 3.0px) calc(4.2% + -0.3px), calc(100% - 2.0px) calc(6.2% + 1.3px), calc(100% - 1.0px) calc(8.3% + 2.0px), calc(100% - 4.5px) calc(10.4% + -1.5px), calc(100% - 4.0px) calc(12.5% + -1.7px), calc(100% - 2.8px) calc(14.6% + -1.5px), calc(100% - 11.2px) calc(16.7% + -1.3px), calc(100% - 3.5px) calc(18.8% + -1.9px), calc(100% - 6.1px) calc(20.8% + 0.3px), calc(100% - 3.4px) calc(22.9% + 0.4px), calc(100% - 1.4px) calc(25.0% + -1.2px), calc(100% - 3.6px) calc(27.1% + 1.1px), calc(100% - 2.4px) calc(29.2% + -1.2px), calc(100% - 4.5px) calc(31.2% + -0.6px), calc(100% - 3.4px) calc(33.3% + 1.6px), calc(100% - 6.3px) calc(35.4% + -1.7px), calc(100% - 3.9px) calc(37.5% + 0.9px), calc(100% - 0.3px) calc(39.6% + -1.5px), calc(100% - 5.4px) calc(41.7% + 0.2px), calc(100% - 2.9px) calc(43.8% + -1.5px), calc(100% - 4.3px) calc(45.8% + 1.7px), calc(100% - 4.6px) calc(47.9% + 1.9px), calc(100% - 2.5px) calc(50.0% + 2.0px), calc(100% - 0.4px) calc(52.1% + 1.0px), calc(100% - 6.1px) calc(54.2% + -1.2px), calc(100% - 5.2px) calc(56.2% + 0.1px), calc(100% - 4.0px) calc(58.3% + -1.1px), calc(100% - 2.3px) calc(60.4% + -0.8px), calc(100% - 1.1px) calc(62.5% + -0.9px), calc(100% - 1.7px) calc(64.6% + -1.6px), calc(100% - 7.3px) calc(66.7% + 1.4px), calc(100% - 5.1px) calc(68.8% + -1.6px), calc(100% - 5.1px) calc(70.8% + 1.2px), calc(100% - 3.7px) calc(72.9% + 0.5px), calc(100% - 1.7px) calc(75.0% + 1.4px), calc(100% - 4.2px) calc(77.1% + 1.9px), calc(100% - 0.8px) calc(79.2% + 1.8px), calc(100% - 3.5px) calc(81.2% + 0.6px), calc(100% - 0.7px) calc(83.3% + 1.0px), calc(100% - 0.2px) calc(85.4% + -0.0px), calc(100% - 4.8px) calc(87.5% + -1.7px), calc(100% - 0.1px) calc(89.6% + -1.6px), calc(100% - 1.2px) calc(91.7% + 1.5px), calc(100% - 1.1px) calc(93.8% + -0.1px), calc(100% - 4.2px) calc(95.8% + -0.5px), calc(100% - 3.8px) calc(97.9% + -1.4px), calc(100% - 3.0px) calc(100.0% + 1.0px), calc(97.1% + -1.2px) calc(100% - 2.2px), calc(94.1% + -0.4px) calc(100% - 3.0px), calc(91.2% + -0.3px) calc(100% - 6.4px), calc(88.2% + 0.6px) calc(100% - 6.3px), calc(85.3% + -0.6px) calc(100% - 2.8px), calc(82.4% + -1.7px) calc(100% - 0.9px), calc(79.4% + 1.1px) calc(100% - 5.0px), calc(76.5% + -0.9px) calc(100% - 5.9px), calc(73.5% + -0.4px) calc(100% - 4.8px), calc(70.6% + -1.6px) calc(100% - 5.9px), calc(67.6% + -0.0px) calc(100% - 2.7px), calc(64.7% + 0.2px) calc(100% - 13.5px), calc(61.8% + -1.0px) calc(100% - 4.6px), calc(58.8% + -1.9px) calc(100% - 4.4px), calc(55.9% + -0.1px) calc(100% - 0.8px), calc(52.9% + 0.8px) calc(100% - 3.5px), calc(50.0% + -0.7px) calc(100% - 2.1px), calc(47.1% + 0.9px) calc(100% - 0.1px), calc(44.1% + 0.7px) calc(100% - 2.9px), calc(41.2% + 1.1px) calc(100% - 10.9px), calc(38.2% + 1.9px) calc(100% - 6.4px), calc(35.3% + -1.8px) calc(100% - 3.7px), calc(32.4% + 1.3px) calc(100% - 0.8px), calc(29.4% + 1.6px) calc(100% - 1.3px), calc(26.5% + 1.9px) calc(100% - 2.8px), calc(23.5% + -1.7px) calc(100% - 5.9px), calc(20.6% + 1.0px) calc(100% - 4.7px), calc(17.6% + 1.9px) calc(100% - 6.0px), calc(14.7% + -0.3px) calc(100% - 3.2px), calc(11.8% + 0.6px) calc(100% - 11.8px), calc(8.8% + 0.1px) calc(100% - 4.1px), calc(5.9% + 1.7px) calc(100% - 5.4px), calc(2.9% + -0.4px) calc(100% - 3.7px), calc(0.0% + -1.1px) calc(100% - 0.9px), 4.6px calc(97.9% + -0.3px), 3.2px calc(95.8% + 1.4px), 0.2px calc(93.8% + -1.9px), 5.0px calc(91.7% + 1.7px), 4.5px calc(89.6% + -0.1px), 5.0px calc(87.5% + -1.3px), 3.8px calc(85.4% + 0.2px), 5.3px calc(83.3% + 0.7px), 4.4px calc(81.2% + 1.2px), 4.4px calc(79.2% + 1.5px), 4.3px calc(77.1% + -1.0px), 5.6px calc(75.0% + -0.3px), 3.9px calc(72.9% + 0.9px), 3.5px calc(70.8% + 1.2px), 1.7px calc(68.8% + 1.1px), 3.9px calc(66.7% + 1.7px), 1.6px calc(64.6% + 1.5px), 5.6px calc(62.5% + -1.1px), 1.0px calc(60.4% + -1.8px), 5.3px calc(58.3% + -0.0px), 0.4px calc(56.2% + 1.8px), 0.8px calc(54.2% + 1.1px), 1.6px calc(52.1% + 0.1px), 2.9px calc(50.0% + 1.8px), 0.0px calc(47.9% + -0.4px), 0.8px calc(45.8% + 0.9px), 4.9px calc(43.8% + -1.9px), 1.9px calc(41.7% + -1.2px), 4.4px calc(39.6% + 0.2px), 4.8px calc(37.5% + -1.5px), 6.3px calc(35.4% + 1.2px), 0.9px calc(33.3% + 1.2px), 3.7px calc(31.2% + 1.8px), 0.0px calc(29.2% + 1.1px), 5.6px calc(27.1% + 0.6px), 5.0px calc(25.0% + -0.6px), 0.6px calc(22.9% + -1.7px), 1.2px calc(20.8% + -1.3px), 1.3px calc(18.8% + -0.6px), 9.5px calc(16.7% + 0.2px), 1.2px calc(14.6% + -0.9px), 6.1px calc(12.5% + -0.7px), 1.9px calc(10.4% + -0.5px), 3.1px calc(8.3% + -0.4px), 6.0px calc(6.2% + 1.8px), 2.6px calc(4.2% + 0.8px), 5.4px calc(2.1% + -1.0px));
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.2rem 1.25rem;
+    margin-top: 3rem;
+}
+
+@media (min-width: 640px) {
+    .tiers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1260px) {
+    .tiers {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-inline: -2.5rem;
+    }
+}
+
+/* the wrapper carries the shadow, because a clip-path would cut it off */
+.tier-wrap {
+    width: 100%;
+    max-width: 27.5rem;
+    justify-self: center;
+    filter: drop-shadow(0 1.1rem 1.4rem rgba(0, 0, 0, .55));
+}
+
+.tier {
+    container-type: inline-size;
+    position: relative;
+    height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+    clip-path: var(--tear-a);
+    direction: ltr;
+    transition: transform .35s cubic-bezier(.2, .7, .2, 1);
+}
+
+.tier-wrap:nth-child(even) .tier {
+    clip-path: var(--tear-b);
+}
+
+html[dir="rtl"] .tier {
+    direction: rtl;
+}
+
+/* Arabic reads right to left: the first package sits on the right */
+html[dir="rtl"] .tiers {
+    direction: rtl;
+}
+
+/* paper grain + slightly darker rim */
+.tier::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .32 0 0 0 0 .28 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    opacity: .55;
+    box-shadow: inset 0 0 4.5cqw rgba(110, 98, 82, .32);
+}
+
+@media (hover: hover) {
+    .tier-wrap:hover .tier {
+        transform: translateY(-.35rem) rotate(-.35deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tier {
+        transition: none;
+    }
+}
+
+.tier__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 10cqw 9cqw 8.5cqw;
+    font-family: "Cairo", var(--body-font), system-ui, sans-serif;
+}
+
+/* the library that swaps languages adds .arabic-font (centred, Amiri) to
+   every [data-lang] node; keep the cards in their own type and alignment */
+.tier .arabic-font,
+.tier .english-font {
+    font-family: "Cairo", var(--body-font), system-ui, sans-serif;
+    text-align: start;
+}
+
+/* ---------- header: medal + title ---------- */
+
+.tier__head {
+    display: flex;
+    align-items: center;
+    gap: 4.5cqw;
+}
+
+.tier__medal {
+    flex: none;
+    width: 17cqw;
+    height: auto;
+    filter: drop-shadow(0 .6cqw .8cqw rgba(0, 0, 0, .25));
+}
+
+.tier__titles {
+    min-width: 0;
+}
+
+.tier__title {
+    margin: 0;
+    font-family: "Anton", "Impact", "Cairo", sans-serif;
+    font-size: 15cqw;
+    font-weight: 400;
+    font-style: italic;
+    line-height: .98;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+/* Latin titles/codes keep their own left-to-right word order inside an
+   Arabic (right-to-left) card: "1 MONTH", not "MONTH 1" */
+.tier__title,
+.tier__code {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+html[dir="rtl"] .tier__title {
+    text-align: right;
+}
+
+.tier__sub {
+    margin: 1.4cqw 0 0;
+    font-size: 6.8cqw;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--muted);
+}
+
+.tier__period-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3cqw;
+    margin-bottom: 3cqw;
+}
+
+.tier__period-row .tier__period {
+    margin-bottom: 0;
+}
+
+.tier__stamp {
+    flex: none;
+    padding: .6cqw 3cqw;
+    border-radius: 99px;
+    background:#d66a1f;
+    color: #fff;
+    font-size: 4.4cqw;
+    font-weight: 800;
+    line-height: 1.5;
+}
+
+/* ---------- dividers ---------- */
+
+.tier__rule {
+    margin: 6cqw 0;
+    border: 0;
+    border-top: .6cqw dashed var(--line);
+}
+
+.tier__rule--solid {
+    border-top: .3cqw solid #d3cec7;
+    margin: 5.5cqw 0 5cqw;
+}
+
+/* ---------- prices ---------- */
+
+.tier__prices {
+    display: flex;
+    gap: 5cqw;
+}
+
+.tier__price {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.tier__period {
+    display: block;
+    margin-bottom: 3cqw;
+    font-size: 5.6cqw;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.tier__amount {
+    display: flex;
+    align-items: baseline;
+    gap: 2.2cqw;
+}
+
+.tier__unit {
+    font-size: 6cqw;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.tier__num {
+    font-family: "Anton", "Impact", "Cairo", sans-serif;
+    font-size: 12cqw;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: .01em;
+    color: var(--ink);
+}
+
+/* two prices side by side (ADVANCED) need to be a little smaller to fit */
+.tier__prices:not(.tier__prices--single) .tier__num {
+    font-size: 10.4cqw;
+}
+
+.tier__prices:not(.tier__prices--single) .tier__unit {
+    font-size: 5.2cqw;
+}
+
+.tier__prices:not(.tier__prices--single) .tier__amount {
+    gap: 1.6cqw;
+}
+
+.tier__prices--single .tier__num {
+    font-size: 16cqw;
+}
+
+.tier__prices--single .tier__unit {
+    font-size: 7cqw;
+}
+
+.tier__save {
+    display: block;
+    margin-top: 2.2cqw;
+    font-size: 5.2cqw;
+    font-weight: 800;
+    color: var(--red);
+}
+
+/* ---------- copy ---------- */
+
+.tier__headline {
+    margin: 0;
+    font-size: 9.6cqw;
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--ink);
+}
+
+.tier__desc {
+    margin: 4.5cqw 0 0;
+    font-size: 5.6cqw;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--soft);
+}
+
+.tier__list {
+    display: grid;
+    gap: 3.6cqw;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tier__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 3.4cqw;
+    font-size: 5.9cqw;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ink);
+}
+
+.tier__item i {
+    flex: none;
+    margin-top: .5cqw;
+    font-size: 6.2cqw;
+    line-height: 1;
+    color: #d66a1f;
+}
+
+.tier__item p {
+    margin: 0;
+}
+
+/* ---------- barcode + call to action (pinned to the bottom) ---------- */
+
+.tier__foot {
+    margin-top: auto;
+    padding-top: 6cqw;
+}
+
+.tier__barcode {
+    display: block;
+    width: 78%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.tier__code {
+    margin: 2.2cqw 0 0;
+    text-align: center;
+    font-family: "Anton", "Impact", "Cairo", sans-serif;
+    font-size: 4.3cqw;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: .5em;
+    color: var(--soft);
+}
+
+.tier__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3cqw;
+    margin-top: 6cqw;
+    padding: 4cqw 4.2cqw;
+    border-radius: 5cqw;
+    background: #151313;
+    box-shadow: 0 1.3cqw 0 #3b3636, 0 2.6cqw 3cqw rgba(0, 0, 0, .3);
+    color: #f2eee8;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.tier__cta:hover {
+    transform: translateY(.5cqw);
+    box-shadow: 0 .8cqw 0 #3b3636, 0 1.6cqw 2cqw rgba(0, 0, 0, .3);
+}
+
+.tier__cta:focus-visible {
+    outline: .9cqw solid var(--red);
+    outline-offset: 1cqw;
+}
+
+.tier__cta-label {
+    flex: 1;
+    text-align: center;
+    font-size: 7cqw;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.tier__cta-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 11.5cqw;
+    height: 11.5cqw;
+    border-radius: 3cqw;
+    background: #d66a1f;
+    color: #fff;
+    font-size: 7cqw;
+}
+
+.tier .tier__cta-label.arabic-font,
+.tier .tier__cta-label.english-font {
+    text-align: center;
+}
+
+/* second button (WhatsApp) under the Pay Now button on the regular packages */
+.tier__cta--alt {
+    margin-top: 3.5cqw;
+    background: transparent;
+    color: var(--ink);
+    border: .8cqw solid #151313;
+    box-shadow: none;
+}
+
+.tier__cta--alt:hover {
+    background: rgba(21, 19, 19, .07);
+    box-shadow: none;
+}
+
+.tier__cta--alt .tier__cta-icon {
+    background: #25d366;
+}

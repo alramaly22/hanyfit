@@ -1,0 +1,40 @@
+{% load static %}
+{# Customer Reviews. Needs: reviews (list from accounts/reviews.py). Renders nothing when the list is empty. #}
+{% if reviews %}
+<section class="reviews section" id="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+        <div class="reviews__head">
+            <h2 class="section__title reviews__title" id="reviews-title" data-lang="reviewstitle">Customer Reviews</h2>
+        </div>
+    </div>
+
+    {# full width on purpose: the carousel bleeds to both screen edges #}
+    <div class="reviews__stage">
+        <ul class="reviews__track" id="reviews-track">
+            {% for review in reviews %}
+            <li class="reviews__item">
+                <button type="button" class="reviews__card" data-review-index="{{ forloop.counter0 }}" aria-label="Open review {{ forloop.counter }} / فتح الرأي {{ forloop.counter }}">
+                    <img class="reviews__img"
+                         src="{% static review.path %}"
+                         alt="{{ review.alt }}"
+                         {% if review.width and review.height %}width="{{ review.width }}" height="{{ review.height }}" style="--w:{{ review.width }};--h:{{ review.height }}"{% endif %}
+                         loading="lazy" decoding="async">
+                    <span class="reviews__zoom" aria-hidden="true"><i class="ri-zoom-in-line"></i></span>
+                </button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# Outside the <section>: master.css gives every <section> will-change: transform, which would make a fixed-position lightbox relative to the section instead of the screen. #}
+<div class="rv-lightbox" id="rv-lightbox" role="dialog" aria-modal="true" aria-label="Customer review" hidden>
+    <button type="button" class="rv-lightbox__btn rv-lightbox__close" aria-label="Close / إغلاق"><i class="ri-close-line" aria-hidden="true"></i></button>
+    <button type="button" class="rv-lightbox__btn rv-lightbox__prev" aria-label="Previous / السابق"><i class="ri-arrow-left-s-line" aria-hidden="true"></i></button>
+    <button type="button" class="rv-lightbox__btn rv-lightbox__next" aria-label="Next / التالي"><i class="ri-arrow-right-s-line" aria-hidden="true"></i></button>
+    <figure class="rv-lightbox__figure">
+        <img class="rv-lightbox__img" src="" alt="">
+        <figcaption class="rv-lightbox__count"></figcaption>
+    </figure>
+</div>
+{% endif %}

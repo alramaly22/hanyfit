@@ -22,6 +22,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET
 
 from core import payment_links
+from .reviews import get_reviews
 from core.currency import resolve_currency
 
 
@@ -37,8 +38,13 @@ def index(request):
             "coaching_link_1": payment_links.coaching_link("month_1", currency),
             "coaching_link_2": payment_links.coaching_link("month_2", currency),
             "coaching_link_3": payment_links.coaching_link("month_3", currency),
+            # 4th package: no payment page, its button opens WhatsApp
+            # (payment_links falls back to WhatsApp for an unknown key).
+            "advanced_link": payment_links.coaching_link("advanced", currency),
+            "whatsapp_link": payment_links.whatsapp_link(),
             "protein_calc_link": payment_links.calculator_link("protein", currency),
             "calories_calc_link": payment_links.calculator_link("calories", currency),
+            "reviews": get_reviews(),
         },
     )
 
@@ -60,6 +66,10 @@ def pricing(request):
             "coaching_link_1": payment_links.coaching_link("month_1", currency),
             "coaching_link_2": payment_links.coaching_link("month_2", currency),
             "coaching_link_3": payment_links.coaching_link("month_3", currency),
+            # 4th package: no payment page, its button opens WhatsApp
+            # (payment_links falls back to WhatsApp for an unknown key).
+            "advanced_link": payment_links.coaching_link("advanced", currency),
+            "whatsapp_link": payment_links.whatsapp_link(),
         },
     )
 

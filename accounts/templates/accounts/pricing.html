@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="{% static 'images/testo/logo.png' %}" type="image/x-icon">
 
     <!--=============== REMIXICONS ===============-->
+    {% include "partials/fonts.html" %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 
@@ -38,6 +39,7 @@
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tiers.css' %}">
  <style>
         #language-selector {
             appearance: none;
@@ -70,7 +72,7 @@
     <nav class="nav container">
 
         <a href="{% url 'index' %}" class="logo">
-            <img src="{% static 'images/testo/logo.png' %}" alt="">
+            <img decoding="async" src="{% static 'images/testo/logo.png' %}" alt="">
             <span class="logo__wordmark">Hanyfit</span>
         </a>
 
@@ -153,8 +155,6 @@
                 <option value="ar">Ar</option>
             </select>
 
-            {% include "core/_currency_switcher.html" %}
-
         </div>
 
     </nav>
@@ -222,19 +222,19 @@
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide tranding-slide">
-                    <img src="{% static 'images/testo/trans1.webp' %}" alt="">
+                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans1.webp' %}" alt="">
                 </div>
 
                 <div class="swiper-slide tranding-slide">
-                    <img src="{% static 'images/testo/trans2.webp' %}" alt="">
+                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans2.webp' %}" alt="">
                 </div>
 
                 <div class="swiper-slide tranding-slide">
-                    <img src="{% static 'images/testo/trans5.webp' %}" alt="">
+                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans5.webp' %}" alt="">
                 </div>
 
                 <div class="swiper-slide tranding-slide">
-                    <img src="{% static 'images/testo/trans6.webp' %}" alt="">
+                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans6.webp' %}" alt="">
                 </div>
 
             </div>
@@ -257,170 +257,7 @@
             </div>
         </div>
 
-        <div class="pricing__container grid">
-            <article class="pricing__card article1">
-                <header class="pricing__header">
-                    <div class="pricing__shape">
-                        <img src="{% static 'icon/3.svg' %}" alt="" class="pricing__img">
-                    </div>
-
-                    <h1 data-lang="pricingtitle1" class="pricing__title">
-                        1 MONTH ONLINE COACHING
-                    </h1>
-
-                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
-                        {% if selected_currency == 'EGP' %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
-                    </h2>
-                </header>
-
-                <ul class="pricing__list">
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli1">Custom Training Program</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli2256">
-                            Basic Nutrition Guidance
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli3">Weekly Check-ins</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli4">Beginner Friendly</p>
-                    </li>
-                </ul>
-
-                <div class="mk">
-                    <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
-                     <a data-lang="button3"
-       href="{{ coaching_link_1 }}"
-       target="_blank"
-       class="button button__flex pricing__button">
-        Purchase Now
-    </a>
-                </div>
-            </article>
-
-            <article class="pricing__card article2">
-                <header class="pricing__header">
-                    <div class="pricing__shape">
-                        <img src="{% static 'icon/2.svg' %}" alt="" class="pricing__img">
-                    </div>
-
-                    <h1 data-lang="pricingtitle2" class="pricing__title">
-                        2 MONTHS ONLINE COACHING
-                    </h1>
-
-                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
-                        {% if selected_currency == 'EGP' %}2 Months / 1,099 EGP{% else %}2 Months / 299 SAR{% endif %}
-                    </h2>
-                </header>
-
-                <ul class="pricing__list">
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli12">Custom Training Program</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli2">Full Nutrition Plan</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli14">WhatsApp Support</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli4">Progress Adjustments</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli5">
-                            Continuous motivation & support
-                        </p>
-                    </li>
-                </ul>
-
-               <div class="mk">
-    <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
-    <a data-lang="button3"
-       href="{{ coaching_link_2 }}"
-       target="_blank"
-       class="button button__flex pricing__button">
-        Purchase Now
-    </a>
-</div>
-            </article>
-
-            <article class="pricing__card article3">
-                <header class="pricing__header">
-                    <div class="pricing__shape">
-                        <img src="{% static 'icon/5.svg' %}" alt="" class="pricing__img">
-                    </div>
-
-                    <h1 data-lang="pricingtitle3" class="pricing__title">
-                        3 MONTHS ONLINE COACHING
-                    </h1>
-
-                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
-                        {% if selected_currency == 'EGP' %}3 Months / 1,499 EGP{% else %}3 Months / 399 SAR{% endif %}
-                    </h2>
-                </header>
-
-                <ul class="pricing__list">
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli31">Personalized Workout Program</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli32">Customized Nutrition Plan</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli33">Weekly Progress Check-ins</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli34">Daily WhatsApp Support</p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli35">
-                            <b>Form & Technique Review</b>
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli36">Unlimited Plan Adjustments</p>
-                    </li>
-                </ul>
-
-                <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
-               <a data-lang="button3"
-   href="{{ coaching_link_3 }}"
-   target="_blank"
-   class="button button__flex pricing__button">
-    Purchase Now
-</a>
-            </article>
-        </div>
+        {% include "partials/pricing_tiers.html" %}
     </div>
 </section>
 
@@ -588,7 +425,7 @@
         <div class="col">
 
             <a href="{% url 'index' %}">
-                <img src="{% static 'images/testo/logo.png' %}" alt="" class="logo">
+                <img loading="lazy" decoding="async" src="{% static 'images/testo/logo.png' %}" alt="" class="logo">
             </a>
 
             <p data-lang="footerp">
@@ -745,29 +582,16 @@ window.addEventListener("scroll", () => {
 </script>
 
 <!-- LIBS -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'js/swiper-bundle.min.js' %}" defer></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-
-<script>
-tsParticles.load("tsparticles", {
-    particles: {
-        number: { value: 100 },
-        color: { value: "#c75b16" },
-        move: { enable: true, speed: 1 },
-        size: { value: 2 }
-    }
-});
-</script>
+<script src="{% static 'js/particles.js' %}" defer></script>
 
 <!-- LANGUAGE + MAIN -->
-<script src="{% static 'js/language.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/language.js' %}" defer></script>
+<script src="{% static 'js/main.js' %}" defer></script>
 
 </body>
 

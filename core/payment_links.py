@@ -31,17 +31,37 @@ from django.conf import settings
 COACHING_LINKS = {
     "month_1": {  # 1 Month -- 599 EGP / 199 SAR
         "EGP": "https://app.fawaterk.com/pg/ashtrak-shhr1",
-        "SAR": "",
+        # Body Transformation, 1 month (SAR).
+        "SAR": "https://app.fawaterk.com/paymentRequest/show/40529",
     },
     "month_2": {  # 2 Months -- 1,099 EGP / 299 SAR
         "EGP": "https://app.fawaterk.com/pg/ashtrk-shhryn-2",
+        # Body Transformation, 2 months (SAR).
+        "SAR": "https://app.fawaterk.com/pg/body-upgrade",
+    },
+    "month_3": {  # 3 Months -- 1,499 EGP / 399 SAR  ("تدريب 3 شهور")
+        "EGP": "https://app.fawaterk.com/pg/shhr1",
+        # Body Transformation, 3 months (SAR).
+        "SAR": "https://app.fawaterk.com/pg/body-upgrade",
+    },
+    # ADVANCED / steroid packages ("استرويد"). These links stay stored, but the
+    # cards are WhatsApp-only (no payment button is rendered for them).
+    "advanced_month_1": {  # شهر استرويد
+        "EGP": "https://app.fawaterk.com/pg/ghany",
         "SAR": "",
     },
-    "month_3": {  # 3 Months -- 1,499 EGP / 399 SAR
-        "EGP": "https://app.fawaterk.com/paymentRequest/show/40531",
+    "advanced_month_3": {  # 3 شهور استرويد
+        "EGP": "https://app.fawaterk.com/pg/hany-m",
         "SAR": "",
     },
 }
+
+# Steroid SAR links supplied earlier, kept for reference only (steroid cards
+# are WhatsApp-only, so nothing renders them):
+#   شهر استرويد            (1 month)   https://app.fawaterk.com/pg/hany-e
+#   3 شهور استرويد         (3 months)  https://app.fawaterk.com/pg/astroyd
+#   3 شهور تغيير الجسم     (3 months)  https://app.fawaterk.com/pg/body-upgrade
+#   VIP Personal Training  (3 months)  https://app.fawaterk.com/pg/personal-coaching
 
 # ---------------------------------------------------------------------------
 # Books -- each has one Arabic link + one English link per currency.
@@ -107,6 +127,11 @@ def _whatsapp_fallback():
     maintained.
     """
     return f"https://wa.me/{settings.STORE_WHATSAPP_NUMBER}"
+
+
+def whatsapp_link():
+    """Coach Hany's WhatsApp chat link (the existing STORE_WHATSAPP_NUMBER)."""
+    return _whatsapp_fallback()
 
 
 def coaching_link(product_key, currency_code):

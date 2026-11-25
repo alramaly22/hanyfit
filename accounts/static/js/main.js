@@ -510,50 +510,23 @@ gsap.utils.toArray(`
 
 // three js
 /* ========== LOADER ========== */
+// The loader only covers the page while it is being put together. It used to
+// wait for the full "load" event and then play a fake 0-100% bar (about three
+// extra seconds). Now it fades out as soon as the page is ready.
 const loader = document.getElementById("loader");
-const progress = document.querySelector(".loader-progress");
-const percentText = document.querySelector(".loader-percent");
-
-let percent = 0;
-
-function startLoader() {
-    // Not every page includes the loader markup. Without this guard the
-    // interval below throws on `progress.style` every 70ms, forever.
-    if (!loader || !progress || !percentText) return;
-
-    let loadInterval = setInterval(() => {
-        percent += Math.floor(Math.random() * 6) + 2;
-
-        if (percent >= 100) percent = 100;
-
-        progress.style.width = percent + "%";
-        percentText.textContent = percent + "%";
-
-        if (percent === 100) {
-            clearInterval(loadInterval);
-            setTimeout(hideLoader, 300);
-        }
-    }, 70);
-}
 
 function hideLoader() {
     if (!loader) return;
 
-    // gsap comes from a CDN; fall back to a plain hide if it is unavailable.
-    if (typeof gsap === "undefined") {
+    loader.classList.add("is-hidden");
+    // Remove it from rendering once the fade (see master.css) is done.
+    setTimeout(() => {
         loader.style.display = "none";
-        return;
-    }
-
-    gsap.to(loader, {
-        opacity: 0,
-        scale: 1.1,
-        duration: 1,
-        ease: "power3.out",
-        onComplete: () => {
-            loader.style.display = "none";
-        }
-    });
+    }, 450);
 }
 
-window.addEventListener("load", startLoader);
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", hideLoader);
+} else {
+    hideLoader();
+}

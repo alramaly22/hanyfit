@@ -90,6 +90,7 @@
 
     <!--=============== REMIXICONS ===============-->
 
+    {% include "partials/fonts.html" %}
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
 
@@ -108,6 +109,11 @@
 
     <link rel="stylesheet"
         href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tiers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+
+    <link rel="stylesheet"
+        href="{% static 'css/worlds.css' %}">
 
     <style>
 
@@ -388,8 +394,6 @@
 
                 </select>
 
-                {% include "core/_currency_switcher.html" %}
-
 
             </div>
 
@@ -518,6 +522,107 @@
 
 </section>
 
+<!--==================== WORLDS: meals / apparel / books ====================-->
+
+<section class="worlds" id="worlds" aria-labelledby="worlds-title">
+
+    <div class="worlds__inner container">
+
+        <div class="worlds__head">
+
+            <h2 class="worlds__title" id="worlds-title" data-lang="worldstitle">
+                Everything your training needs, in one place
+            </h2>
+
+            <p class="worlds__lead" data-lang="worldslead">
+                Beyond online coaching, Hany builds the rest of your routine: what you eat, what you wear and what you read.
+            </p>
+
+        </div>
+
+        <div class="worlds__list">
+
+            <a class="world world--meals" href="{% url 'meals:home' %}">
+
+                <div class="world__media">
+                    <img src="{% static 'images/foodwithout/grilled_chicken_rice.webp' %}"
+                        alt="Grilled chicken with rice and greens in a black bowl"
+                        width="720" height="1040" loading="lazy" decoding="async">
+                </div>
+
+                <div class="world__shade"></div>
+
+                <div class="world__body">
+                    <h3 class="world__title" data-lang="worldmealstitle">HanyFit Meals</h3>
+                    <p class="world__text" data-lang="worldmealstext">Pick a goal (muscle gain, fat loss or maintenance) and subscribe weekly or monthly. Your meals arrive in the delivery slot you choose.</p>
+                    <span class="world__cta" data-lang="worldmealscta">Browse the meals</span>
+                </div>
+
+            </a>
+
+            <a class="world world--apparel" href="{% url 'store' %}">
+
+                <div class="world__media">
+                    <img src="{% static 'images/store/black-back.webp' %}"
+                        alt="Black Hany Apparel tee with the Train Hard back print, hanging in a gym"
+                        width="821" height="1446" loading="lazy" decoding="async">
+                </div>
+
+                <div class="world__shade"></div>
+
+                <div class="world__body">
+                    <h3 class="world__title" data-lang="worldapptitle">Hany Apparel</h3>
+                    <p class="world__text" data-lang="worldapptext">Black and white gym tees with the Hany Masoud mark. We deliver to Egypt and Saudi Arabia.</p>
+                    <span class="world__cta" data-lang="worldappcta">Shop apparel</span>
+                </div>
+
+            </a>
+
+            <a class="world world--books" href="{% url 'book' %}">
+
+                <div class="world__media">
+                    <img class="world__cover--left" src="{% static 'images/ebook/healthy_recipes.webp' %}"
+                        alt="" width="720" height="1040" loading="lazy" decoding="async">
+                    <img class="world__cover--mid" src="{% static 'images/ebook/exercise_training.webp' %}"
+                        alt="" width="720" height="1040" loading="lazy" decoding="async">
+                    <img class="world__cover--right" src="{% static 'images/ebook/supplements.webp' %}"
+                        alt="Covers of the Healthy Recipes, Exercise Training and Supplements books"
+                        width="720" height="1040" loading="lazy" decoding="async">
+                </div>
+
+                <div class="world__shade"></div>
+
+                <div class="world__body">
+                    <h3 class="world__title" data-lang="worldbookstitle">Training books</h3>
+                    <p class="world__text" data-lang="worldbookstext">Four guides by Hany: healthy recipes, supplements, exercise training and performance-enhancing substances.</p>
+                    <span class="world__cta" data-lang="worldbookscta">See the books</span>
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    // Desktop accordion: the hovered / keyboard-focused poster opens.
+    // The CSS only reacts to .is-active on wide screens with a mouse.
+    (function () {
+        var items = document.querySelectorAll('.worlds__list .world');
+        if (!items.length) return;
+        function open(el) {
+            items.forEach(function (i) { i.classList.toggle('is-active', i === el); });
+        }
+        items.forEach(function (el) {
+            el.addEventListener('mouseenter', function () { open(el); });
+            el.addEventListener('focus', function () { open(el); });
+        });
+        open(items[0]);
+    })();
+</script>
+
 <!--==================== pricing ====================-->
 <section class="pricing section" id="pricing">
     <div class="container">
@@ -529,221 +634,7 @@
             </div>
         </div>
 
-        <div class="pricing__container grid">
-
-            <!--==================== 1 MONTH ====================-->
-            <article class="pricing__card article1">
-                <header class="pricing__header">
-                    <div class="pricing__shape">
-                        <img src="{% static 'icon/3.svg' %}" alt="" class="pricing__img">
-                    </div>
-
-                    <h1 data-lang="pricingtitle1" class="pricing__title">
-                        1 MONTH ONLINE COACHING
-                    </h1>
-
-                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage1{% else %}pricingpackage1_intl{% endif %}" class="pricing__number">
-                        {% if selected_currency == 'EGP' %}1 Month / 599 EGP{% else %}1 Month / 199 SAR{% endif %}
-                    </h2>
-                </header>
-
-                <ul class="pricing__list">
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli1">
-                            Personalized Workout Program
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli2">
-                            Customized Nutrition Plan
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli3">
-                            Weekly Progress Check-ins
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli4">
-                            Daily WhatsApp Support
-                        </p>
-                    </li>
-
-                </ul>
-
-                <div class="mk">
-                    <!-- Payment link resolved server-side by currency -- see core/payment_links.py -->
-                    <a data-lang="button3"
-                       href="{{ coaching_link_1 }}"
-                       target="_blank"
-                       class="button button__flex pricing__button">
-                        Purchase Now
-                    </a>
-                </div>
-            </article>
-
-
-            <!--==================== 2 MONTHS ====================-->
-            <article class="pricing__card article2">
-                <header class="pricing__header">
-                    <div class="pricing__shape">
-                        <img src="{% static 'icon/2.svg' %}" alt="" class="pricing__img">
-                    </div>
-
-                    <h1 style="font-size: 1.2rem;" data-lang="pricingtitle2" class="pricing__title">
-                        2 MONTHS ONLINE COACHING
-                    </h1>
-
-                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage2{% else %}pricingpackage2_intl{% endif %}" class="pricing__number">
-                        {% if selected_currency == 'EGP' %}2 Months / 1,099 EGP ⭐{% else %}2 Months / 299 SAR ⭐{% endif %}
-                    </h2>
-                </header>
-
-                <ul class="pricing__list">
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli12">
-                            Personalized Workout Program
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli13">
-                            Customized Nutrition Plan
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli14">
-                            Weekly Progress Check-ins
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli15">
-                            Daily WhatsApp Support
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli16">
-                            Form & Technique Review
-                        </p>
-                    </li>
-
-                </ul>
-
-                <div class="mk">
-                    <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
-                    <a data-lang="button3"
-                       href="{{ coaching_link_2 }}"
-                       target="_blank"
-                       class="button button__flex pricing__button">
-                        Purchase Now
-                    </a>
-                </div>
-            </article>
-
-
-            <!--==================== 3 MONTHS ====================-->
-            <article class="pricing__card article3">
-                <header class="pricing__header">
-                    <div class="pricing__shape">
-                        <img src="{% static 'icon/5.svg' %}" alt="" class="pricing__img">
-                    </div>
-
-                    <h1 data-lang="pricingtitle3" class="pricing__title">
-                        3 MONTHS ONLINE COACHING
-                    </h1>
-
-                    <h2 data-lang="{% if selected_currency == 'EGP' %}pricingpackage3{% else %}pricingpackage3_intl{% endif %}" class="pricing__number">
-                        {% if selected_currency == 'EGP' %}3 Months / 1,499 EGP 🔥 Best Value{% else %}3 Months / 399 SAR 🔥 Best Value{% endif %}
-                    </h2>
-                </header>
-
-                <ul class="pricing__list">
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli31">
-                            Personalized Workout Program
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli32">
-                            Customized Nutrition Plan
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli33">
-                            Weekly Progress Check-ins
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli34">
-                            Daily WhatsApp Support
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli35">
-                            Form & Technique Review
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli36">
-                            Unlimited Plan Adjustments
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli37">
-                            Supplement Guidance
-                        </p>
-                    </li>
-
-                    <li class="pricing__item">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <p data-lang="pricinglli38">
-                            Full Body Transformation Support
-                        </p>
-                    </li>
-
-                </ul>
-
-                <!-- مصر: لينك فواتيرك بالجنيه (زي ما هو). بره مصر: لينك بالريال من accounts/international_links.py -->
-                <a data-lang="button3"
-                   href="{{ coaching_link_3 }}"
-                   target="_blank"
-                   class="button button__flex pricing__button">
-                    Purchase Now
-                </a>
-            </article>
-
-        </div>
+        {% include "partials/pricing_tiers.html" %}
     </div>
 </section>
 
@@ -1260,6 +1151,9 @@
 </section>
     </main>
 
+<!--==================== CUSTOMER REVIEWS (accounts/reviews.py) ====================-->
+{% include "partials/reviews.html" %}
+
  <!--==================== FOOTER ====================-->
 <footer class="footer" id="footer">
 
@@ -1447,11 +1341,9 @@
 </script>
 <!--========== SCRIPTS ==========-->
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'js/swiper-bundle.min.js' %}" defer></script>
 
 <!--=============== SCROLL / ICONS ===============-->
-{% comment %} <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script> {% endcomment %}
 
 <script type="module"
     src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -1459,39 +1351,18 @@
 <script nomodule
     src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
-<script src="{% static 'js/language.js' %}"></script>
+<script src="{% static 'js/language.js' %}" defer></script>
+<script src="{% static 'js/reviews.js' %}" defer></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-
-<script>
-    tsParticles.load("tsparticles", {
-        particles: {
-            number: {
-                value: 100
-            },
-            color: {
-                value: "#c75b16"
-            },
-            move: {
-                enable: true,
-                speed: 1
-            },
-            size: {
-                value: 2
-            }
-        }
-    });
-</script>
+<script src="{% static 'js/particles.js' %}" defer></script>
 
 <!--=============== MAIN JS ===============-->
-<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/main.js' %}" defer></script>
 
 </body>
 </html>

@@ -1,0 +1,237 @@
+{% load static %}
+{# Coaching packages. Needs: selected_currency, coaching_link_1..3, advanced_link (see accounts/views.py). #}
+{# Prices below are in EGP when selected_currency is EGP, otherwise SAR (same rule as before).             #}
+{# The 4th package (ADVANCED / steroid) is priced in EGP only and is WhatsApp-only: no payment button.        #}
+{# Regular packages (1-3) get two buttons: Pay Now (Fawaterk, per currency) and WhatsApp (whatsapp_link).   #}
+<div class="tiers" data-currency="{{ selected_currency }}">
+
+    <!--==================== 1 MONTH ====================-->
+    <div class="tier-wrap">
+        <article class="tier" aria-labelledby="tier-1-title">
+            <div class="tier__inner">
+
+                <header class="tier__head">
+                    {% include "partials/medal.html" with n="1" uid="a" %}
+                    <div class="tier__titles">
+                        <h3 class="tier__title" id="tier-1-title">1 MONTH</h3>
+                        <p class="tier__sub" data-lang="tier1sub">Online coaching</p>
+                    </div>
+                </header>
+
+                <hr class="tier__rule">
+
+                <div class="tier__prices tier__prices--single">
+                    <div class="tier__price" data-price="{% if selected_currency == 'EGP' %}599{% else %}199{% endif %}" data-currency="{{ selected_currency }}">
+                        <div class="tier__period-row">
+                            <span class="tier__period" data-lang="tierperiod1">1 Month</span>
+                        </div>
+                        <span class="tier__amount">
+                            <span class="tier__unit" data-lang="{% if selected_currency == 'EGP' %}tierunit_egp{% else %}tierunit_sar{% endif %}">{% if selected_currency == 'EGP' %}EGP{% else %}SAR{% endif %}</span>
+                            <span class="tier__num">{% if selected_currency == 'EGP' %}599{% else %}199{% endif %}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <hr class="tier__rule tier__rule--solid">
+
+                <ul class="tier__list">
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli1">Personalized Workout Program</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli2">Customized Nutrition Plan</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli3">Weekly Progress Check-ins</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli4">Daily WhatsApp Support</p></li>
+                </ul>
+
+                <div class="tier__foot">
+                    <hr class="tier__rule">
+                    <img class="tier__barcode" src="{% static 'images/pricing/barcode-1.svg' %}" alt="" width="300" height="70" loading="lazy" decoding="async">
+                    <p class="tier__code">BD-MONTH-01</p>
+                    <!-- Payment link resolved server-side by currency, see core/payment_links.py -->
+                    <a class="tier__cta" href="{{ coaching_link_1 }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierpaynow">Pay Now</span>
+                        <span class="tier__cta-icon"><i class="ri-bank-card-line" aria-hidden="true"></i></span>
+                    </a>
+                    <a class="tier__cta tier__cta--alt" href="{{ whatsapp_link }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierwhatsapp">WhatsApp</span>
+                        <span class="tier__cta-icon"><i class="ri-whatsapp-line" aria-hidden="true"></i></span>
+                    </a>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <!--==================== 2 MONTHS ====================-->
+    <div class="tier-wrap">
+        <article class="tier" aria-labelledby="tier-2-title">
+            <div class="tier__inner">
+
+                <header class="tier__head">
+                    {% include "partials/medal.html" with n="2" uid="b" %}
+                    <div class="tier__titles">
+                        <h3 class="tier__title" id="tier-2-title">2 MONTHS</h3>
+                        <p class="tier__sub" data-lang="tier2sub">Online coaching</p>
+                    </div>
+                </header>
+
+                <hr class="tier__rule">
+
+                <div class="tier__prices tier__prices--single">
+                    <div class="tier__price" data-price="{% if selected_currency == 'EGP' %}1,099{% else %}299{% endif %}" data-currency="{{ selected_currency }}">
+                        <div class="tier__period-row">
+                            <span class="tier__period" data-lang="tierperiod2">2 Months</span>
+                            <span class="tier__stamp">⭐</span>
+                        </div>
+                        <span class="tier__amount">
+                            <span class="tier__unit" data-lang="{% if selected_currency == 'EGP' %}tierunit_egp{% else %}tierunit_sar{% endif %}">{% if selected_currency == 'EGP' %}EGP{% else %}SAR{% endif %}</span>
+                            <span class="tier__num">{% if selected_currency == 'EGP' %}1,099{% else %}299{% endif %}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <hr class="tier__rule tier__rule--solid">
+
+                <ul class="tier__list">
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli12">Personalized Workout Program</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli13">Customized Nutrition Plan</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli14">Weekly Progress Check-ins</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli15">Daily WhatsApp Support</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli16">Form &amp; Technique Review</p></li>
+                </ul>
+
+                <div class="tier__foot">
+                    <hr class="tier__rule">
+                    <img class="tier__barcode" src="{% static 'images/pricing/barcode-2.svg' %}" alt="" width="300" height="70" loading="lazy" decoding="async">
+                    <p class="tier__code">BD-MONTH-02</p>
+                    <a class="tier__cta" href="{{ coaching_link_2 }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierpaynow">Pay Now</span>
+                        <span class="tier__cta-icon"><i class="ri-bank-card-line" aria-hidden="true"></i></span>
+                    </a>
+                    <a class="tier__cta tier__cta--alt" href="{{ whatsapp_link }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierwhatsapp">WhatsApp</span>
+                        <span class="tier__cta-icon"><i class="ri-whatsapp-line" aria-hidden="true"></i></span>
+                    </a>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <!--==================== 3 MONTHS ====================-->
+    <div class="tier-wrap">
+        <article class="tier" aria-labelledby="tier-3-title">
+            <div class="tier__inner">
+
+                <header class="tier__head">
+                    {% include "partials/medal.html" with n="3" uid="c" %}
+                    <div class="tier__titles">
+                        <h3 class="tier__title" id="tier-3-title">3 MONTHS</h3>
+                        <p class="tier__sub" data-lang="tier3sub">Online coaching</p>
+                    </div>
+                </header>
+
+                <hr class="tier__rule">
+
+                <div class="tier__prices tier__prices--single">
+                    <div class="tier__price" data-price="{% if selected_currency == 'EGP' %}1,499{% else %}399{% endif %}" data-currency="{{ selected_currency }}">
+                        <div class="tier__period-row">
+                            <span class="tier__period" data-lang="tierperiod3">3 Months</span>
+                            <span class="tier__stamp" data-lang="tierbest">🔥 Best Value</span>
+                        </div>
+                        <span class="tier__amount">
+                            <span class="tier__unit" data-lang="{% if selected_currency == 'EGP' %}tierunit_egp{% else %}tierunit_sar{% endif %}">{% if selected_currency == 'EGP' %}EGP{% else %}SAR{% endif %}</span>
+                            <span class="tier__num">{% if selected_currency == 'EGP' %}1,499{% else %}399{% endif %}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <hr class="tier__rule tier__rule--solid">
+
+                <ul class="tier__list">
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli31">Personalized Workout Program</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli32">Customized Nutrition Plan</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli33">Weekly Progress Check-ins</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli34">Daily WhatsApp Support</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli35">Form &amp; Technique Review</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli36">Unlimited Plan Adjustments</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli37">Supplement Guidance</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="pricinglli38">Full Body Transformation Support</p></li>
+                </ul>
+
+                <div class="tier__foot">
+                    <hr class="tier__rule">
+                    <img class="tier__barcode" src="{% static 'images/pricing/barcode-3.svg' %}" alt="" width="300" height="70" loading="lazy" decoding="async">
+                    <p class="tier__code">BD-MONTH-03</p>
+                    <a class="tier__cta" href="{{ coaching_link_3 }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierpaynow">Pay Now</span>
+                        <span class="tier__cta-icon"><i class="ri-bank-card-line" aria-hidden="true"></i></span>
+                    </a>
+                    <a class="tier__cta tier__cta--alt" href="{{ whatsapp_link }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierwhatsapp">WhatsApp</span>
+                        <span class="tier__cta-icon"><i class="ri-whatsapp-line" aria-hidden="true"></i></span>
+                    </a>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <!--==================== ADVANCED (4th package, EGP prices, WhatsApp button) ====================-->
+    <div class="tier-wrap">
+        <article class="tier" aria-labelledby="tier-adv-title">
+            <div class="tier__inner">
+
+                <header class="tier__head">
+                    {% include "partials/medal.html" with n="3" uid="d" %}
+                    <div class="tier__titles">
+                        <h3 class="tier__title" id="tier-adv-title">ADVANCED</h3>
+                        <p class="tier__sub" data-lang="tieradvsub">Advanced package</p>
+                    </div>
+                </header>
+
+                <hr class="tier__rule">
+
+                <div class="tier__prices">
+                    <div class="tier__price" data-price="3,000" data-currency="EGP">
+                        <span class="tier__period" data-lang="tieradvp1">1 month</span>
+                        <span class="tier__amount">
+                            <span class="tier__unit" data-lang="tierunit_egp">EGP</span>
+                            <span class="tier__num">3,000</span>
+                        </span>
+                    </div>
+                    <div class="tier__price" data-price="6,000" data-currency="EGP">
+                        <span class="tier__period" data-lang="tieradvp2">3 months</span>
+                        <span class="tier__amount">
+                            <span class="tier__unit" data-lang="tierunit_egp">EGP</span>
+                            <span class="tier__num">6,000</span>
+                        </span>
+                        <span class="tier__save" data-lang="tieradvsave">Save 3,000 EGP</span>
+                    </div>
+                </div>
+
+                <hr class="tier__rule">
+
+                <h4 class="tier__headline" data-lang="tieradvhead">Package for steroid users.</h4>
+                <p class="tier__desc" data-lang="tieradvdesc">For advanced athletes. All the details are on WhatsApp.</p>
+
+                <hr class="tier__rule tier__rule--solid">
+
+                <ul class="tier__list">
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="tieradvli1">Dedicated, close follow-up</p></li>
+                    <li class="tier__item"><i class="ri-check-line" aria-hidden="true"></i><p data-lang="tieradvli2">All the details are on WhatsApp</p></li>
+                </ul>
+
+                <div class="tier__foot">
+                    <hr class="tier__rule">
+                    <img class="tier__barcode" src="{% static 'images/pricing/barcode-4.svg' %}" alt="" width="300" height="70" loading="lazy" decoding="async">
+                    <p class="tier__code">BD-ADVANCED-03</p>
+                    <a class="tier__cta" href="{{ advanced_link }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tieradvcta">Start with Advanced</span>
+                        <span class="tier__cta-icon"><i class="ri-whatsapp-line" aria-hidden="true"></i></span>
+                    </a>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+</div>

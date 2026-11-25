@@ -33,6 +33,7 @@
     <meta property="og:image" content="{{ SITE_URL }}{% static 'images/testo/logo.png' %}" />
     <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}" />
     <!--=============== REMIXICONS ===============-->
+    {% include "partials/fonts.html" %}
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css"
@@ -80,7 +81,7 @@
     <header class="header" id="header">
       <nav class="nav container">
         <a href="{% url 'index' %}" class="logo">
-          <img src="{% static 'images/testo/logo.png' %}" alt="" />
+          <img decoding="async" src="{% static 'images/testo/logo.png' %}" alt="" />
         </a>
 
         <div class="nav__menu" id="nav-menu">
@@ -198,7 +199,7 @@
 
       <section class="home3 section" id="home3">
         <div class="home__container3 container grid">
-          <img
+          <img width="900" height="1200" decoding="async" fetchpriority="high"
             src="{% static 'images/testo/1.webp' %}"
             alt=""
             class="home__img3"
@@ -252,7 +253,7 @@
             </p>
           </div>
 
-          <img
+          <img width="945" height="945" loading="lazy" decoding="async"
             src="{% static 'images/testo/homeimagee2.webp' %}"
             alt=""
             class="about__img"
@@ -268,7 +269,7 @@
         </h2>
 
         <div class="care__container container grid">
-          <img
+          <img width="900" height="1200" loading="lazy" decoding="async"
             src="{% static 'images/testo/2.webp' %}"
             alt=""
             class="care__img"
@@ -343,7 +344,7 @@
         <div class="testimonial__container container swiper">
           <div class="swiper-wrapper">
             <div class="testimonial__card swiper-slide">
-              <img
+              <img width="828" height="453" loading="lazy" decoding="async"
                 src="{% static 'images/client1_2_11zon.webp' %}"
                 alt=""
                 class="testimonial__img"
@@ -361,7 +362,7 @@
             </div>
 
             <div class="testimonial__card swiper-slide">
-              <img
+              <img width="828" height="371" loading="lazy" decoding="async"
                 src="{% static 'images/client3_3_11zon.webp' %}"
                 alt=""
                 class="testimonial__img"
@@ -378,7 +379,7 @@
             </div>
 
             <div class="testimonial__card swiper-slide">
-              <img
+              <img width="572" height="221" loading="lazy" decoding="async"
                 src="{% static 'images/feed4_4_11zon.webp' %}"
                 alt=""
                 class="testimonial__img"
@@ -449,7 +450,7 @@
                     </form>
                 </div>
                 <div class="contact__social">
-                    <img src="images/curved-arrow.svg" alt="" class="contact__social-arrow">
+                    <img loading="lazy" decoding="async" src="images/curved-arrow.svg" alt="" class="contact__social-arrow">
                     <div class="contact__social-data">
                         <div>
                             <p data-lang="contacno" class="contact__social-description-1">
@@ -590,7 +591,7 @@
       <div class="row">
         <div class="col">
           <a href="{% url 'index' %}">
-            <img
+            <img loading="lazy" decoding="async"
               src="{% static 'images/testo/logo.png' %}"
               alt=""
               class="logo"
@@ -739,15 +740,13 @@
 
     <!--========== SCROLL UP ==========-->
 
-    <!-- <script src="{% static 'js/nav.js' %}"></script> -->
+    <!-- <script src="{% static 'js/nav.js' %}" defer></script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'js/swiper-bundle.min.js' %}" defer></script>
 
     <!--=============== SCROLLREVEAL ===============-->
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script
       type="module"
@@ -759,43 +758,18 @@
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
-    <script src="{% static 'js/language.js' %}"></script>
+    <script src="{% static 'js/language.js' %}" defer></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-
-    <script>
-      tsParticles.load("tsparticles", {
-        particles: {
-          number: {
-            value: 100,
-          },
-
-          color: {
-            value: "#c75b16",
-          },
-
-          move: {
-            enable: true,
-            speed: 1,
-          },
-
-          size: {
-            value: 2,
-          },
-        },
-      });
-    </script>
+    <script src="{% static 'js/particles.js' %}" defer></script>
 
     <!--=============== MAIN JS ===============-->
 
-    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
   </body>
 </html>

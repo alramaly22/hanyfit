@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Customer Reviews -- "spotlight" carousel (partials/reviews.html, reviews.js,
+   images managed in accounts/reviews.py / static/images/reviews/).
+   Real screenshots sit inside phone-style frames on a glowing stage; the one
+   in the middle is lifted and lit, the rest tilt back in 3D. Native
+   scroll-snap, so it swipes on phones and still works with no JS.
+   ========================================================================== */
+
+.reviews {
+    --rv-h: clamp(26rem, 68vh, 38rem);
+    position: relative;
+    padding-block: 4.5rem 4rem;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* ambient orange spotlight behind the stage */
+.reviews::before {
+    content: "";
+    position: absolute;
+    inset: 12% 0 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse 46% 52% at 50% 52%, rgba(214, 106, 31, .26), transparent 70%),
+        radial-gradient(ellipse 80% 40% at 50% 100%, rgba(214, 106, 31, .10), transparent 70%);
+    pointer-events: none;
+}
+
+.reviews__head {
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.reviews__title {
+    margin-bottom: 0;
+}
+
+.reviews__title::after {
+    content: "";
+    display: block;
+    width: 4.5rem;
+    height: 3px;
+    margin: .9rem auto 0;
+    border-radius: 3px;
+    background: var(--gradient-color2);
+}
+
+.reviews__stage {
+    position: relative;
+}
+
+/* ---------- the track ---------- */
+
+.reviews__track {
+    list-style: none;
+    margin: 0;
+    padding: 2.2rem 50% 2.6rem;      /* 50% lets every slide, first and last, reach the centre */
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.4rem);
+    direction: ltr;                  /* same scroll behaviour in Arabic (RTL) */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    perspective: 1400px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.reviews__track::-webkit-scrollbar { display: none; }
+
+.reviews__item {
+    flex: none;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+/* ---------- phone frame ---------- */
+
+.reviews__card {
+    --rv-p: 1;                       /* 1 = centred, 0 = far away (set by reviews.js) */
+    position: relative;
+    display: block;
+    padding: .55rem;
+    border: 0;
+    border-radius: 2.1rem;
+    background: linear-gradient(145deg, #3a3a3a 0%, #0d0d0d 38%, #1b1b1b 100%);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .10),
+        inset 0 0 0 1px rgba(0, 0, 0, .8),
+        0 calc(1rem + 1.4rem * var(--rv-p)) calc(1.6rem + 2.4rem * var(--rv-p)) rgba(0, 0, 0, .65),
+        0 0 calc(3.2rem * var(--rv-p)) rgba(214, 106, 31, calc(.55 * var(--rv-p)));
+    cursor: zoom-in;
+    transform:
+        rotateY(var(--rv-ry, 0deg))
+        scale(var(--rv-s, 1));
+    opacity: var(--rv-o, 1);
+    filter: brightness(calc(.55 + .45 * var(--rv-p)));
+    will-change: transform;
+    transition: box-shadow .3s ease;
+}
+
+.reviews__card:focus-visible {
+    outline: 3px solid var(--first-color-light);
+    outline-offset: 4px;
+}
+
+/* little speaker slit, like a phone */
+.reviews__card::before {
+    content: "";
+    position: absolute;
+    top: .22rem;
+    left: 50%;
+    width: 2.6rem;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, .16);
+    transform: translateX(-50%);
+}
+
+.reviews__img {
+    display: block;
+    height: var(--rv-h);
+    width: auto;                     /* natural proportions: never cropped, never stretched */
+    min-width: 8rem;
+    max-width: min(78vw, 30rem);
+    object-fit: contain;
+    border-radius: 1.6rem;
+    background: #0c0c0c;
+}
+
+/* with known dimensions: fit inside the slot at the exact ratio (wide shots get shorter, not squeezed) */
+.reviews__img[style] {
+    width: min(calc(var(--rv-h) * var(--w) / var(--h)), 78vw, 30rem);
+    height: auto;
+    aspect-ratio: var(--w) / var(--h);
+}
+
+.reviews__zoom {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: rgba(5, 5, 5, .75);
+    border: 1px solid var(--border-color);
+    color: var(--first-color-light);
+    font-size: 1.2rem;
+    opacity: calc(var(--rv-p) - .3);
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+}
+
+/* ---------- arrows + dots (built by reviews.js) ---------- */
+
+.reviews__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin-top: -1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: rgba(12, 12, 12, .85);
+    color: var(--title-color);
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.reviews__arrow:hover { background: var(--first-color-dark); transform: scale(1.08); }
+.reviews__arrow:focus-visible { outline: 2px solid var(--first-color-light); outline-offset: 2px; }
+.reviews__arrow--prev { left: max(.6rem, 3vw); }
+.reviews__arrow--next { right: max(.6rem, 3vw); }
+.reviews__arrow[disabled] { opacity: .3; pointer-events: none; }
+
+.reviews__dots {
+    display: flex;
+    justify-content: center;
+    gap: .55rem;
+    margin-top: .2rem;
+}
+
+.reviews__dot {
+    width: .6rem;
+    height: .6rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .22);
+    cursor: pointer;
+    transition: width .3s ease, background .3s ease;
+}
+
+.reviews__dot.is-active {
+    width: 1.8rem;
+    background: var(--first-color);
+}
+
+@media (max-width: 559px) {
+    .reviews { --rv-h: clamp(23rem, 64vh, 32rem); padding-block: 3.5rem 3rem; }
+    .reviews__card { border-radius: 1.8rem; }
+    .reviews__img { border-radius: 1.35rem; }
+    .reviews__arrow { display: none; }   /* swipe on phones */
+}
+
+/* ---------- lightbox ---------- */
+
+.rv-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+    background: rgba(3, 3, 3, .93);
+    backdrop-filter: blur(6px);
+    animation: rv-fade .25s ease;
+}
+
+.rv-lightbox[hidden] { display: none; }
+
+@keyframes rv-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.rv-lightbox__figure {
+    margin: 0;
+    max-width: 94vw;
+    text-align: center;
+}
+
+.rv-lightbox__img {
+    display: block;
+    max-width: 94vw;
+    max-height: 84vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    border-radius: .9rem;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .7), 0 0 0 1px var(--border-color);
+    animation: rv-pop .3s cubic-bezier(.2, .7, .2, 1);
+}
+
+@keyframes rv-pop {
+    from { opacity: 0; transform: scale(.96); }
+    to   { opacity: 1; transform: none; }
+}
+
+.rv-lightbox__count {
+    margin-top: .8rem;
+    color: var(--text-color);
+    font-size: .85rem;
+    letter-spacing: .08em;
+}
+
+.rv-lightbox__btn {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: rgba(20, 20, 20, .85);
+    color: var(--title-color);
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.rv-lightbox__btn:hover { background: var(--first-color-dark); }
+.rv-lightbox__btn:focus-visible { outline: 2px solid var(--first-color-light); outline-offset: 2px; }
+
+.rv-lightbox__close { top: 1rem; right: 1rem; }
+.rv-lightbox__prev  { left: 1rem;  top: 50%; transform: translateY(-50%); }
+.rv-lightbox__next  { right: 1rem; top: 50%; transform: translateY(-50%); }
+
+.rv-lightbox.is-single .rv-lightbox__prev,
+.rv-lightbox.is-single .rv-lightbox__next { display: none; }
+
+@media (max-width: 559px) {
+    .rv-lightbox__prev,
+    .rv-lightbox__next { top: auto; bottom: 1rem; transform: none; }
+    .rv-lightbox__prev { left: 1rem; }
+    .rv-lightbox__next { right: 1rem; }
+    .rv-lightbox__img  { max-height: 78vh; }
+}
+
+body.rv-lock { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reviews__card { transition: none; }
+    .rv-lightbox, .rv-lightbox__img { animation: none; }
+}

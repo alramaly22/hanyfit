@@ -149,7 +149,7 @@ TEMPLATES = [
                 "store.context_processors.cart",
                 "store.context_processors.tracking",
                 # Exposes the resolved country/currency (core/currency.py) to
-                # every template, e.g. for a currency switcher in the header.
+                # every template (prices, payment links).
                 "core.context_processors.currency_context",
             ],
         },

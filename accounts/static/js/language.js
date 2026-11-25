@@ -16,6 +16,39 @@ let lang = {
         home221: "اختار خطة التحول",
         home222: "ابدأ رحلتك",
 
+        // 🟢 WORLDS (home: meals / apparel / books)
+        worldstitle: "كل ما يحتاجه تمرينك في مكان واحد",
+        worldslead: "إلى جانب التدريب أونلاين، يبني لك هاني باقي روتينك: ما تأكله وما ترتديه وما تقرؤه.",
+        worldmealstitle: "وجبات هاني فيت",
+        worldmealstext: "اختر هدفك: بناء عضلات أو تنشيف أو ثبات وزن، واشترك أسبوعيًا أو شهريًا. تصلك وجباتك في موعد التوصيل الذي تختاره.",
+        worldmealscta: "تصفح الوجبات",
+        worldapptitle: "هاني أباريل",
+        worldapptext: "تيشيرتات تمرين بالأبيض والأسود بشعار هاني مسعود. نوصّل إلى مصر والسعودية.",
+        worldappcta: "تسوّق الملابس",
+        worldbookstitle: "كتب التدريب",
+        worldbookstext: "أربعة أدلة من هاني: وصفات صحية، والمكملات، والتمارين، والمواد المحسّنة للأداء.",
+        worldbookscta: "شاهد الكتب",
+
+        // 🟢 TIERS (coaching package cards, 4th package = ADVANCED)
+        tierperiod1: "شهر واحد",
+        tierperiod2: "شهران",
+        tierperiod3: "3 أشهر",
+        tier1sub: "تدريب أونلاين لمدة شهر",
+        tier2sub: "تدريب أونلاين لمدة شهرين",
+        tier3sub: "تدريب أونلاين لمدة 3 أشهر",
+        tierunit_egp: "جنيه",
+        tierunit_sar: "ريال",
+        tierbest: "🔥 الأفضل قيمة",
+        tieradvsub: "باقة المتقدمين",
+        tieradvp1: "شهر",
+        tieradvp2: "٣ شهور",
+        tieradvsave: "وفّر 3,000 جنيه",
+        tieradvhead: "باقة مستخدمي الاسترويد.",
+        tieradvdesc: "للاعبين المتقدمين. التفاصيل كلها على واتساب.",
+        tieradvli1: "متابعة خاصة ولصيقة",
+        tieradvli2: "التفاصيل كلها على واتساب",
+        tieradvcta: "ابدأ مع المتقدمين",
+
         // 🟢 ABOUT
         about1: "من نحن",
         about2: "خلف كل تحول ناجح يوجد نظام متكامل — وقد بنيته عبر سنوات من الخبرة كبطل محترف في الاتحاد الدولي لكمال الأجسام. لا أؤمن بالتمارين العشوائية أو الأنظمة الغذائية التقليدية، بل بخطط مدروسة تحقق تحولًا حقيقيًا وملموسًا.",
@@ -23,6 +56,10 @@ let lang = {
 
         // 🟢 PRICING
         pricingtitle: "الأسعار",
+        reviewseyebrow: "عملاء حقيقيون. نتائج حقيقية.",
+        reviewstitle: "آراء العملاء",
+        reviewssubtitle: "رسائل وآراء حقيقية من عملاء وثقوا في السيستم.",
+        reviewshint: "اضغط على أي رأي لقراءته كاملًا",
 
         pricingtitle1: "تدريب أونلاين لمدة شهر",
         pricingpackage1: "شهر واحد / 599 جنيه",
@@ -43,6 +80,8 @@ let lang = {
         calcPriceSAR: "35 ريال",
 
         button3: "اشترك الآن",
+        tierpaynow: "ادفع الآن",
+        tierwhatsapp: "تواصل عبر واتساب",
 
         // ===== PACKAGE 1 =====
         pricinglli1: "برنامج تدريبي مخصص",
@@ -572,6 +611,39 @@ let lang = {
         home221: "Choose Your Transformation Plan",
         home222: "Start Your Journey",
 
+        // 🟢 WORLDS (home: meals / apparel / books)
+        worldstitle: "Everything your training needs, in one place",
+        worldslead: "Beyond online coaching, Hany builds the rest of your routine: what you eat, what you wear and what you read.",
+        worldmealstitle: "HanyFit Meals",
+        worldmealstext: "Pick a goal (muscle gain, fat loss or maintenance) and subscribe weekly or monthly. Your meals arrive in the delivery slot you choose.",
+        worldmealscta: "Browse the meals",
+        worldapptitle: "Hany Apparel",
+        worldapptext: "Black and white gym tees with the Hany Masoud mark. We deliver to Egypt and Saudi Arabia.",
+        worldappcta: "Shop apparel",
+        worldbookstitle: "Training books",
+        worldbookstext: "Four guides by Hany: healthy recipes, supplements, exercise training and performance-enhancing substances.",
+        worldbookscta: "See the books",
+
+        // 🟢 TIERS (coaching package cards, 4th package = ADVANCED)
+        tierperiod1: "1 Month",
+        tierperiod2: "2 Months",
+        tierperiod3: "3 Months",
+        tier1sub: "Online coaching",
+        tier2sub: "Online coaching",
+        tier3sub: "Online coaching",
+        tierunit_egp: "EGP",
+        tierunit_sar: "SAR",
+        tierbest: "🔥 Best Value",
+        tieradvsub: "Advanced package",
+        tieradvp1: "1 month",
+        tieradvp2: "3 months",
+        tieradvsave: "Save 3,000 EGP",
+        tieradvhead: "Package for steroid users.",
+        tieradvdesc: "For advanced athletes. All the details are on WhatsApp.",
+        tieradvli1: "Dedicated, close follow-up",
+        tieradvli2: "All the details are on WhatsApp",
+        tieradvcta: "Start with Advanced",
+
         // 🟢 ABOUT
 
         about1: "About Us",
@@ -583,6 +655,10 @@ let lang = {
         // 🟢 PRICING
 
         pricingtitle: "Pricing",
+        reviewseyebrow: "Real clients. Real results.",
+        reviewstitle: "Customer Reviews",
+        reviewssubtitle: "Unedited messages and feedback from clients who trusted the system.",
+        reviewshint: "Tap any review to read it in full",
 
         pricingtitle1: "1 MONTH ONLINE COACHING",
         pricingpackage1: "1 Month / 599 EGP",
@@ -603,6 +679,8 @@ let lang = {
         calcPriceSAR: "35 SAR",
 
         button3: "Purchase Now",
+        tierpaynow: "Pay Now",
+        tierwhatsapp: "WhatsApp",
 
         // ===== PACKAGE 1 =====
 
