@@ -165,54 +165,131 @@
 <section class="home" id="home">
 
     <div class="video-container">
-        <video class="home__video" autoplay muted loop>
-            <source src="{% static 'images/testo/videoshome.mp4' %}" type="video/mp4">
+
+        <!-- الفيديو -->
+
+        <video class="home__video home__video--desktop"
+            autoplay
+            muted
+            loop>
+
+            <source src="{% static 'images/testo/videoshome.mp4' %}"
+                type="video/mp4">
+
         </video>
+
+        <!-- الصورة للموبايل -->
+
+        <div class="home__img home__img--mobile"></div>
+
         <div class="video-overlay"></div>
+
     </div>
+
+    <div class="home__img"></div>
 
     <div class="home__container container grid">
 
         <div class="home__data">
+
             <h1 class="home__title">
-                <p data-lang="home222">Choose Your</p>
-                <p data-lang="home221">Transformation Plan</p>
+
+                <p data-lang="home1">
+                    Choose Your
+                </p>
+
+                <p data-lang="home2">
+                   Transformation Plan
+                </p>
+
             </h1>
+
+            <!-- <p data-lang="home3"
+                class="home__description">
+
+                Build muscle, burn fat, and unlock your best physique with expert coaching.
+
+            </p> -->
+
+            <!-- <a data-lang="button"
+                href="{% url 'pricing' %}"
+                class="button button--flex">
+
+                Start Your Transformation
+
+                <i class="ri-arrow-right-circle-fill"></i>
+
+            </a> -->
+
         </div>
 
         <div class="home__social">
 
-            <span class="home__social-follow" data-lang="follow">Follow Us</span>
+            <span data-lang="follow"
+                class="home__social-follow">
+
+                Follow Us
+
+            </span>
 
             <div class="home__social-links">
 
                 <a href="https://www.facebook.com/share/1HWxu1CiKx/?mibextid=wwXIfr"
-                   target="_blank" class="home__social-link">
+                    target="_blank"
+                    class="home__social-link">
+
                     <i class="ri-facebook-fill"></i>
+
                 </a>
 
                 <a href="https://snapchat.com/t/gi7bdu8B"
-                   target="_blank" class="home__social-link">
+                    target="_blank"
+                    class="home__social-link">
+
                     <i class="ri-snapchat-fill"></i>
+
                 </a>
 
                 <a href="https://www.instagram.com/hany.masoud43?igsh=MXM5ZnluMWVnanRvNw=="
-                   target="_blank" class="home__social-link">
+                    target="_blank"
+                    class="home__social-link">
+
                     <i class="ri-instagram-line"></i>
+
                 </a>
 
+                <!--
+                <a href="https://twitter.com/"
+                    target="_blank"
+                    class="home__social-link">
+
+                    <i class="ri-youtube-fill"></i>
+
+                </a>
+                -->
+
             </div>
+
         </div>
 
     </div>
+
 </section>
-
-
 <!--==================== TRANSFORMATION ====================-->
-<section class="tt" id="tranding">
+ <!--==================== FAVORITE ====================-->
+
+<section class="tt"
+    id="tranding">
 
     <div class="containero">
-        <h3 class="section__title" data-lang="transformation">Transformation</h3>
+
+        <h3 data-lang="transformation"
+            class="section__title">
+
+            Transformation
+
+        </h3>
+
     </div>
 
     <div class="containero">
@@ -222,32 +299,108 @@
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide tranding-slide">
-                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans1.webp' %}" alt="">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test6.webp' %}"
+                            alt="Client body transformation result after HanyFit online coaching" loading="lazy" decoding="async">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom"></div>
+
+                    </div>
+
                 </div>
 
-                <div class="swiper-slide tranding-slide">
-                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans2.webp' %}" alt="">
-                </div>
 
                 <div class="swiper-slide tranding-slide">
-                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans5.webp' %}" alt="">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test7.webp' %}"
+                            alt="Before and after physique transformation with Coach Hany Masoud" loading="lazy" decoding="async">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom"></div>
+
+                    </div>
+
                 </div>
 
+
                 <div class="swiper-slide tranding-slide">
-                    <img loading="lazy" decoding="async" src="{% static 'images/testo/trans6.webp' %}" alt="">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test8.webp' %}"
+                            alt="Muscle gain and fat loss transformation, HanyFit coaching client" loading="lazy" decoding="async">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="swiper-slide tranding-slide">
+
+                    <div class="tranding-slide-img">
+
+                        <img src="{% static 'images/testo/test9.webp' %}"
+                            alt="HanyFit online coaching client transformation photo" loading="lazy" decoding="async">
+
+                    </div>
+
+                    <div class="tranding-slide-content">
+
+                        <div class="tranding-slide-content-bottom">
+
+                            <h3 class="food-rating"></h3>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
 
+
             <div class="tranding-slider-control">
-                <div class="swiper-button-prev slider-arrow"></div>
-                <div class="swiper-button-next slider-arrow"></div>
+
+                <div class="swiper-button-prev slider-arrow">
+
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+
+                </div>
+
+                <div class="swiper-button-next slider-arrow">
+
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+
+                </div>
+
                 <div class="swiper-pagination"></div>
+
             </div>
 
         </div>
+
     </div>
+
 </section>
+
+
 <!--==================== pricing ====================-->
 <section class="pricing section" id="pricing">
     <div class="container">
