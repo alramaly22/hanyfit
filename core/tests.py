@@ -119,8 +119,8 @@ class PaymentLinksTests(TestCase):
     def test_coaching_link_falls_back_to_whatsapp_when_missing(self):
         from . import payment_links
 
-        # The steroid packages have no SAR payment link stored.
-        link = payment_links.coaching_link("advanced_month_1", "SAR")
+        # A currency with no stored link falls back to WhatsApp.
+        link = payment_links.coaching_link("advanced_month_1", "USD")
         self.assertIn("wa.me", link)
 
     def test_book_link_falls_back_to_whatsapp_when_missing(self):
@@ -153,6 +153,8 @@ class CoachingPaymentLinkMapTests(TestCase):
         ("month_3", "EGP"): "https://app.fawaterk.com/pg/shhr1",
         ("advanced_month_1", "EGP"): "https://app.fawaterk.com/pg/ghany",
         ("advanced_month_3", "EGP"): "https://app.fawaterk.com/pg/hany-m",
+        ("advanced_month_1", "SAR"): "https://app.fawaterk.com/pg/hany-e",
+        ("advanced_month_3", "SAR"): "https://app.fawaterk.com/pg/astroyd",
         ("month_1", "SAR"): "https://app.fawaterk.com/paymentRequest/show/40529",
         ("month_2", "SAR"): "https://app.fawaterk.com/pg/body-upgrade",
         ("month_3", "SAR"): "https://app.fawaterk.com/pg/body-upgrade",

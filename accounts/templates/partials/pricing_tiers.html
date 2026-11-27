@@ -1,7 +1,8 @@
 {% load static %}
-{# Coaching packages. Needs: selected_currency, coaching_link_1..3, advanced_link (see accounts/views.py). #}
+{# Coaching packages. Needs: selected_currency, coaching_link_1..3, advanced_link_1, advanced_link_3 (see accounts/views.py). #}
 {# Prices below are in EGP when selected_currency is EGP, otherwise SAR (same rule as before).             #}
-{# The 4th package (ADVANCED / steroid) is priced in EGP only and is WhatsApp-only: no payment button.        #}
+{# The 4th package (ADVANCED / steroid) follows selected_currency like the others: EGP 3,000 / 6,000 or SAR 500 / 1,200,  #}
+{# each with its own Pay Now button (advanced_link_1, advanced_link_3) plus WhatsApp.                                       #}
 {# Regular packages (1-3) get two buttons: Pay Now (Fawaterk, per currency) and WhatsApp (whatsapp_link).   #}
 <div class="tiers" data-currency="{{ selected_currency }}">
 
@@ -175,7 +176,7 @@
         </article>
     </div>
 
-    <!--==================== ADVANCED (4th package, EGP prices, WhatsApp button) ====================-->
+    <!--==================== ADVANCED (4th package, EGP or SAR by currency, Pay Now + WhatsApp) ====================-->
     <div class="tier-wrap">
         <article class="tier" aria-labelledby="tier-adv-title">
             <div class="tier__inner">
@@ -191,20 +192,20 @@
                 <hr class="tier__rule">
 
                 <div class="tier__prices">
-                    <div class="tier__price" data-price="3,000" data-currency="EGP">
+                    <div class="tier__price" data-price="{% if selected_currency == 'EGP' %}3,000{% else %}500{% endif %}" data-currency="{{ selected_currency }}">
                         <span class="tier__period" data-lang="tieradvp1">1 month</span>
                         <span class="tier__amount">
-                            <span class="tier__unit" data-lang="tierunit_egp">EGP</span>
-                            <span class="tier__num">3,000</span>
+                            <span class="tier__unit" data-lang="{% if selected_currency == 'EGP' %}tierunit_egp{% else %}tierunit_sar{% endif %}">{% if selected_currency == 'EGP' %}EGP{% else %}SAR{% endif %}</span>
+                            <span class="tier__num">{% if selected_currency == 'EGP' %}3,000{% else %}500{% endif %}</span>
                         </span>
                     </div>
-                    <div class="tier__price" data-price="6,000" data-currency="EGP">
+                    <div class="tier__price" data-price="{% if selected_currency == 'EGP' %}6,000{% else %}1,200{% endif %}" data-currency="{{ selected_currency }}">
                         <span class="tier__period" data-lang="tieradvp2">3 months</span>
                         <span class="tier__amount">
-                            <span class="tier__unit" data-lang="tierunit_egp">EGP</span>
-                            <span class="tier__num">6,000</span>
+                            <span class="tier__unit" data-lang="{% if selected_currency == 'EGP' %}tierunit_egp{% else %}tierunit_sar{% endif %}">{% if selected_currency == 'EGP' %}EGP{% else %}SAR{% endif %}</span>
+                            <span class="tier__num">{% if selected_currency == 'EGP' %}6,000{% else %}1,200{% endif %}</span>
                         </span>
-                        <span class="tier__save" data-lang="tieradvsave">Save 3,000 EGP</span>
+                        <span class="tier__save" data-lang="{% if selected_currency == 'EGP' %}tieradvsave{% else %}tieradvsave_sar{% endif %}">{% if selected_currency == 'EGP' %}Save 3,000 EGP{% else %}Save 300 SAR{% endif %}</span>
                     </div>
                 </div>
 
@@ -224,8 +225,16 @@
                     <hr class="tier__rule">
                     <img class="tier__barcode" src="{% static 'images/pricing/barcode-4.svg' %}" alt="" width="300" height="70" loading="lazy" decoding="async">
                     <p class="tier__code">BD-ADVANCED-03</p>
-                    <a class="tier__cta" href="{{ advanced_link }}" target="_blank" rel="noopener">
-                        <span class="tier__cta-label" data-lang="tieradvcta">Start with Advanced</span>
+                    <a class="tier__cta" href="{{ advanced_link_1 }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tieradvpay1">Pay Now - 1 Month</span>
+                        <span class="tier__cta-icon"><i class="ri-bank-card-line" aria-hidden="true"></i></span>
+                    </a>
+                    <a class="tier__cta" href="{{ advanced_link_3 }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tieradvpay3">Pay Now - 3 Months</span>
+                        <span class="tier__cta-icon"><i class="ri-bank-card-line" aria-hidden="true"></i></span>
+                    </a>
+                    <a class="tier__cta tier__cta--alt" href="{{ whatsapp_link }}" target="_blank" rel="noopener">
+                        <span class="tier__cta-label" data-lang="tierwhatsapp">WhatsApp</span>
                         <span class="tier__cta-icon"><i class="ri-whatsapp-line" aria-hidden="true"></i></span>
                     </a>
                 </div>

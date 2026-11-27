@@ -44,20 +44,35 @@ class CoachingPricingPageTests(TestCase):
         self.assertContains(response, "ADVANCED")
         self.assertContains(response, "BD-ADVANCED-03")
 
-    def test_advanced_package_prices_and_whatsapp_button(self):
-        for country in ("EG", "SA"):
-            response = self.client.get(
-                reverse("pricing"), HTTP_X_VERCEL_IP_COUNTRY=country
-            )
-            # The 4th package is only priced in EGP (as designed), for everyone.
-            self.assertContains(response, 'data-price="3,000"')
-            self.assertContains(response, 'data-price="6,000"')
-            self.assertContains(response, 'data-lang="tieradvcta"')
-            self.assertEqual(
-                response.context["advanced_link"],
-                "https://wa.me/966578079833",
-            )
-            self.assertContains(response, 'href="https://wa.me/966578079833"')
+    def test_advanced_package_follows_the_currency(self):
+        # Egypt: 3,000 / 6,000 EGP.
+        response = self.client.get(reverse("pricing"), HTTP_X_VERCEL_IP_COUNTRY="EG")
+        self.assertContains(response, 'data-price="3,000"')
+        self.assertContains(response, 'data-price="6,000"')
+        self.assertContains(response, "Save 3,000 EGP")
+        self.assertNotContains(response, 'data-price="500"')
+        self.assertNotContains(response, 'data-price="1,200"')
+        self.assertEqual(
+            response.context["advanced_link_1"], "https://app.fawaterk.com/pg/ghany"
+        )
+        self.assertEqual(
+            response.context["advanced_link_3"], "https://app.fawaterk.com/pg/hany-m"
+        )
+
+        # Outside Egypt (e.g. Saudi Arabia): 500 / 1,200 SAR, never EGP.
+        response = self.client.get(reverse("pricing"), HTTP_X_VERCEL_IP_COUNTRY="SA")
+        self.assertContains(response, 'data-price="500"')
+        self.assertContains(response, 'data-price="1,200"')
+        self.assertContains(response, "Save 300 SAR")
+        self.assertNotContains(response, 'data-price="3,000"')
+        self.assertNotContains(response, 'data-price="6,000"')
+        self.assertNotContains(response, "Save 3,000 EGP")
+        self.assertEqual(
+            response.context["advanced_link_1"], "https://app.fawaterk.com/pg/hany-e"
+        )
+        self.assertEqual(
+            response.context["advanced_link_3"], "https://app.fawaterk.com/pg/astroyd"
+        )
 
     def test_saudi_visitor_gets_sar_prices_on_the_three_coaching_packages(self):
         response = self.client.get(
@@ -81,7 +96,8 @@ class CoachingPaymentButtonTests(TestCase):
             ):
                 self.assertContains(response, f'href="{url}"')
             self.assertContains(response, 'data-lang="tierpaynow"', count=3)
-            self.assertContains(response, 'data-lang="tierwhatsapp"', count=3)
+            # 3 regular packages + the ADVANCED card, each with a WhatsApp button.
+            self.assertContains(response, 'data-lang="tierwhatsapp"', count=4)
             self.assertNotContains(response, "paymentRequest/show/40531")
 
     def test_sar_regular_packages_use_the_body_transformation_links(self):
@@ -95,13 +111,22 @@ class CoachingPaymentButtonTests(TestCase):
         ):
             self.assertNotContains(response, url)
 
-    def test_steroid_package_is_whatsapp_only_in_both_currencies(self):
+    def test_steroid_package_has_two_pay_buttons_and_whatsapp_in_each_currency(self):
+        expected = {
+            "EG": ("https://app.fawaterk.com/pg/ghany", "https://app.fawaterk.com/pg/hany-m"),
+            "SA": ("https://app.fawaterk.com/pg/hany-e", "https://app.fawaterk.com/pg/astroyd"),
+        }
+        other = {"EG": expected["SA"], "SA": expected["EG"]}
         for country in ("EG", "SA"):
-            response = self.client.get(reverse("pricing"), HTTP_X_VERCEL_IP_COUNTRY=country)
-            for url in self.STEROID_EGP:
-                self.assertNotContains(response, url)
-            self.assertNotContains(response, "tier__buy")
-            self.assertContains(response, 'data-lang="tieradvcta"', count=1)
+            for name in ("pricing", "index"):
+                response = self.client.get(reverse(name), HTTP_X_VERCEL_IP_COUNTRY=country)
+                for url in expected[country]:
+                    self.assertContains(response, f'href="{url}"')
+                # A visitor never sees the other currency's steroid links.
+                for url in other[country]:
+                    self.assertNotContains(response, url)
+                self.assertContains(response, 'data-lang="tieradvpay1"', count=1)
+                self.assertContains(response, 'data-lang="tieradvpay3"', count=1)
 
 
 class CoachingIndexPageTests(TestCase):

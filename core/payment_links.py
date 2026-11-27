@@ -44,22 +44,19 @@ COACHING_LINKS = {
         # Body Transformation, 3 months (SAR).
         "SAR": "https://app.fawaterk.com/pg/body-upgrade",
     },
-    # ADVANCED / steroid packages ("استرويد"). These links stay stored, but the
-    # cards are WhatsApp-only (no payment button is rendered for them).
-    "advanced_month_1": {  # شهر استرويد
+    # ADVANCED / steroid package ("استرويد") -- priced and linked per currency
+    # exactly like the three packages above (shown on the 4th pricing card).
+    "advanced_month_1": {  # شهر استرويد -- 3,000 EGP / 500 SAR
         "EGP": "https://app.fawaterk.com/pg/ghany",
-        "SAR": "",
+        "SAR": "https://app.fawaterk.com/pg/hany-e",
     },
-    "advanced_month_3": {  # 3 شهور استرويد
+    "advanced_month_3": {  # 3 شهور استرويد -- 6,000 EGP / 1,200 SAR
         "EGP": "https://app.fawaterk.com/pg/hany-m",
-        "SAR": "",
+        "SAR": "https://app.fawaterk.com/pg/astroyd",
     },
 }
 
-# Steroid SAR links supplied earlier, kept for reference only (steroid cards
-# are WhatsApp-only, so nothing renders them):
-#   شهر استرويد            (1 month)   https://app.fawaterk.com/pg/hany-e
-#   3 شهور استرويد         (3 months)  https://app.fawaterk.com/pg/astroyd
+# Other Fawaterk links supplied earlier, kept for reference only (not rendered):
 #   3 شهور تغيير الجسم     (3 months)  https://app.fawaterk.com/pg/body-upgrade
 #   VIP Personal Training  (3 months)  https://app.fawaterk.com/pg/personal-coaching
 

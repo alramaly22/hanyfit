@@ -38,9 +38,10 @@ def index(request):
             "coaching_link_1": payment_links.coaching_link("month_1", currency),
             "coaching_link_2": payment_links.coaching_link("month_2", currency),
             "coaching_link_3": payment_links.coaching_link("month_3", currency),
-            # 4th package: no payment page, its button opens WhatsApp
-            # (payment_links falls back to WhatsApp for an unknown key).
-            "advanced_link": payment_links.coaching_link("advanced", currency),
+            # 4th package (ADVANCED): priced and linked per currency like the
+            # other three (EGP 3,000/6,000 or SAR 500/1,200).
+            "advanced_link_1": payment_links.coaching_link("advanced_month_1", currency),
+            "advanced_link_3": payment_links.coaching_link("advanced_month_3", currency),
             "whatsapp_link": payment_links.whatsapp_link(),
             "protein_calc_link": payment_links.calculator_link("protein", currency),
             "calories_calc_link": payment_links.calculator_link("calories", currency),
@@ -66,9 +67,10 @@ def pricing(request):
             "coaching_link_1": payment_links.coaching_link("month_1", currency),
             "coaching_link_2": payment_links.coaching_link("month_2", currency),
             "coaching_link_3": payment_links.coaching_link("month_3", currency),
-            # 4th package: no payment page, its button opens WhatsApp
-            # (payment_links falls back to WhatsApp for an unknown key).
-            "advanced_link": payment_links.coaching_link("advanced", currency),
+            # 4th package (ADVANCED): priced and linked per currency like the
+            # other three (EGP 3,000/6,000 or SAR 500/1,200).
+            "advanced_link_1": payment_links.coaching_link("advanced_month_1", currency),
+            "advanced_link_3": payment_links.coaching_link("advanced_month_3", currency),
             "whatsapp_link": payment_links.whatsapp_link(),
         },
     )
